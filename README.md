@@ -81,9 +81,10 @@ we fight togther
 > 服务器方面：不限。 
 
 > 关于周围加油站信息的获取：可参考此网站https://www.juhe.cn/docs/api/id/7/aid/18 （有1000次的免费获取） 
+
 > 关于汽车品牌、标志、型号可参考：
- 
-参考地址下载.txt
+
+> [参考地址下载.txt] (http://www.cnsoftbei.com/upload_files/article/130/1_20160301160321_moz0q.txt)
  
 > 因无车载设备把汽车数据传给服务器，因此功能需求5.E.a-c,可手动更改数据库的值进行功能测试。 
 
@@ -92,7 +93,7 @@ we fight togther
  Android移动设备 
  电脑
 
- 开发所需设备及设备指标需求说明
+ >开发所需设备及设备指标需求说明
  	IOS移动设备 
 Android移动设备 
 电脑
@@ -103,4 +104,5 @@ Android移动设备
 
 ## 答疑老师联系方式：
 > 姓名：钱屹东
+
 > 邮箱：yidong.qian@pcitc.com
