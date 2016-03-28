@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- LogoActivity 的主题-->
+    <style name="LogoTheme" parent="Theme.AppCompat">
+
+        <!--NOTitle FullScreen-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>
