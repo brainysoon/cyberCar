@@ -9,10 +9,11 @@
     </style>
 
     <!-- LogoActivity 的主题-->
-    <style name="LogoTheme" parent="Theme.AppCompat">
+    <style name="LogoTheme" parent="@style/AppTheme">
 
         <!--NOTitle FullScreen-->
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>
