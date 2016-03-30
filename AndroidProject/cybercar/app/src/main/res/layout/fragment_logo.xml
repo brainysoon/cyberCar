@@ -4,9 +4,30 @@
     android:layout_height="match_parent"
     tools:context="com.fat246.cybercar.fragments.LogoFragment">
 
-    <TextView
+    <ImageView
+        android:id="@+id/fragment_logo_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:contentDescription="@string/fragment_logo_imageview_contentDescription"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_logo_button_login"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_logo_button_register"
+            android:visibility="gone"/>
+    </LinearLayout>
 </FrameLayout>

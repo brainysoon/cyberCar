@@ -6,7 +6,7 @@
     tools:context=".activities.LogoActivity">
 
     <FrameLayout
-        android:id="@+id/logo_framelayout"
+        android:id="@+id/activity_logo_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>
