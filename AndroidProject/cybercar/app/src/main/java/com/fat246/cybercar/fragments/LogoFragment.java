@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.LoginActivity;
+import com.fat246.cybercar.activities.RegisterActivity;
 
 public class LogoFragment extends Fragment {
 
@@ -44,7 +45,7 @@ public class LogoFragment extends Fragment {
                     @Override
                     public void onAnimationEnd(Animator animation) {
 
-                        Intent mIntent=new Intent(getActivity(), LoginActivity.class);
+                        Intent mIntent=new Intent(getActivity(), RegisterActivity.class);
 
                         startActivity(mIntent);
 

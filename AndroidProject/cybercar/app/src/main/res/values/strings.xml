@@ -21,4 +21,34 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--注册方式的标题-->
+    <string name="register_basic_info_fragment_register_method_account">账户注册</string>
+    <string name="register_basic_info_fragment_register_method_mobile">手机注册</string>
+    <string name="register_basic_info_fragment_register_method_email">邮箱注册</string>
+
+    <!--注册新用户-->
+    <string name="register_basic_info_fragment_method_account_newaccount">新用户名</string>
+    <string name="register_basic_info_fragment_method_mobile_number">手机号码</string>
+    <string name="register_basic_info_fragment_method_mobile_security_code">验证码</string>
+    <string name="register_basic_info_fragment_method_mobile_send_security_code">发送验证码</string>
+    <string name="register_basic_info_fragment_method_email_address">邮箱</string>
+    <string name="register_basic_info_fragment_newpassword">密码</string>
+    <string name="register_basic_info_fragment_confirm_newpassword">确认密码</string>
+    <string name="register_basic_info_fragment_register_now">立即注册</string>
+
+    <!--填写用户详细信息-->
+    <string name="register_detail_info_fragment_nickname">昵称</string>
+    <string name="register_detail_info_fragment_sex">性别</string>
+    <string name="register_detail_info_fragment_sex_men">男</string>
+    <string name="register_detail_info_fragment_sex_women">女</string>
+    <string name="register_detail_info_fragment_birthday">生日</string>
+    <string name="register_detail_info_fragment_submit">提交修改</string>
+
 </resources>

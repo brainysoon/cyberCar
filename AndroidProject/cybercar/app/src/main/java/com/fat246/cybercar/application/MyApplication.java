@@ -28,6 +28,6 @@ public class MyApplication extends Application {
     public UserInfo getUserInfo() {
 
         if (MyApplication.mUserInfo != null) return MyApplication.mUserInfo;
-        else return new UserInfo();
+        else return new UserInfo("","");
     }
 }
