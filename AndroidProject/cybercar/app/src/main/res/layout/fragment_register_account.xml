@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/register_basic_info_fragment_method_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_basic_info_fragment_method_account_newaccount"
@@ -31,6 +32,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/register_basic_info_fragment_method_account_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_basic_info_fragment_newpassword"
@@ -42,12 +44,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/register_basic_info_fragment_method_account_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/register_basic_info_fragment_confirm_newpassword" />
+                    android:hint="@string/register_basic_info_fragment_confirm_newpassword"
+                    android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
+                android:id="@+id/register_basic_info_fragment_method_account_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_basic_info_fragment_register_now" />

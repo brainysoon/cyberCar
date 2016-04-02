@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cybercar.iml" filepath="$PROJECT_DIR$/cybercar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/volly-1.0.11/volly-1.0.11.iml" filepath="$PROJECT_DIR$/volly-1.0.11/volly-1.0.11.iml" />
     </modules>
   </component>
 </project>

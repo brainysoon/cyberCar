@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!--网络请求权限-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <!-- 只能怪天朝的网络不给力呀 -->
     <application
         android:name=".application.MyApplication"

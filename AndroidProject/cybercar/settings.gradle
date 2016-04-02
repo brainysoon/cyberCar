@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':volly-1.0.11'

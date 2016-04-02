@@ -15,7 +15,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Fragment mFragment=new RegisterBasicInfoFragment();
-        
+
         //Load Fragmentw
         getSupportFragmentManager().beginTransaction().
                 add(R.id.activity_register_framelayout,mFragment).commit();
