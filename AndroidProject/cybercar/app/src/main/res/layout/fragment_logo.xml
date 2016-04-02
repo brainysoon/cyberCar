@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     tools:context="com.fat246.cybercar.fragments.LogoFragment">
 
     <ImageView
@@ -9,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/fragment_logo_imageview_contentDescription"
-        android:scaleType="centerCrop"
-        android:src="@drawable/logo" />
+        android:scaleType="centerInside"
+        android:src="@drawable/cybercarlogo" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -20,14 +21,15 @@
         android:layout_margin="@dimen/activity_horizontal_margin">
 
         <Button
+            android:id="@+id/fragment_logo_button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_logo_button_login"/>
 
         <Button
+            android:id="@+id/fragment_logo_button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_logo_button_register"
-            android:visibility="gone"/>
+            android:text="@string/fragment_logo_button_register" />
     </LinearLayout>
 </FrameLayout>
