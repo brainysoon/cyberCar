@@ -1,7 +1,10 @@
 package com.fat246.cybercar.fragments;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,10 +15,22 @@ import android.view.ViewGroup;
 
 import com.fat246.cybercar.R;
 
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
+
 /**
  * 注册基本信息的Fragment
  */
-public class RegisterBasicInfoFragment extends Fragment {
+public class RegisterBasicInfoFragment extends Fragment implements MaterialTabListener{
+
+    //View
+    private ViewPager mViewPager;
+    private MaterialTabHost mMaterialTabHost;
+    private FragmentStatePagerAdapter mAdapter;
+
+    private Context mContext;
+    private Resources res;
 
     public RegisterBasicInfoFragment() {
     }
@@ -32,6 +47,9 @@ public class RegisterBasicInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        mContext = getContext();
+        res=getActivity().getResources();
     }
 
     @Override
@@ -48,15 +66,96 @@ public class RegisterBasicInfoFragment extends Fragment {
     //对rootView 进行一些设置
     private void setRootView(View rootView) {
 
-        ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.fragment_register_basic_info_viewpager);
-        TabLayout mTabLayout = (TabLayout) rootView.findViewById(R.id.fragment_register_basic_info_tablayout);
+        //
+        findView(rootView);
+
+        //Adapter
+        mAdapter = new RegisterMethodAdapter(getChildFragmentManager());
 
         //set Adapter
-        mViewPager.setAdapter(new RegisterMethodAdapter(getChildFragmentManager()));
+        mViewPager.setAdapter(mAdapter);
 
-        //set TabLayout
-        mTabLayout.setupWithViewPager(mViewPager);
+        //setListener
+        setListener();
+
+        //insert Tabs
+        insertTabs();
     }
+
+    //insert Tabs
+    private void insertTabs() {
+
+        // insert all tabs from pagerAdapter data
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            mMaterialTabHost.addTab(
+                    mMaterialTabHost.newTab()
+                            .setIcon(getIcon(i))
+                            .setTabListener(this)
+            );
+        }
+    }
+
+    @Override
+    public void onTabSelected(MaterialTab tab) {
+
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(MaterialTab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(MaterialTab tab) {
+
+    }
+
+    //得到想要的Icon
+    @TargetApi(21)
+    private Drawable getIcon(int i) {
+
+        Drawable mDrawable;
+
+        switch (i) {
+            case 0:
+                mDrawable = res.getDrawable(R.mipmap.ic_perm_identity_white);
+                break;
+            case 1:
+                mDrawable = res.getDrawable(R.mipmap.ic_phone_android_white);
+                break;
+            case 2:
+                mDrawable = res.getDrawable(R.mipmap.ic_email_white);
+                break;
+            default:
+                mDrawable = res.getDrawable(R.mipmap.ic_perm_identity_white);
+                break;
+        }
+
+        return mDrawable;
+    }
+
+    //设置一些监听事件
+    private void setListener() {
+
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+
+                mMaterialTabHost.setSelectedNavigationItem(position);
+            }
+        });
+    }
+
+    //找到一些控件
+    private void findView(View rootView) {
+
+        mViewPager = (ViewPager) rootView.findViewById(R.id.fragment_register_basic_info_viewpager);
+        mMaterialTabHost = (MaterialTabHost) rootView.findViewById(R.id.fragment_register_basic_info_materialtabhost);
+
+    }
+
 
     //Fragment Adapter
     class RegisterMethodAdapter extends FragmentStatePagerAdapter {
@@ -83,16 +182,16 @@ public class RegisterBasicInfoFragment extends Fragment {
             switch (position) {
 
                 case 0:
-                    mTitle = getResources().getText(R.string.register_basic_info_fragment_register_method_account);
+                    mTitle = mContext.getText(R.string.register_basic_info_fragment_register_method_account);
                     break;
                 case 1:
-                    mTitle = getResources().getText(R.string.register_basic_info_fragment_register_method_mobile);
+                    mTitle = mContext.getText(R.string.register_basic_info_fragment_register_method_mobile);
                     break;
                 case 2:
-                    mTitle = getResources().getText(R.string.register_basic_info_fragment_register_method_email);
+                    mTitle = mContext.getText(R.string.register_basic_info_fragment_register_method_email);
                     break;
                 default:
-                    mTitle = getResources().getText(R.string.register_basic_info_fragment_register_method_mobile);
+                    mTitle = mContext.getText(R.string.register_basic_info_fragment_register_method_mobile);
             }
             return mTitle;
         }

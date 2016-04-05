@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MaterialNavigationDrawerTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="drawerType">@integer/DRAWERTYPE_ACCOUNTS</item>
+        <item name="drawerColor">#ff303030</item>
+        <item name="rippleBackport">true</item>
+        <item name="uniqueToolbarColor">false</item>
+        <item name="singleAccount">false</item>
+        <item name="multipaneSupport">false</item>
+        <item name="defaultSectionLoaded">0</item>
+        <item name="learningPattern">true</item>
+        <item name="sectionStyle">@style/MaterialSectionTheme</item>
+        <item name="subheaderStyle">@style/MaterialSubheaderTheme</item>
+        <item name="accountStyle">@style/MaterialAccountTheme</item>
+        <item name="toolbarElevation">false</item>
+    </style>
+
+    <style name="MaterialNavigationDrawerTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="drawerType">@integer/DRAWERTYPE_ACCOUNTS</item>
+        <item name="drawerColor">#ffeeeeee</item>
+        <item name="rippleBackport">true</item>
+        <item name="uniqueToolbarColor">false</item>
+        <item name="singleAccount">false</item>
+        <item name="multipaneSupport">false</item>
+        <item name="defaultSectionLoaded">0</item>
+        <item name="learningPattern">true</item>
+        <item name="sectionStyle">@style/MaterialSectionTheme.Light</item>
+        <item name="subheaderStyle">@style/MaterialSubheaderTheme.Light</item>
+        <item name="accountStyle">@style/MaterialAccountTheme</item>
+        <item name="toolbarElevation">false</item>
+    </style>
+
+    <style name="MaterialNavigationDrawerTheme.Light.DarkActionBar" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/Base.V21.Theme.AppCompat.Light.Dialog</item>
+        <item name="drawerType">@integer/DRAWERTYPE_ACCOUNTS</item>
+        <item name="drawerColor">#ffeeeeee</item>
+        <item name="rippleBackport">true</item>
+        <item name="uniqueToolbarColor">false</item>
+        <item name="singleAccount">false</item>
+        <item name="multipaneSupport">false</item>
+        <item name="defaultSectionLoaded">0</item>
+        <item name="learningPattern">true</item>
+        <item name="sectionStyle">@style/MaterialSectionTheme.Light</item>
+        <item name="subheaderStyle">@style/MaterialSubheaderTheme.Light</item>
+        <item name="accountStyle">@style/MaterialAccountTheme</item>
+        <item name="toolbarElevation">false</item>
+    </style>
+
+    <style name="MaterialNavigationDrawerTheme.Light.TranslucentKitKatStatusBar" parent="MaterialNavigationDrawerTheme.Light" />
+
+    <style name="MaterialNavigationDrawerTheme.TranslucentKitKatStatusBar" parent="MaterialNavigationDrawerTheme" />
+
+    <style name="MaterialNavigationDrawerTheme.Light.DarkActionBar.TranslucentKitKatStatusBar" parent="MaterialNavigationDrawerTheme.Light.DarkActionBar" />
+
+</resources>

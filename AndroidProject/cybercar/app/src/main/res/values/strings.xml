@@ -32,7 +32,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">这就是主页面了</string>
 
     <!--注册方式的标题-->
     <string name="register_basic_info_fragment_register_method_account">账户注册</string>

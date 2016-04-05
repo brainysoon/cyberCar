@@ -10,6 +10,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MaterialDesign" />
+            <option value="$PROJECT_DIR$/MaterialDesignDemo" />
+            <option value="$PROJECT_DIR$/MaterialNavigationDrawerModule" />
+            <option value="$PROJECT_DIR$/MaterialTabsModule" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/volly-1.0.11" />
           </set>

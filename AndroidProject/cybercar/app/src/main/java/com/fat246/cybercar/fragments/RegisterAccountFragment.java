@@ -6,39 +6,58 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.application.MyApplication;
+import com.gc.materialdesign.views.ButtonRectangle;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterAccountFragment extends Fragment {
+
+    // Instance of Fragment
+    private static RegisterAccountFragment mFragment;
+
+    //View
+    private ButtonRectangle mRegister;
+    private EditText mUserName;
+    private EditText mPassword;
+    private EditText mConfirmPassword;
 
     public RegisterAccountFragment() {
         // Required empty public constructor
     }
 
+    //得到新实例， 做成半单利的比较好
     public static RegisterAccountFragment newInstance() {
-        RegisterAccountFragment fragment = new RegisterAccountFragment();
-        Bundle args = new Bundle();
 
-        fragment.setArguments(args);
-        return fragment;
+        if (mFragment == null) {
+
+            mFragment = new RegisterAccountFragment();
+            Bundle args = new Bundle();
+
+            mFragment.setArguments(args);
+        }
+
+        return mFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
 
@@ -56,23 +75,42 @@ public class RegisterAccountFragment extends Fragment {
     //对RootView 设置
     private void setRootView(View rootView) {
 
-        //Button
-        Button mRegister = (Button) rootView.findViewById(R.id.register_basic_info_fragment_method_account_register);
+        findView(rootView);
 
-        final EditText mUserMsg = (EditText) rootView.findViewById(R.id.register_basic_info_fragment_method_account);
-        final EditText mUserPassword = (EditText) rootView.findViewById(R.id.register_basic_info_fragment_method_account_password);
+        setListener();
+    }
 
+    //找到 要用的View
+    private void findView(View rootView){
+
+        mRegister=(ButtonRectangle)rootView.findViewById(R.id.fragment_register_account_button_register);
+        mUserName=(EditText)rootView.findViewById(R.id.fragment_register_account_edittext_username);
+        mPassword=(EditText)rootView.findViewById(R.id.fragment_register_account_edittext_password);
+        mConfirmPassword=(EditText)rootView.findViewById(R.id.fragment_register_account_edittext_confirm_password);
+    }
+
+    //设置监听事件
+    private void setListener(){
+
+        //注册事件
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                Toast.makeText(getActivity(), "墨汁墨汁。。。", Toast.LENGTH_SHORT).show();
-                volleyPost(mUserMsg.getText().toString(), mUserPassword.getText().toString());
+                attemptRegister();
+
+                jvolleyPost(mUserName.getText().toString(),mPassword.getText().toString());
             }
         });
     }
 
-    private void volleyPost(String User_Msg, String User_Password) {
+    //尝试登录
+    private boolean attemptRegister(){
+
+        return false;
+    }
+
+    private void jvolleyPost(String User_Msg, String User_Password) {
 
         String url = "http://192.168.0.15:8080/cybercar/initUserAction.action";
 
@@ -82,7 +120,7 @@ public class RegisterAccountFragment extends Fragment {
 
         JSONObject object = new JSONObject(map);
 
-        Log.e("json",object.toString());
+        Log.e("json", object.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
@@ -97,6 +135,7 @@ public class RegisterAccountFragment extends Fragment {
                 Toast.makeText(getActivity(), volleyError.toString(), Toast.LENGTH_LONG).show();
 
                 Log.e("error", volleyError.toString());
+                volleyError.printStackTrace();
             }
         });
 
@@ -108,39 +147,39 @@ public class RegisterAccountFragment extends Fragment {
 
     }
 
-//    private void volleyPost(final String User_Msg, final String User_Password) {
-//
-//        String url = "http://192.168.0.15:8080/cybercar/initUserAction.action";
-//
-//        StringRequest mStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String s) {
-//                Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
-//
-//                Log.e("s",s);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-////                Toast.makeText(getActivity(),volleyError.getMessage(),Toast.LENGTH_LONG).show();
-//
-//                Log.e("volleyerror",volleyError.toString());
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//
-//                Map<String,String> map=new HashMap<>();
-//
-//                map.put("User_Msg",User_Msg);
-//                map.put("User_Password",User_Password);
-//                return map;
-//            }
-//        };
-//
-//        //setTag
-//        mStringRequest.setTag("ken");
-//
-//        MyApplication.getRequestQueue().add(mStringRequest);
-//    }
+    private void volleyPost(final String User_Msg, final String User_Password) {
+
+        String url = "http://192.168.0.15:8080/cybercar/initUserAction.action";
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+
+                Log.e("s",s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+//                Toast.makeText(getActivity(),volleyError.getMessage(),Toast.LENGTH_LONG).show();
+
+                Log.e("volleyerror",volleyError.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> map=new HashMap<>();
+
+                map.put("User_Msg",User_Msg);
+                map.put("User_Password",User_Password);
+                return map;
+            }
+        };
+
+        //setTag
+        mStringRequest.setTag("ken");
+
+        MyApplication.getRequestQueue().add(mStringRequest);
+    }
 }

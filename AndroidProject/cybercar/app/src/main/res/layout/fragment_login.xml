@@ -5,14 +5,13 @@
     tools:context="com.fat246.cybercar.fragments.LoginFragment">
 
     <!-- TODO: Show Progress Bar -->
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
+        android:layout_width="@dimen/fragment_login_progressbar_size"
+        android:layout_height="@dimen/fragment_login_progressbar_size"
         android:visibility="gone" />
 
     <!-- TODO: Show Login-->
-    <ScrollView
+    <com.gc.materialdesign.views.ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,17 +20,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.fat246.cybercar.openwidgets.CircleImageView
+            *<com.fat246.cybercar.openwidgets.CircleImageView
                 android:layout_width="@dimen/fragment_login_imageview_size"
                 android:layout_height="@dimen/fragment_login_imageview_size"
                 android:layout_gravity="center"
-                android:src="@drawable/avator" />
+                style="@style/login_style"
+                android:src="@mipmap/ic_launcher" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                style="@style/login_style"
+                >
 
                 <AutoCompleteTextView
+                    android:id="@+id/fragment_login_autocompletetextview_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fragment_login_autocompletetextview_user_name" />
@@ -39,52 +42,63 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                style="@style/login_style"
+                >
 
                 <EditText
+                    android:id="@+id/fragment_login_edittext_user_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/fragment_login_edittext_user_password"/>
+                    android:hint="@string/fragment_login_edittext_user_password"
+                    android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                style="@style/login_style"
+                >
 
-                <CheckBox
+                <com.gc.materialdesign.views.CheckBox
+                    android:id="@+id/fragment_login_checkbox_save_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_login_checkbox_save_password"/>
+                    android:text="@string/fragment_login_checkbox_save_password" />
 
-                <CheckBox
+                <com.gc.materialdesign.views.CheckBox
+                    android:id="@+id/fragment_login_checkbox_auto_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_login_checkbox_auto_login"/>
+                    android:text="@string/fragment_login_checkbox_auto_login" />
+
             </LinearLayout>
 
-            <Button
+            <com.gc.materialdesign.views.ButtonRectangle
+                android:id="@+id/fragment_login_button_login_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_login_button_login"/>
+                android:text="@string/fragment_login_button_login" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/login_style"
+                >
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_login_textview_forgot_password" />
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/fragment_login_textview_register" />
+            </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fragment_login_textview_forgot_password"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/fragment_login_textview_register"/>
-    </RelativeLayout>
+    </com.gc.materialdesign.views.ScrollView>
 </FrameLayout>

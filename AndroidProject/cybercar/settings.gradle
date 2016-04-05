@@ -1,1 +1,1 @@
-include ':app', ':volly-1.0.11'
+include ':app', ':volly-1.0.11', ':MaterialDesignDemo', ':MaterialDesign', ':MaterialNavigationDrawerModule', ':MaterialTabsModule'

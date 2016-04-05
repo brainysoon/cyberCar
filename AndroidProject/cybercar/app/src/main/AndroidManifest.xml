@@ -34,6 +34,8 @@
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
             />
+
+        <activity android:name=".activities.MainActivity" android:theme="@style/MyNavigationDrawerTheme" />
     </application>
 
 </manifest>
