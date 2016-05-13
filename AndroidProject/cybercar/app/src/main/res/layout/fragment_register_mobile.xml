@@ -14,16 +14,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_basic_info_fragment_method_mobile_number"
-                    android:inputType="text" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/fragment_register_mobile_autocompletetextview_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_basic_info_fragment_method_mobile_number"
+                        android:inputType="number" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,17 +43,18 @@
                     android:layout_weight="2">
 
                     <EditText
+                        android:id="@+id/fragment_register_mobile_edittext_securitycode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/register_basic_info_fragment_method_mobile_security_code"
-                        />
+                        android:hint="@string/register_basic_info_fragment_method_mobile_security_code" />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:id="@+id/fragment_register_mobile_button_securitycode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/register_basic_info_fragment_method_mobile_send_security_code"/>
+                    android:text="@string/register_basic_info_fragment_method_mobile_send_security_code" />
             </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -54,6 +62,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/fragment_register_mobile_edittext_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_basic_info_fragment_newpassword"
@@ -65,12 +74,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/fragment_register_mobile_edittext_confirmpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/register_basic_info_fragment_confirm_newpassword" />
+                    android:hint="@string/register_basic_info_fragment_confirm_newpassword"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
+                android:id="@+id/fragment_register_mobile_button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_basic_info_fragment_register_now" />

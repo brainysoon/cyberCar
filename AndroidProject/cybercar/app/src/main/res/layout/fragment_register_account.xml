@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_register_account_recyclerview_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -51,12 +52,10 @@
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
-            <com.gc.materialdesign.views.ButtonRectangle
+            <Button
                 android:id="@+id/fragment_register_account_button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@color/colorPrimary"
                 android:text="@string/register_basic_info_fragment_register_now" />
         </LinearLayout>
     </ScrollView>

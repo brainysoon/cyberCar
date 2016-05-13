@@ -1,1 +1,1 @@
-include ':app', ':volly-1.0.11', ':MaterialDesignDemo', ':MaterialDesign', ':MaterialNavigationDrawerModule', ':MaterialTabsModule'
+include ':app', ':volly-1.0.11', ':weizhang_sdk', ':boommenu', ':flowingdrawer-core', ':simplecropview'

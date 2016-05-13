@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--主界面的布局 包括一个
+NavigationView 展示用户信息，以及一些菜单Item。
+Content 展示内容区域 include-->
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main_drawerlayout_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/include_list_viewpager" />
+
+        <com.nightonke.boommenu.BoomMenuButton
+            android:id="@+id/activity_main_boommenubutton_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="80dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:boom_button_color="@color/colorPrimary"
+            app:boom_button_pressed_color="@color/colorPrimary"
+            app:boom_inActionBar="false" />
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/activity_main_navigationview_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_view" />
+
+</android.support.v4.widget.DrawerLayout>

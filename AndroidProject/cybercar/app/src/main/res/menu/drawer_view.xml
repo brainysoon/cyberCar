@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_group_user"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_myinfo"
+            android:title="@string/myinfo" />
+
+        <item
+            android:id="@+id/nav_myorders"
+            android:title="@string/myorders" />
+
+        <item
+            android:id="@+id/nav_mycars"
+            android:title="@string/mycars" />
+
+        <item
+            android:id="@+id/nav_myregulations"
+            android:title="@string/myregulations" />
+    </group>
+
+    <group
+        android:id="@+id/menu_group_music"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_library"
+
+            android:title="@string/library" />
+        <item
+            android:id="@+id/nav_playlists"
+
+            android:title="@string/playlists" />
+        <item
+            android:id="@+id/nav_queue"
+
+            android:title="@string/playing_queue" />
+        <item
+            android:id="@+id/nav_nowplaying"
+            android:checkable="false"
+            android:title="@string/now_playing" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_group_app"
+        android:checkableBehavior="none">
+        <item
+
+            android:id="@+id/nav_settings"
+            android:title="@string/settings" />
+
+        <item
+
+            android:id="@+id/nav_about"
+            android:title="@string/about" />
+        <item
+
+            android:id="@+id/nav_help"
+            android:title="@string/help_and_feedback" />
+    </group>
+
+</menu>

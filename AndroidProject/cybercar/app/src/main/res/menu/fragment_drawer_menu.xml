@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/fargment_drawer_menu_userinfo"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/fragment_drawer_menu_userinfo_orders"
+            android:icon="@mipmap/ic_description_black"
+            android:title="我的订单" />
+    </group>
+
+    <group android:id="@+id/fragment_drawer_menu_function">
+
+        <item
+            android:id="@+id/fragment_drawer_menu_function_carinfos"
+            android:icon="@mipmap/ic_directions_car_black"
+            android:title="@string/fragment_drawer_menu_function_carinfos" />
+    </group>
+
+</menu>

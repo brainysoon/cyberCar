@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -23,11 +23,222 @@
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
     </style>
 
-    <!--Material Theme-->
-    <style name="MyNavigationDrawerTheme" parent="MaterialNavigationDrawerTheme">
-        <item name="colorPrimary">#8bc34a</item>
-        <item name="colorPrimaryDark">#558b2f</item>
-        <item name="colorAccent">#FFFFFF</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--违章信息的一些style-->
+    <style name="csy_row">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/csy_row_h</item>
+        <item name="android:paddingLeft">@dimen/csy_pd</item>
+    </style>
+
+    <style name="csy_row1" parent="csy_row">
+        <item name="android:background">@drawable/csy_form_row</item>
+    </style>
+
+    <style name="csy_row_label">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">@dimen/csy_label_w</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/csy_label</item>
+    </style>
+
+    <style name="csy_textbox">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/csy_text</item>
+        <item name="android:textColorHint">@color/csy_hint</item>
+        <item name="android:background">@drawable/csy_textbox</item>
+        <item name="android:textSize">@dimen/csy_text_ts</item>
+    </style>
+
+    <style name="csy_textbox1" parent="csy_textbox">
+        <item name="android:layout_marginRight">@dimen/csy_icon_w</item>
+    </style>
+
+    <style name="csy_row_icon">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">@dimen/csy_icon_w</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <!--title-->
+    <style name="MyTitle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowColor">@android:color/black</item>
+    </style>
+
+    <!--START OF Timber Style+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <attr name="cardStyle" format="reference" />
+    <attr name="accentColor" format="reference" />
+    <attr name="iconColor" format="reference" />
+    <attr name="windowBackground" format="reference" />
+    <attr name="progressBackgroundColor" format="reference" />
+    <attr name="progressDrawable" format="reference" />
+    <attr name="progressDrawableWithBackground" format="reference" />
+    <attr name="stateSelector" format="reference" />
+
+
+    <style name="ThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="cardStyle">@style/CardViewStyle.Light</item>
+        <item name="accentColor">@color/colorAccent</item>
+        <item name="iconColor">@android:color/black</item>
+        <item name="windowBackground">@color/window_background</item>
+        <!--<item name="stateSelector">@color/state_selector_light</item>-->
+        <item name="progressBackgroundColor">@color/progressBackgroundColorLight</item>
+        <!--<item name="progressDrawable">@drawable/progress_drawable</item>-->
+        <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground
+        </item>
+        <item name="ate_key">light_theme</item>
+
+    </style>
+
+    <style name="ThemeBaseDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="cardStyle">@style/CardViewStyle.Dark</item>
+        <item name="accentColor">@color/colorAccentDarkTheme</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="windowBackground">@color/window_background_dark</item>
+        <!--<item name="stateSelector">@color/state_selector_dark</item>-->
+        <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
+        <item name="progressDrawable">@drawable/progress_drawable_dark</item>
+        <item name="progressDrawableWithBackground">
+            @drawable/progress_drawable_withbackground_dark
+        </item>
+        <item name="ate_key">dark_theme</item>
+
+    </style>
+
+    <style name="ThemeBaseBlack" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="android:windowBackground">@color/window_background_black</item>
+        <item name="cardStyle">@style/CardViewStyle.Black</item>
+        <item name="accentColor">@color/colorAccentBlack</item>
+        <item name="iconColor">@android:color/white</item>
+        <item name="windowBackground">@color/window_background_black</item>
+        <!--<item name="stateSelector">@color/state_selector_black</item>-->
+        <item name="progressBackgroundColor">@color/progressBackgroundColorDark</item>
+        <item name="progressDrawable">@drawable/progress_drawable_black</item>
+        <item name="progressDrawableWithBackground">
+            @drawable/progress_drawable_withbackground_black
+        </item>
+
+    </style>
+
+    <style name="AppThemeLight" parent="ThemeBaseLight"></style>
+
+    <style name="AppThemeNormalLight" parent="ThemeBaseLight"></style>
+
+    <style name="AppTheme.FullScreen.Light" parent="ThemeBaseLight"></style>
+
+    <style name="AppThemeDark" parent="ThemeBaseDark">
+
+
+    </style>
+
+    <style name="AppThemeNormalDark" parent="ThemeBaseDark">
+
+    </style>
+
+    <style name="AppTheme.FullScreen.Dark" parent="ThemeBaseDark">
+
+    </style>
+
+    <style name="AppThemeBlack" parent="ThemeBaseBlack">
+
+
+    </style>
+
+    <style name="AppThemeNormalBlack" parent="ThemeBaseBlack">
+
+    </style>
+
+    <style name="AppTheme.FullScreen.Black" parent="ThemeBaseBlack">
+
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+
+    <style name="TextApperance.Album.Title" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">29sp</item>
+    </style>
+
+    <style name="TextApperance.Artist.Title" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">29sp</item>
+    </style>
+
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#00666666</item>
+    </style>
+
+
+    <style name="FabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">6dp</item>
+        <item name="pressedTranslationZ">12dp</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <!--Values-->
+    <style name="CardView">
+        <item name="cardBackgroundColor">@color/cardview_light_background</item>
+        <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
+        <item name="cardElevation">@dimen/cardview_default_elevation</item>
+        <item name="cardMaxElevation">@dimen/cardview_default_elevation</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="cardPreventCornerOverlap">true</item>
+    </style>
+
+    <style name="CardView.Dark">
+        <item name="cardBackgroundColor">@color/cardview_dark_background</item>
+    </style>
+
+    <style name="CardView.Light">
+        <item name="cardBackgroundColor">@color/cardview_light_background</item>
+    </style>
+
+    <style name="CardViewStyle.Light" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background</item>
+    </style>
+
+    <style name="CardViewStyle.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background_dark</item>
+    </style>
+
+    <style name="CardViewStyle.Black" parent="CardView">
+        <item name="cardBackgroundColor">@color/window_background_black</item>
+    </style>
+    <!--START OF Timber Style+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 </resources>

@@ -19,10 +19,11 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/fragment_register_email_autocompletetexview_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_basic_info_fragment_method_email_address"
-                    android:inputType="text" />
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -30,6 +31,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/fragment_register_email_edittext_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_basic_info_fragment_newpassword"
@@ -41,12 +43,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/fragment_register_email_edittext_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/register_basic_info_fragment_confirm_newpassword" />
+                    android:hint="@string/register_basic_info_fragment_confirm_newpassword"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
+                android:id="@+id/fragment_register_email_button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_basic_info_fragment_register_now" />
