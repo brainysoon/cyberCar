@@ -81,18 +81,18 @@ public class MyCarsFragment extends Fragment implements CarInfo.canHandCarInfosP
     //sendPost
     private void sendPost() {
 
-        try {
-
-            JSONObject jsonObject = new JSONObject();
-
-            jsonObject.put(UserInfo.User_Name, MyApplication.mUserInfo.getUserName());
-
-            CarInfo.sendCarInfoPost(jsonObject, this);
-
-        } catch (JSONException ex) {
-
-            ex.printStackTrace();
-        }
+//        try {
+//
+//            JSONObject jsonObject = new JSONObject();
+//
+////            jsonObject.put(UserInfo.User_Name, MyApplication.mUserInfo.getUserName());
+//
+//            CarInfo.sendCarInfoPost(jsonObject, this);
+//
+//        } catch (JSONException ex) {
+//
+//            ex.printStackTrace();
+//        }
     }
 
     //initRootView

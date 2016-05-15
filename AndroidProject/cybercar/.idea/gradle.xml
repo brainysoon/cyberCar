@@ -10,22 +10,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/boommenu" />
-            <option value="$PROJECT_DIR$/flowingdrawer-core" />
-            <option value="$PROJECT_DIR$/simplecropview" />
-            <option value="$PROJECT_DIR$/volly-1.0.11" />
-            <option value="$PROJECT_DIR$/weizhang_sdk" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/boommenu" />
-            <option value="$PROJECT_DIR$/flowingdrawer-core" />
-            <option value="$PROJECT_DIR$/simplecropview" />
-            <option value="$PROJECT_DIR$/volly-1.0.11" />
-            <option value="$PROJECT_DIR$/weizhang_sdk" />
           </set>
         </option>
       </GradleProjectSettings>

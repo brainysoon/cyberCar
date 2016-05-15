@@ -21,6 +21,13 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.fat246.cybercar.application.MyApplication;
+import com.fat246.cybercar.beans.User;
+
+import java.io.File;
+
+import cn.bmob.v3.datatype.BmobFile;
+
 public final class PreferencesUtility {
 
     public static final String ARTIST_SORT_ORDER = "artist_sort_order";
@@ -46,6 +53,16 @@ public final class PreferencesUtility {
     private static final String SETTINGS_KEY_REGULATION_LOCATION = "settings_key_regulation_location";
     private static final String SETTINGS_KEY_MUSIC_AUTO = "settings_key_music_auto";
     private static final String SETTINGS_KEY_MUSIC_CONTINUE = "settings_key_music_continue";
+
+    /**
+     * 有关用户信息的缓存
+     */
+    public static final String USER_TEL = "user_tel";
+    public static final String USER_PASSWORD = "user_password";
+    public static final String USER_NICKNAME = "user_nickname";
+    public static final String USER_SEX = "user_sex";
+    public static final String USER_BIRTHDAY = "user_birthday";
+    public static final String USER_AVATOR_PATH = "user_avator_path";
 
     private static PreferencesUtility sInstance;
 
@@ -88,39 +105,56 @@ public final class PreferencesUtility {
         return mPreferences.getBoolean(SETTINGS_KEY_USER_STRAIGHT, true);
     }
 
-//    //从配置文件里面的到用户信息
-//    public UserInfo getUserInfo() {
-//
-//
-//        String mUserName = mPreferences.getString(UserInfo.User_Name, "");
-//
-//        boolean mIsSavePassword = mPreferences.getBoolean(UserInfo.IS_SAVE_PASSWORD, false);
-//
-//        String mUserPassword = mPreferences.getString(UserInfo.User_Password, "");
-//
-//        boolean mIsAutoLogin = mPreferences.getBoolean(UserInfo.IS_AUTO_LOGIN, false);
-//
-//        return new UserInfo(mUserName, mUserPassword, mIsSavePassword, mIsAutoLogin);
-//    }
+    //是否保存密码
+    public boolean isSavePassword(String User_Tel) {
 
-//    //将用户信息保存到配置里面去
-//    public void saveUserInfo(UserInfo mUserInfo) {
-//
-//        SharedPreferences.Editor mEditor = mPreferences.edit();
-//
-//        mEditor.putString(UserInfo.User_Name, mUserInfo.getUserName());
-//        mEditor.putString(UserInfo.User_Password, mUserInfo.getUserPassword());
-//
-//        if (mUserInfo.getIsSavePassword()) {
-//
-//            mEditor.putBoolean(UserInfo.IS_SAVE_PASSWORD, mUserInfo.getIsSavePassword());
-//        }
-//
-//        mEditor.putBoolean(UserInfo.IS_AUTO_LOGIN, mUserInfo.getIsAutoLogin());
-//
-//        mEditor.apply();
-//
-//    }
+        return mPreferences.getBoolean(User_Tel, false);
+    }
+
+    //是否需要自动登陆
+    public boolean isAutoLogin(String User_Tel) {
+
+        return mPreferences.getBoolean(User_Tel, false);
+    }
+
+    //从配置文件里面的到用户信息
+    public User getUserInfo() {
+
+
+        String User_Tel = mPreferences.getString(USER_TEL, "");
+        String User_Password = mPreferences.getString(USER_PASSWORD, "");
+        String User_NickName = mPreferences.getString(USER_NICKNAME, "");
+        Boolean User_Sex = mPreferences.getBoolean(USER_SEX, true);
+        String User_Birthday = mPreferences.getString(USER_BIRTHDAY, "");
+        String User_Avator_Path = mPreferences.getString(USER_AVATOR_PATH, "");
+
+        File Avator_File = new File(User_Avator_Path);
+        if (!Avator_File.exists()) {
+            Avator_File = new File(MyApplication.USER_DEFAULT_AVATOR);
+        }
+
+        BmobFile User_Avator = new BmobFile(Avator_File);
+
+        return new User(User_Tel, User_Password, User_NickName,
+                User_Sex, User_Birthday, User_Avator);
+    }
+
+    //将用户信息保存到配置里面去
+    public void saveUserInfo(User mUser) {
+
+        SharedPreferences.Editor mEditor = mPreferences.edit();
+
+        mEditor.putString(USER_TEL, mUser.getUser_Tel());
+        mEditor.putString(USER_PASSWORD, mUser.getUser_Password());
+        mEditor.putString(USER_NICKNAME, mUser.getUser_NickName());
+        mEditor.putBoolean(USER_SEX, mUser.getUser_Sex());
+        mEditor.putString(USER_BIRTHDAY, mUser.getUser_Birthday());
+        mEditor.putString(USER_AVATOR_PATH, MyApplication.USER_AVATOR_DIRCTORY +
+                mUser.getUser_Avator().getFilename());
+
+        mEditor.apply();
+
+    }
 
     public void setOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
         mPreferences.registerOnSharedPreferenceChangeListener(listener);

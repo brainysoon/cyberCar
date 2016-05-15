@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.activities.carmusics.BaseActivity;
 import com.fat246.cybercar.activities.carmusics.NowPlayingActivity;
 import com.fat246.cybercar.activities.moregas.MoreGasActivity;
@@ -595,11 +596,6 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public void onResume() {
         super.onResume();
         mMainActivity = this;
-
-        if (MyApplication.mAvator != null) {
-
-            mAvator.setImageBitmap(MyApplication.mAvator);
-        }
     }
 
     @Override

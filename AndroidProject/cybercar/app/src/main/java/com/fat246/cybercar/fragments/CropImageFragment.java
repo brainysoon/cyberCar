@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.CropImageActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.isseiaoki.simplecropview.CropImageView;
 import com.isseiaoki.simplecropview.callback.CropCallback;
@@ -28,12 +29,14 @@ import java.io.File;
 public class CropImageFragment extends Fragment {
     private static final int REQUEST_PICK_IMAGE = 10011;
     private static final int REQUEST_SAF_PICK_IMAGE = 10012;
+    private static final int REQUEST_PICK_PHOTO = 10013;
 
     //View
     private CropImageView mCropImageView;
     private Button mButtonSure;
     private Button mButtonCancle;
     private FloatingActionButton mActionOpen;
+    private FloatingActionButton mActionPick;
 
     public CropImageFragment() {
         // Required empty public constructor
@@ -105,28 +108,39 @@ public class CropImageFragment extends Fragment {
             }
         });
 
+        mActionPick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pickPhoto();
+            }
+        });
+
+        if (CropImageActivity.mCropCallback == null) {
+
+            CropImageActivity.mCropCallback = new CropCallback() {
+                @Override
+                public void onSuccess(Bitmap cropped) {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            };
+        }
+
         //start crop
         mButtonSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mCropImageView.startCrop(createSaveUri(), new CropCallback() {
-                    @Override
-                    public void onSuccess(Bitmap cropped) {
-
-                        MyApplication.mAvator=cropped;
-
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                }, new SaveCallback() {
+                mCropImageView.startCrop(createSaveUri(), CropImageActivity.mCropCallback, new SaveCallback() {
                     @Override
                     public void onSuccess(Uri outputUri) {
 
-                        MyApplication.mAvatorUri=outputUri;
+//                        MyApplication.mAvatorUri=outputUri;
 
                         getActivity().finish();
                     }
@@ -142,12 +156,16 @@ public class CropImageFragment extends Fragment {
 
     //Uri
     public Uri createSaveUri() {
-        return Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
+        return Uri.fromFile(new File(MyApplication.USER_AVATOR_DIRCTORY));
     }
 
 
     //initCropImage
     private void initCropImage() {
+
+        if (CropImageActivity.mAvator != null) {
+            mCropImageView.setImageBitmap(CropImageActivity.mAvator);
+        }
 
         mCropImageView.setCropMode(CropImageView.CropMode.CIRCLE);
 
@@ -162,7 +180,15 @@ public class CropImageFragment extends Fragment {
         mButtonSure = (Button) rootView.findViewById(R.id.fragment_crop_image_button_sure);
         mButtonCancle = (Button) rootView.findViewById(R.id.fragment_crop_image_button_cancle);
         mActionOpen = (FloatingActionButton) rootView.findViewById(R.id.fragment_crop_image_action_open);
+        mActionPick = (FloatingActionButton) rootView.findViewById(R.id.fragment_crop_image_action_pick);
+    }
 
+    //拍照
+    public void pickPhoto() {
+
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+
+        startActivityForResult(intent, REQUEST_PICK_PHOTO);
     }
 
     public void pickImage() {
@@ -188,6 +214,13 @@ public class CropImageFragment extends Fragment {
         } else if (requestCode == REQUEST_SAF_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
 //            showProgress();
             mCropImageView.startLoad(Utils.ensureUriPermission(getContext(), result), mLoadCallback);
+        } else if (requestCode == REQUEST_PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+
+            Bundle bundle = result.getExtras();
+
+            Bitmap b = (Bitmap) bundle.get("data");
+
+            mCropImageView.setImageBitmap(b);
         }
     }
 

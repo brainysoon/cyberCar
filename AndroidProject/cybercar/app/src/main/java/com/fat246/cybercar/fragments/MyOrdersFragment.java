@@ -75,17 +75,17 @@ public class MyOrdersFragment extends Fragment implements OrderInfo.handMyOrders
 
     //sendPost
     private void sendPost() {
-        try {
-
-            JSONObject jsonObject = new JSONObject();
-
-            jsonObject.put(OrderInfo.USER_NAME, MyApplication.mUserInfo.getUserName());
-
-            //send
-            OrderInfo.sendMyOrdersPost(jsonObject, this);
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//
+//            JSONObject jsonObject = new JSONObject();
+//
+//            jsonObject.put(OrderInfo.USER_NAME, MyApplication.mUserInfo.getUserName());
+//
+//            //send
+//            OrderInfo.sendMyOrdersPost(jsonObject, this);
+//        } catch (JSONException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     //initRootView

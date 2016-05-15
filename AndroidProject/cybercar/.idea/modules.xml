@@ -3,12 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/boommenu/boommenu.iml" filepath="$PROJECT_DIR$/boommenu/boommenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/cybercar.iml" filepath="$PROJECT_DIR$/cybercar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/flowingdrawer-core/flowingdrawer-core.iml" filepath="$PROJECT_DIR$/flowingdrawer-core/flowingdrawer-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simplecropview/simplecropview.iml" filepath="$PROJECT_DIR$/simplecropview/simplecropview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/volly-1.0.11/volly-1.0.11.iml" filepath="$PROJECT_DIR$/volly-1.0.11/volly-1.0.11.iml" />
-      <module fileurl="file://$PROJECT_DIR$/weizhang_sdk/weizhang_sdk.iml" filepath="$PROJECT_DIR$/weizhang_sdk/weizhang_sdk.iml" />
     </modules>
   </component>
 </project>

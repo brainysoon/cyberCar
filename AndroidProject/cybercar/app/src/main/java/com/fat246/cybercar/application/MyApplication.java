@@ -1,22 +1,21 @@
 package com.fat246.cybercar.application;
 
 import android.app.Application;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.os.Environment;
 
 import com.afollestad.appthemeengine.ATE;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.permissions.Nammu;
-import com.fat246.cybercar.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.thinkland.sdk.android.JuheSDKInitializer;
 
 import cn.bmob.v3.Bmob;
-import cn.smssdk.SMSSDK;
+import cn.bmob.v3.BmobSMS;
 
 public class MyApplication extends Application {
 
@@ -34,19 +33,20 @@ public class MyApplication extends Application {
     private static final String DARK_THEME_NOTOOLBAR = "dark_theme_notoolbar";
 
     //Bmob 密钥
-    private static final String BOMB_APPKEY="20d6303487c60c4c630c3e6a7b4615d3";
+    private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
 
-    //是否登陆成功
-    public static boolean isLoginSucceed = false;
+    //保存头像的位置
+    public static final String USER_AVATOR_DIRCTORY = Environment.getExternalStorageDirectory() + "/.avator/";
 
-    //头像
-    public static Bitmap mAvator;
-
-    //
-    public static Uri mAvatorUri;
+    //默认头像地址
+    public static final String USER_DEFAULT_AVATOR = USER_AVATOR_DIRCTORY + "default.png";
 
     //全局队列
     private static RequestQueue mRequestQueue;
+
+    //全局User
+    public static User mUser;
+    public static Boolean isLoginSucceed = false;
 
     @Override
     public void onCreate() {
@@ -58,12 +58,6 @@ public class MyApplication extends Application {
         //初始化请求队列
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        //从配置文件中出事话用户信息
-//        mUserInfo = PreferencesUtility.getInstance(getApplicationContext()).getUserInfo();
-
-        //初始化SMSSDK
-        SMSSDK.initSDK(this, SMSSDK_APPKEY, SMSSDK_APPSECRET);
-
         //初始化百度地图API
         SDKInitializer.initialize(this);
 
@@ -74,7 +68,7 @@ public class MyApplication extends Application {
         initTimber();
 
         //初始化Bmob
-        Bmob.initialize(this,BOMB_APPKEY);
+        Bmob.initialize(this, BOMB_APPKEY);
     }
 
     //Timber
@@ -153,4 +147,5 @@ public class MyApplication extends Application {
 
         return mInstance;
     }
+
 }

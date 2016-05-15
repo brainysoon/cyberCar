@@ -17,24 +17,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.MainActivity;
-import com.fat246.cybercar.activities.RegisterActivity;
+import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.application.MyApplication;
-import com.fat246.cybercar.checkouts.CheckPostResult;
 import com.fat246.cybercar.checkouts.CheckUserInfo;
-import com.fat246.cybercar.utils.PostResultUtils;
-import com.fat246.cybercar.utils.PostUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fat246.cybercar.utils.PreferencesUtility;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
+public class LoginFragment extends Fragment{
 
     //View
     private AutoCompleteTextView mUserName;
@@ -155,18 +147,25 @@ public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
     //设置一些东西
     private void setSomeThing() {
 
-        mUserName.setText(MyApplication.mUserInfo.getUserName());
+        if (MyApplication.mUser!=null){
 
-        if (MyApplication.mUserInfo.getIsSavePassword()) {
+            mUserName.setText(MyApplication.mUser.getUser_Tel());
 
-            mSavePassword.setChecked(true);
+            //是否保存密码
+            if (PreferencesUtility.getInstance(getContext())
+                    .isSavePassword(MyApplication.mUser.getUser_Tel())) {
 
-            mUserPassword.setText(MyApplication.mUserInfo.getUserPassword());
-        }
+                mSavePassword.setChecked(true);
 
-        if (MyApplication.mUserInfo.getIsAutoLogin()) {
+                mUserPassword.setText(MyApplication.mUser.getUser_Password());
+            }
 
-            mAutoLogin.setChecked(true);
+            //是否自动登陆
+            if (PreferencesUtility.getInstance(getContext())
+                    .isAutoLogin(MyApplication.mUser.getUser_Tel())) {
+
+                mAutoLogin.setChecked(true);
+            }
         }
     }
 
@@ -187,17 +186,7 @@ public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
                     mScrollView.setVisibility(View.INVISIBLE);
                     mProgressBar.setVisibility(View.VISIBLE);
 
-                    try {
 
-                        JSONObject mParams = new JSONObject();
-
-                        mParams.put(UserInfo.User_Name, userName);
-                        mParams.put(UserInfo.User_Password, userPassword);
-
-                        PostUtils.sendLoginPost(mParams, LoginFragment.this);
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
                 }
             }
         });
@@ -224,7 +213,7 @@ public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
             }
         });
 
-        //跳转到登陆页面
+        //跳转到注册页面
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,44 +275,6 @@ public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
         return true;
     }
 
-
-    //处理登录请求的  结果
-    @Override
-    public void handLoginPostResult(JSONObject jsonObject) {
-
-        int resultCode = -1;
-        try {
-
-            resultCode = jsonObject.getInt(CheckPostResult.STATUS);
-
-            if (resultCode == PostResultUtils.STATUS_SUCCEED) {
-
-                //更改登录状态
-                MyApplication.isLoginSucceed = true;
-
-                //保存 和 更换用户信息
-                ((MyApplication) getActivity().getApplication()).replaceUserInfo(new UserInfo(userName, userPassword,
-                        mSavePassword.isChecked(), mAutoLogin.isChecked()));
-
-                //设置User_ID
-                MyApplication.mUserInfo.setUserID(jsonObject.getString(UserInfo.User_ID));
-
-                Intent mIntent = new Intent(getContext(), MainActivity.class);
-
-                startActivity(mIntent);
-
-                getActivity().finish();
-            } else {
-
-                reBackToLogin();
-            }
-
-        } catch (JSONException jsonException) {
-
-            jsonException.printStackTrace();
-        }
-    }
-
     //返回到登陆之前的状态
     private void reBackToLogin() {
 
@@ -331,14 +282,4 @@ public class LoginFragment extends Fragment implements PostUtils.HandLoginPost {
         mScrollView.setVisibility(View.VISIBLE);
     }
 
-    //处理请求错误
-    @Override
-    public void handLoginPostError(VolleyError volleyError) {
-
-        volleyError.printStackTrace();
-
-        Toast.makeText(getActivity(), "完了服务器遛弯去了。。。", Toast.LENGTH_LONG).show();
-
-        reBackToLogin();
-    }
 }

@@ -6,24 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.LoginActivity;
 import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.application.MyApplication;
-import com.fat246.cybercar.checkouts.CheckPostResult;
-import com.fat246.cybercar.utils.PostUtils;
+import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.utils.PreferencesUtility;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
-public class LogoFragment extends Fragment implements PostUtils.HandLoginPost {
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
+public class LogoFragment extends Fragment {
 
     //View
     private ImageView mImageView;
@@ -49,13 +50,7 @@ public class LogoFragment extends Fragment implements PostUtils.HandLoginPost {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_logo, container, false);
-
-        findView(rootView);
-
-        setListener();
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_logo, container, false);
     }
 
     //find view
@@ -64,38 +59,75 @@ public class LogoFragment extends Fragment implements PostUtils.HandLoginPost {
         mImageView = (ImageView) rootView.findViewById(R.id.fragment_logo_imageview);
     }
 
-    private void setListener() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        Utils();
+
+        findView(view);
     }
 
+    public void Utils() {
+        PreferencesUtility mPrefernce = PreferencesUtility.getInstance(getContext().getApplicationContext());
+
+        User mUser = mPrefernce.getUserInfo();
+
+        Log.e("User", mUser.toString());
+
+        MyApplication.mUser = mUser;
+
+        //判断是否要自动登陆
+        if (mPrefernce.isAutoLogin(mUser.getUser_Tel())) {
+
+            BmobQuery<User> query = new BmobQuery<>("User");
+
+            query.addWhereMatches(PreferencesUtility.USER_TEL, mUser.getUser_Tel());
+            query.addWhereMatches(PreferencesUtility.USER_PASSWORD, mUser.getUser_Password());
+
+            query.findObjects(getContext(), new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+
+                    //登录成功
+                    if (list.size() > 0) {
+
+                        MyApplication.isLoginSucceed = true;
+                    }
+
+//                    startActivity(mIntent);
+
+                    Log.e("succeed", "》》》》成功");
+
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+//                    startActivity(mIntent);
+                    Log.e("defead", "》》》》失败");
+                }
+            });
+        } else {
+
+//            startActivity(mIntent);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        //设置透明度为
-        mImageView.setAlpha(0.6f);
+        mImageView.animate().setDuration(2000).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
 
-        //设置动画 并且在动画结束的时候跳转到登陆界面
-        mImageView.animate()
-                .alpha(1.0f)
-                .setDuration(1000)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
+                startActivity(mIntent);
 
-                        //如果是自动登陆的话尝试自动登陆
-                        if (MyApplication.mUserInfo.getIsAutoLogin()) {
-
-                            attmptLogin();
-                        } else {
-
-                            startActivity(mIntent);
-                            //结束
-                            getActivity().finish();
-                        }
-                    }
-                });
+                getActivity().finish();
+            }
+        }).start();
     }
 
     @Override
@@ -103,62 +135,5 @@ public class LogoFragment extends Fragment implements PostUtils.HandLoginPost {
         super.onPause();
 
         mImageView.animate().setListener(null);
-    }
-
-    //尝试登陆
-    private void attmptLogin() {
-
-//        try {
-//
-//            JSONObject mParams = new JSONObject();
-//
-////            mParams.put(UserInfo.User_Name, MyApplication.mUserInfo.getUserName());
-////            mParams.put(UserInfo.User_Password, MyApplication.mUserInfo.getUserPassword());
-//
-//            PostUtils.sendLoginPost(mParams, this);
-//        } catch (JSONException ex) {
-//
-//            ex.printStackTrace();
-//        }
-    }
-
-    //登陆回掉接口
-    @Override
-    public void handLoginPostResult(JSONObject jsonObject) {
-
-        try {
-
-            JSONObject mResult = new JSONObject();
-
-            int status = mResult.getInt(CheckPostResult.STATUS);
-
-            //是否登陆成功
-            if (status == CheckPostResult.STATUS_SUCCEED) {
-
-//                String User_ID = mResult.getString(UserInfo.User_ID);
-//
-//                MyApplication.mUserInfo.setUserID(User_ID);
-
-                MyApplication.isLoginSucceed = true;
-            }
-
-        } catch (JSONException ex) {
-
-            ex.printStackTrace();
-        }
-
-        this.getContext().startActivity(mIntent);
-
-        this.getActivity().finish();
-    }
-
-    @Override
-    public void handLoginPostError(VolleyError volleyError) {
-
-        volleyError.printStackTrace();
-
-        startActivity(mIntent);
-
-        this.getActivity().finish();
     }
 }

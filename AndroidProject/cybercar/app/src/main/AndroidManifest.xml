@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -68,25 +68,24 @@
 
     <!-- SimpleCropView相关权限+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-
-    <!--Bmob++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-    <!--允许联网 -->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--获取GSM（2g）、WCDMA（联通3g）等网络状态的信息  -->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--获取wifi网络状态的信息 -->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
-    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
-    <!--获取sd卡写的权限，用于文件上传和下载-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
     <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <!--允许读取手机状态 用于创建BmobInstallation-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Bmob++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- 允许联网 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- 获取wifi网络状态的信息 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <!-- 获取sd卡写的权限，用于文件上传和下载 -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- 允许读取手机状态 用于创建BmobInstallation -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- 只能怪天朝的网络不给力呀 -->
     <application
         android:name=".application.MyApplication"
@@ -159,16 +158,10 @@
 
         <!-- 这个是承载 注册界面的Activity -->
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".activities.Register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
-        <!-- 这个是 mob 提供的UI 我们没有用 -->
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
 
@@ -305,7 +298,8 @@
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.navigate.InitNavigateActivity" />
-        <activity android:name=".activities.CropImageActivity"></activity>
+        <activity android:name=".activities.CropImageActivity" />
+        <activity android:name=".activities.Register.StartRegisterActivity"></activity>
     </application>
 
 </manifest>

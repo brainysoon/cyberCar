@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.GasStationInfo;
-import com.fat246.cybercar.utils.PostUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class BookGasActivity extends AppCompatActivity implements PostUtils.handBookGasPost {
+public class BookGasActivity extends AppCompatActivity{
 
     //GasStation
     private GasStationInfo mGasStation;
@@ -100,7 +98,7 @@ public class BookGasActivity extends AppCompatActivity implements PostUtils.hand
 //                    params.put(UserInfo.User_Name, MyApplication.mUserInfo.getUserName());
 
                     //发送请求
-                    PostUtils.sendBookGasPost(params, BookGasActivity.this);
+//                    PostUtils.sendBookGasPost(params, BookGasActivity.this);
 
                 } catch (JSONException ex) {
 
@@ -261,14 +259,4 @@ public class BookGasActivity extends AppCompatActivity implements PostUtils.hand
 
     }
 
-    //实现提交订单的回掉接口
-    @Override
-    public void handBookGasPostResult(JSONObject jsonObject) {
-
-    }
-
-    @Override
-    public void handBookGasPostError(VolleyError volleyError) {
-
-    }
 }
