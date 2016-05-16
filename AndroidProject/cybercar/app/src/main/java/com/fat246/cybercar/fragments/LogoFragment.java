@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.LoginActivity;
@@ -63,8 +64,6 @@ public class LogoFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Utils();
-
         findView(view);
     }
 
@@ -93,9 +92,15 @@ public class LogoFragment extends Fragment {
                     if (list.size() > 0) {
 
                         MyApplication.isLoginSucceed = true;
+                        MyApplication.mUser = list.get(0);
+
+                    } else {
+
+                        Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
                     }
 
-//                    startActivity(mIntent);
+                    startActivity(mIntent);
+                    getActivity().finish();
 
                     Log.e("succeed", "》》》》成功");
 
@@ -104,13 +109,17 @@ public class LogoFragment extends Fragment {
                 @Override
                 public void onError(int i, String s) {
 
-//                    startActivity(mIntent);
+                    Toast.makeText(getContext(), "网络出错！", Toast.LENGTH_SHORT).show();
+                    startActivity(mIntent);
+                    getActivity().finish();
+
                     Log.e("defead", "》》》》失败");
                 }
             });
         } else {
 
-//            startActivity(mIntent);
+            startActivity(mIntent);
+            getActivity().finish();
         }
     }
 
@@ -118,14 +127,12 @@ public class LogoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mImageView.animate().setDuration(2000).setListener(new AnimatorListenerAdapter() {
+        mImageView.animate().setDuration(1000).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                startActivity(mIntent);
-
-                getActivity().finish();
+                Utils();
             }
         }).start();
     }

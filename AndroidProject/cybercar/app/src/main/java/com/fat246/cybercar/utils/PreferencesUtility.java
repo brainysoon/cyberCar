@@ -79,6 +79,19 @@ public final class PreferencesUtility {
         return sInstance;
     }
 
+
+    //保存
+    public void saveIsSavePassAndAutoLogin(String tel, boolean isSavePass, boolean isAutoLogin) {
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putBoolean(tel + "isSavePassowrd", isSavePass);
+
+        editor.putBoolean(tel + "isAutoLogin", isAutoLogin);
+
+        editor.apply();
+    }
+
     //进入App是否需要自动播放音乐
     public boolean isSettingsMusicAuto() {
 
@@ -108,13 +121,13 @@ public final class PreferencesUtility {
     //是否保存密码
     public boolean isSavePassword(String User_Tel) {
 
-        return mPreferences.getBoolean(User_Tel, false);
+        return mPreferences.getBoolean(User_Tel + "isSavePassowrd", false);
     }
 
     //是否需要自动登陆
     public boolean isAutoLogin(String User_Tel) {
 
-        return mPreferences.getBoolean(User_Tel, false);
+        return mPreferences.getBoolean(User_Tel + "isAutoLogin", false);
     }
 
     //从配置文件里面的到用户信息
@@ -129,11 +142,16 @@ public final class PreferencesUtility {
         String User_Avator_Path = mPreferences.getString(USER_AVATOR_PATH, "");
 
         File Avator_File = new File(User_Avator_Path);
+
+        BmobFile User_Avator ;
         if (!Avator_File.exists()) {
-            Avator_File = new File(MyApplication.USER_DEFAULT_AVATOR);
+
+            User_Avator = BmobFile.createEmptyFile();
+        }else {
+
+            User_Avator= new BmobFile(Avator_File);
         }
 
-        BmobFile User_Avator = new BmobFile(Avator_File);
 
         return new User(User_Tel, User_Password, User_NickName,
                 User_Sex, User_Birthday, User_Avator);

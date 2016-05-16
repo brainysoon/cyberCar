@@ -17,16 +17,24 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.application.MyApplication;
+import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.checkouts.CheckUserInfo;
 import com.fat246.cybercar.utils.PreferencesUtility;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class LoginFragment extends Fragment{
+public class LoginFragment extends Fragment {
 
     //View
     private AutoCompleteTextView mUserName;
@@ -147,7 +155,7 @@ public class LoginFragment extends Fragment{
     //设置一些东西
     private void setSomeThing() {
 
-        if (MyApplication.mUser!=null){
+        if (MyApplication.mUser != null) {
 
             mUserName.setText(MyApplication.mUser.getUser_Tel());
 
@@ -186,7 +194,48 @@ public class LoginFragment extends Fragment{
                     mScrollView.setVisibility(View.INVISIBLE);
                     mProgressBar.setVisibility(View.VISIBLE);
 
+                    BmobQuery<User> query = new BmobQuery<>("User");
 
+                    query.addWhereMatches("User_Tel", userName);
+                    query.addWhereMatches("User_Password", userPassword);
+
+                    query.findObjects(getContext(), new FindListener<User>() {
+                        @Override
+                        public void onSuccess(List<User> list) {
+
+                            if (list.size() > 0) {
+
+                                Intent mIntnet = new Intent(getContext(), MainActivity.class);
+
+                                startActivity(mIntnet);
+
+                                MyApplication.mUser = list.get(0);
+                                MyApplication.isLoginSucceed = true;
+
+                                Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
+
+                                //保存一些东西
+                                PreferencesUtility.getInstance(getContext()).saveUserInfo(list.get(0));
+
+                                PreferencesUtility.getInstance(getContext())
+                                        .saveIsSavePassAndAutoLogin(list.get(0).getUser_Tel(),
+                                                mSavePassword.isChecked(), mAutoLogin.isChecked());
+
+
+                                getActivity().finish();
+                            } else {
+
+                                Toast.makeText(getContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                            Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

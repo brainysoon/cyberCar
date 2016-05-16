@@ -1,6 +1,7 @@
 package com.fat246.cybercar.application;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.afollestad.appthemeengine.ATE;
@@ -15,7 +16,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.thinkland.sdk.android.JuheSDKInitializer;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobSMS;
 
 public class MyApplication extends Application {
 
@@ -36,10 +36,7 @@ public class MyApplication extends Application {
     private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
 
     //保存头像的位置
-    public static final String USER_AVATOR_DIRCTORY = Environment.getExternalStorageDirectory() + "/.avator/";
-
-    //默认头像地址
-    public static final String USER_DEFAULT_AVATOR = USER_AVATOR_DIRCTORY + "default.png";
+    public static String USER_AVATOR_DIRCTORY ;
 
     //全局队列
     private static RequestQueue mRequestQueue;
@@ -47,10 +44,13 @@ public class MyApplication extends Application {
     //全局User
     public static User mUser;
     public static Boolean isLoginSucceed = false;
+    public static Bitmap mAvator;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MyApplication.USER_AVATOR_DIRCTORY=this.getExternalCacheDir().getAbsolutePath();
 
         //初始化实例
         mInstance = this;

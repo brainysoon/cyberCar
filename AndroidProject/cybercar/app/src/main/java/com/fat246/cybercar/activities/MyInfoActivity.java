@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.fragments.InfoFragment;
 
 public class MyInfoActivity extends AppCompatActivity {
 
@@ -17,8 +16,6 @@ public class MyInfoActivity extends AppCompatActivity {
 
         initToolbar();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_my_info_container, InfoFragment.newInstance()).commit();
     }
 
     //initToolbar

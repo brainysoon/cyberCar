@@ -2,6 +2,8 @@ package com.fat246.cybercar.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,6 +51,8 @@ import com.nightonke.boommenu.BoomMenuButton;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.bmob.v3.listener.DownloadFileListener;
+
 
 public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
@@ -58,6 +62,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     //View
     private BoomMenuButton mBoomMenuButton;
     private CircleImageView mAvator;
+    private TextView mAccount;
+    private TextView mRegister;
 
     //Timber View 相关 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     private SlidingUpPanelLayout mPanelLayout;
@@ -414,9 +420,8 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private void initMenuHeader(View mHeader) {
 
         mAvator = (CircleImageView) mHeader.findViewById(R.id.menu_header_imageview_avator);
-        TextView mAccount = (TextView) mHeader.findViewById(R.id.menu_header_textview_account);
-        TextView mEmail = (TextView) mHeader.findViewById(R.id.menu_header_textview_email);
-        TextView mRegister = (TextView) mHeader.findViewById(R.id.menu_header_textview_register);
+        mAccount = (TextView) mHeader.findViewById(R.id.menu_header_textview_account);
+        mRegister = (TextView) mHeader.findViewById(R.id.menu_header_textview_register);
 
 //        //判断用户是否登陆
 //        if (MyApplication.isLoginSucceed) {
@@ -432,17 +437,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         mAvator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent = null;
-
-//                if (MyApplication.isLoginSucceed) {
-//
-////                    mIntent = new Intent(MainActivity.this, .class);
-//                } else {
-//
-//                    mIntent = new Intent(MainActivity.this, LoginActivity.class);
-//                }
-
-                mIntent = new Intent(MainActivity.this, CropImageActivity.class);
+                Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
 
                 startActivity(mIntent);
             }
@@ -452,15 +447,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             @Override
             public void onClick(View v) {
 
-                Intent mIntent = null;
-
-                if (MyApplication.isLoginSucceed) {
-
-//                    mIntent = new Intent(MainActivity.this, .class);
-                } else {
-
-                    mIntent = new Intent(MainActivity.this, LoginActivity.class);
-                }
+                Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
 
                 startActivity(mIntent);
             }
@@ -596,6 +583,103 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     public void onResume() {
         super.onResume();
         mMainActivity = this;
+
+        if (MyApplication.isLoginSucceed) {
+
+            setLogin();
+        } else {
+
+            backToUnLogin();
+        }
+    }
+
+    //回到未登录
+    private void backToUnLogin() {
+
+        mAccount.setText("立即登录");
+        mRegister.setText("立即注册");
+
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(MainActivity.this, RegisterActivity.class);
+
+                startActivity(mIntent);
+            }
+        });
+
+        mAccount.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+                        startActivity(mIntent);
+                    }
+                }
+        );
+
+        mAvator.setImageResource(R.drawable.avator);
+
+        mAvator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+                startActivity(mIntent);
+            }
+        });
+    }
+
+    //设置登陆
+    private void setLogin() {
+
+        mAccount.setText(MyApplication.mUser.getUser_NickName());
+
+        MyApplication.mUser.getUser_Avator().download(this, new DownloadFileListener() {
+            @Override
+            public void onSuccess(String s) {
+
+
+                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                mAvator.setImageBitmap(bt);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+            }
+        });
+
+        mAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent=new Intent(MainActivity.this,MyInfoActivity.class);
+
+                startActivity(mIntent);
+            }
+        });
+
+        mRegister.setText("注销");
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                backToUnLogin();
+            }
+        });
+
+        mAvator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent=new Intent(MainActivity.this,MyInfoActivity.class);
+
+                startActivity(mIntent);
+            }
+        });
     }
 
     @Override
