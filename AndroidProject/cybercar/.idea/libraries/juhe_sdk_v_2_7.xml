@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="juhe_sdk_v_2_7">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/juhe_sdk_v_2_7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
