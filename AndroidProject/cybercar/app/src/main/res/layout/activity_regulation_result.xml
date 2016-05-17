@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.regulations.RegulationResultActivity">
+
+    <include
+        android:id="@+id/activity_regulation_result_toolbar"
+        layout="@layout/my_toolbar" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 查询内容 -->
+        <LinearLayout
+            android:id="@+id/query_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="@dimen/csy_pd">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/csy_chepai_lab"
+                android:textColor="@color/csy_label" />
+
+            <TextView
+                android:id="@+id/query_chepai"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:textColor="@color/csy_text"
+                android:textSize="@dimen/csy_text_ts" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/csy_cxdz_lab"
+                android:textColor="@color/csy_label" />
+
+            <TextView
+                android:id="@+id/query_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:textColor="@color/csy_text"
+                android:textSize="@dimen/csy_text_ts" />
+        </LinearLayout>
+
+        <!-- 结果标题 -->
+        <TextView
+            android:id="@+id/result_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/query_info"
+            android:layout_marginTop="1.0dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:padding="@dimen/csy_pd"
+            android:textColor="@color/csy_label"
+            android:textSize="@dimen/csy_text_ts" />
+
+        <!-- 结果列表 -->
+        <ListView
+            android:id="@+id/result_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/result_title"
+            android:layout_marginTop="5.0dp"
+            android:divider="@null" />
+
+        <!-- 没有违章记录 -->
+        <TextView
+            android:id="@+id/result_null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/query_info"
+            android:layout_marginTop="80.0dp"
+            android:gravity="center"
+            android:text="恭喜, 没有查到违章记录！"
+            android:textColor="@color/csy_text"
+            android:textSize="@dimen/csy_title_ts"
+            android:visibility="gone" />
+
+        <!-- 查询中 -->
+        <FrameLayout
+            android:id="@+id/popLoader"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#7fffffff"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="35.0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="正在查询, 请稍候 ..."
+                android:textColor="@color/csy_text"
+                android:textSize="@dimen/csy_tip_ts" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

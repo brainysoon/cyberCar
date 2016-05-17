@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.fat246.cybercar.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:fadeColor="@android:color/transparent"
+    sothree:panelHeight="55dp"
+    sothree:shadowHeight="5dp">
+
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/quickcontrols_container"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+</com.fat246.cybercar.slidinguppanel.SlidingUpPanelLayout>

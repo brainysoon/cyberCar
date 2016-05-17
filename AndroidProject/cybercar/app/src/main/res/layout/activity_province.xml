@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/activity_province_toolbar"
+        layout="@layout/my_toolbar" />
+
+    <TextView
+        android:id="@+id/list_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/csy_tip_h"
+        android:gravity="center"
+        android:textColor="@color/csy_label"
+        android:textSize="13.0sp" />
+
+    <ListView
+        android:id="@+id/lv_1ist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/csy_border"
+        android:dividerHeight="1px" />
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="preference_user"
+        android:title="@string/settings_head_user">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_key_user_straight"
+            android:summary="@string/settings_user_straight_info"
+            android:title="@string/settings_user_straight" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_car"
+        android:title="@string/settings_head_car">
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_music"
+        android:title="@string/settings_head_music">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="settings_key_music_auto"
+            android:summary="@string/settings_music_auto_info"
+            android:title="@string/settings_music_auto" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_key_music_continue"
+            android:summary="@string/settings_music_continue_info"
+            android:title="@string/settings_music_continue" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_moregas"
+        android:title="@string/settings_head_moregas">
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_regulation"
+        android:title="@string/settings_head_regulation">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_key_regulation_location"
+            android:summary="@string/settings_regulation_location_info"
+            android:title="@string/settings_regulation_location" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_navigate"
+        android:title="@string/settings_head_navigate">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

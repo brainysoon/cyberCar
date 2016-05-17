@@ -1,0 +1,60 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="register_detail_info_fragment_circleimageview_size">80dp</dimen>
+
+    <dimen name="fragment_login_imageview_size">100dp</dimen>
+    <dimen name="fragment_login_progressbar_size">60dp</dimen>
+
+    <dimen name="activity_home_drawer_layout_width">200dp</dimen>
+
+    <dimen name="activity_city_list_textview_list_tip">30.0dp</dimen>
+
+    <!--有关违章信息的尺寸-->
+    <dimen name="csy_pd">10.0dp</dimen>
+    <dimen name="csy_mg">15.0dp</dimen>
+    <dimen name="csy_label_w">70.0dp</dimen>
+    <dimen name="csy_icon_w">40.0dp</dimen>
+    <dimen name="csy_row_h">64.0dp</dimen>
+    <dimen name="csy_item_h">52.0dp</dimen>
+    <dimen name="csy_tip_h">30.0dp</dimen>
+    <dimen name="csy_btn_h">46.0dp</dimen>
+    <dimen name="csy_label_ts">13.0sp</dimen>
+    <dimen name="csy_tip_ts">14.0sp</dimen>
+    <dimen name="csy_text_ts">16.0sp</dimen>
+    <dimen name="csy_title_ts">18.0sp</dimen>
+
+    <!--START OF Timber +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!--<dimen name="activity_horizontal_margin">16dp</dimen>-->
+    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
+
+    <dimen name="toolbarElevation">4dp</dimen>
+    <dimen name="appBarTopMargin">0dp</dimen>
+    <dimen name="statusBarHeight">0dp</dimen>
+
+
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <!--<dimen name="fab_margin">16dp</dimen>-->
+    <dimen name="list_item_avatar_size">40dp</dimen>
+
+    <dimen name="grid_item_padding_left">8.0dip</dimen>
+    <dimen name="grid_item_padding_right">5.0dip</dimen>
+    <dimen name="grid_bottom_height">44dip</dimen>
+
+    <dimen name="spacing_card">10dp</dimen>
+    <dimen name="spacing_card_album_grid">3dp</dimen>
+
+    <item name="letter_to_tile_ratio" type="dimen">53%</item>
+
+    <dimen name="header_height">370dp</dimen>
+    <dimen name="min_header_height">270dp</dimen>
+    <dimen name="header_logo_size">100dp</dimen>
+
+    <!--END OF Timber ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.Register.RegisterActivity">
+
+    <include
+        android:id="@+id/activity_register_toolbar"
+        layout="@layout/my_toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- TODO: Show Progress Bar -->
+        <ProgressBar
+            android:id="@+id/activity_register_progressbar"
+            android:layout_width="@dimen/fragment_login_progressbar_size"
+            android:layout_height="@dimen/fragment_login_progressbar_size"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/activity_register_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/activity_register_edittext_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mobile_number"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/activity_register_button_send"
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_vertifh_code" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

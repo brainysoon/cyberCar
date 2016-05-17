@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.fat246.cybercar">
+    <!-- 太坑了  尽然还要在这儿填一句 因为：de.Marx1998.trackselectorlib 支持的最小的api是 21 -->
+    <uses-sdk tools:overrideLibrary="de.Maxr1998.trackselectorlib" />
+
+    <!-- 网络请求权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 短信验证相关权限 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!-- 百度API相关权限 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- 用于读取手机当前的状态 -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- 访问网络，网络定位需要上网 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!-- 查询违章信息相关权限 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!-- 聚合数据API相关权限 START +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!-- Timber相关权限 START++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <!-- END OF IT++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+    <!-- SimpleCropView相关权限+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Bmob++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- 允许联网 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- 获取wifi网络状态的信息 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <!-- 获取sd卡写的权限，用于文件上传和下载 -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- 允许读取手机状态 用于创建BmobInstallation -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- 只能怪天朝的网络不给力呀 -->
+    <application
+        android:name=".application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- App 主界面 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <activity android:name=".activities.MainActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+            </intent-filter>
+            <intent-filter android:priority="-1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="content" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+            </intent-filter>
+        </activity>
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- App LOGO相关 START +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <activity
+            android:name=".activities.LogoActivity"
+            android:theme="@style/LogoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- 维护个人相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- 这个是 承载登陆界面的Activity -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!-- 这个是承载 注册界面的Activity -->
+        <activity
+            android:name=".activities.Register.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- 可能会丢弃这个Activity -->
+
+
+        <!-- 百度API相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="8xqMg8Hksz82ywiIv4G65bXKmGdzQBYw" />
+        <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- 聚合数据API相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <meta-data
+            android:name="com.thinkland.juheapi.openid"
+            android:value="JH822ec387c13830fac27e9505ce23575b" />
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+        <activity
+            android:name=".activities.navigate.NavigateActivity"
+            android:theme="@style/LogoTheme" />
+
+        <!-- 查询违章信息相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- 查询违章信息的服务 -->
+        <service android:name="com.cheshouye.api.client.WeizhangIntentService" />
+
+        <!-- 自定义查询违章信息的Activity -->
+        <activity android:name=".activities.regulations.CustomRegulationActivity" />
+
+        <!-- 非自定义查询违章信息的Activity -->
+        <activity
+            android:name=".activities.regulations.RegulationActivity"
+            android:theme="@style/LogoTheme" />
+        <activity android:name=".activities.moregas.MoreGasActivity" />
+
+        <!-- 城市List相关的Activity -->
+        <activity
+            android:name=".activities.regulations.CityListActivity"
+            android:label="@string/title_activity_city_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.regulations.ProvinceActivity" />
+        </activity>
+
+        <!-- 省份缩写选择的Activity -->
+        <activity android:name=".activities.regulations.ShortProvinceGridActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.regulations.CustomRegulationActivity" />
+        </activity>
+
+        <!-- 省份选择Activity -->
+        <activity android:name=".activities.regulations.ProvinceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.regulations.CustomRegulationActivity" />
+        </activity>
+
+        <!-- 违章信息查询结果相关 Activity -->
+        <activity
+            android:name=".activities.regulations.RegulationResultActivity"
+            android:label="@string/title_activity_regulation_result"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.regulations.CustomRegulationActivity" />
+        </activity>
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- 百度地图定位服务 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <!-- 预约加油相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- 预约加油相关Activity -->
+        <activity android:name=".activities.moregas.BookGasActivity" />
+
+        <!-- 预约加油订单相关Activity -->
+        <activity android:name=".activities.MyOrdersActivity" />
+        <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+        <!-- START OF TIMBER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- 音乐设置相关Activity -->
+        <activity
+            android:name=".activities.carmusics.SettingsActivity"
+            android:theme="@style/AppThemeNormalLight" />
+
+        <!-- 详细播放列表相关Activity -->
+        <activity
+            android:name=".activities.carmusics.PlaylistDetailActivity"
+            android:theme="@style/AppTheme.FullScreen.Light" />
+
+        <!-- 搜索歌曲相关Activity -->
+        <activity
+            android:name=".activities.carmusics.SearchActivity"
+            android:theme="@style/AppThemeNormalLight" />
+
+        <!-- 播放音乐相关Activity -->
+        <activity
+            android:name=".activities.carmusics.NowPlayingActivity"
+            android:theme="@style/AppTheme.FullScreen.Light" />
+
+        <!-- Receiver -->
+        <receiver android:name=".helpers.MediaButtonIntentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Music service -->
+        <service
+            android:name=".services.MusicService"
+            android:label="@string/app_name"
+            android:process=":main" />
+        <service
+            android:name=".services.WearBrowserService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+        <!-- END OF TIMBER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+        <activity android:name=".activities.MyCarsActivity" />
+        <activity android:name=".activities.MyInfoActivity" />
+        <activity android:name=".activities.regulations.MyRegulationsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.AboutActivity" />
+        <activity android:name=".activities.navigate.InitNavigateActivity" />
+        <activity android:name=".activities.CropImageActivity" />
+        <activity android:name=".activities.Register.StartRegisterActivity"></activity>
+    </application>
+
+</manifest>
