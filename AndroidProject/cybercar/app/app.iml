@@ -130,15 +130,15 @@
     <orderEntry type="library" exported="" name="support-v4-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="app-theme-engine-0.5.1" level="project" />
     <orderEntry type="library" exported="" name="bmob-sms-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="track-selector-lib-1.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_util_v3_7_3" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-urlconnection-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-urlconnection-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_cloud_v3_7_3" level="project" />
     <orderEntry type="library" exported="" name="weizhang_sdk" level="project" />
     <orderEntry type="library" exported="" name="core-0.8.5.3" level="project" />
