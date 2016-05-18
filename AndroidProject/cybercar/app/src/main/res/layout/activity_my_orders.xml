@@ -10,9 +10,9 @@
         android:id="@+id/activity_my_orders_toolbar"
         layout="@layout/my_toolbar" />
 
-    <FrameLayout
-        android:id="@+id/activity_my_orders_container"
+    <ListView
+        android:id="@+id/activity_my_orders_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
