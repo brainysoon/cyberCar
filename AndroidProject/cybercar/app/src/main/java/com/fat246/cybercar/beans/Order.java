@@ -32,35 +32,35 @@ public class Order extends BmobObject {
     }
 
     //get
-    private String getUser_Tel() {
+    public String getUser_Tel() {
         return this.User_Tel;
     }
 
-    private String getOrder_ID() {
+    public String getOrder_ID() {
         return this.Order_ID;
     }
 
-    private String getOrder_Station() {
+    public String getOrder_Station() {
         return this.Order_Station;
     }
 
-    private Integer getOrder_Status() {
+    public Integer getOrder_Status() {
         return this.Order_Status;
     }
 
-    private BmobDate getOrder_Time() {
+    public BmobDate getOrder_Time() {
         return this.Order_Time;
     }
 
-    private String getOrder_GasClass() {
+    public String getOrder_GasClass() {
         return this.Order_GasClass;
     }
 
-    private Float getOrder_GasPrice() {
+    public Float getOrder_GasPrice() {
         return this.Order_GasPrice;
     }
 
-    private Float getOrder_GasNum() {
+    public Float getOrder_GasNum() {
         return this.Order_GasNum;
     }
 }
