@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.fragments.MyOrdersFragment;
 
 public class MyOrdersActivity extends AppCompatActivity {
 
@@ -18,8 +17,6 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         initToolbar();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_my_orders_container, MyOrdersFragment.newInstance()).commit();
     }
 
     //initToolbar
