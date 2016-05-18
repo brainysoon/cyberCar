@@ -13,20 +13,28 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.MainActivity;
+import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.GasStationInfo;
+import com.fat246.cybercar.beans.Order;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class BookGasActivity extends AppCompatActivity{
+import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.listener.SaveListener;
+
+public class BookGasActivity extends AppCompatActivity {
 
     //GasStation
     private GasStationInfo mGasStation;
@@ -72,6 +80,29 @@ public class BookGasActivity extends AppCompatActivity{
         setListener();
     }
 
+    //confirm num
+    private float confirmNum() {
+
+        try {
+
+            float i = Float.parseFloat(mNum.getText().toString().trim());
+
+            if (i < 0) {
+
+                Toast.makeText(this, "请正确输入加油数量！", Toast.LENGTH_SHORT).show();
+
+            }
+
+            return i;
+
+        } catch (Exception ex) {
+
+            Toast.makeText(this, "请正确输入加油数量！", Toast.LENGTH_SHORT).show();
+        }
+
+        return 0;
+    }
+
     //设置监听器
     private void setListener() {
 
@@ -79,30 +110,53 @@ public class BookGasActivity extends AppCompatActivity{
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
 
-                    JSONObject params = new JSONObject();
+                Float i=confirmNum();
 
-                    params.put(GasStationInfo.GAS_STATION_NAME, mGasStation.getGas_station_name());
+                if ( i> 0) {
 
-                    String key = mType.getSelectedItem().toString();
+                    //判断是否登陆
+                    if (MyApplication.isLoginSucceed) {
 
-                    String value = mPriceMap.get(key);
+                        Date date = new Date();
 
-                    params.put(key, value);
+                        String id = new SimpleDateFormat("yyyyMMddHHmmss").format(date) + ((int) (Math.random() * 10000));
 
-                    params.put("num", mNum.getText().toString());
+                        String Order_Station = mGasStation.getGas_station_name();
 
-                    params.put("time", mTime.getText().toString());
+                        String Order_GasClass = mType.getSelectedItem().toString();
 
-//                    params.put(UserInfo.User_Name, MyApplication.mUserInfo.getUserName());
+                        String Order_GasPrice = mPrice.getText().toString().trim();
 
-                    //发送请求
-//                    PostUtils.sendBookGasPost(params, BookGasActivity.this);
+                        Float price=Float.parseFloat(Order_GasPrice);
 
-                } catch (JSONException ex) {
+                        Order order=new Order(MyApplication.mUser.getUser_Tel(),id,
+                                Order_Station,1,new BmobDate(date),Order_GasClass,price,i);
 
-                    ex.printStackTrace();
+                        order.save(BookGasActivity.this, new SaveListener() {
+                            @Override
+                            public void onSuccess() {
+
+                                Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
+
+                                Intent mIntent=new Intent(BookGasActivity.this, MainActivity.class);
+
+                                startActivity(mIntent);
+
+                                BookGasActivity.this.finish();
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+
+                                Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    } else {
+
+                        Toast.makeText(BookGasActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
