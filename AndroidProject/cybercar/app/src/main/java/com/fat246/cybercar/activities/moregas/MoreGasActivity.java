@@ -44,7 +44,6 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
     private Button mGoHere;
 
 
-
     //BaiduMap
     private BaiduMap mBaiduMap;
 
@@ -125,6 +124,8 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
                 }
 
                 startActivity(mIntent);
+
+                MoreGasActivity.this.finish();
             }
         });
     }
