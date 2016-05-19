@@ -34,6 +34,9 @@ allprojects {
 
         //bmob仓库
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+
+        //下拉刷新以来库
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
 }
 

@@ -657,7 +657,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             @Override
             public void onClick(View v) {
 
-                Intent mIntent=new Intent(MainActivity.this,MyInfoActivity.class);
+                Intent mIntent = new Intent(MainActivity.this, MyInfoActivity.class);
 
                 startActivity(mIntent);
             }
@@ -675,7 +675,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         mAvator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent=new Intent(MainActivity.this,MyInfoActivity.class);
+                Intent mIntent = new Intent(MainActivity.this, MyInfoActivity.class);
 
                 startActivity(mIntent);
             }
@@ -807,9 +807,13 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         @Override
         public void run() {
 
-            Intent mIntent = new Intent(MainActivity.this, MyOrdersActivity.class);
+            //先判断是否登陆
+            if (isLogin()){
 
-            startActivity(mIntent);
+                Intent mIntent = new Intent(MainActivity.this, MyOrdersActivity.class);
+
+                startActivity(mIntent);
+            }
         }
     };
 
@@ -905,6 +909,20 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             startActivity(intent);
         }
     };
+
     /***********************************************************************************************
      */
+
+    //判断是否登陆
+    private boolean isLogin() {
+
+        if (!MyApplication.isLoginSucceed) {
+
+            Toast.makeText(MainActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+
+            return true;
+        }
+    }
 }
