@@ -1,4 +1,4 @@
-package com.fat246.cybercar.activities;
+package com.fat246.cybercar.activities.cars;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
