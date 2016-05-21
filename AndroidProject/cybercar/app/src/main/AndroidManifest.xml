@@ -96,7 +96,8 @@
         android:theme="@style/AppTheme">
 
         <!-- App 主界面 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -294,7 +295,9 @@
         <!-- END OF TIMBER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
         <activity android:name=".activities.MyCarsActivity" />
-        <activity android:name=".activities.MyInfoActivity" />
+        <activity
+            android:name=".activities.MyInfoActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.regulations.MyRegulationsActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />

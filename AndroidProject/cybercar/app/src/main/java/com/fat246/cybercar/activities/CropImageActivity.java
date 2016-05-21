@@ -47,6 +47,11 @@ public class CropImageActivity extends AppCompatActivity {
                 mCropCallback = StartRegisterActivity.mInstant;
                 mAvator = StartRegisterActivity.avator;
                 break;
+
+            case 1:
+                mCropCallback = MyInfoActivity.mInstant;
+                mAvator = MyInfoActivity.mAvator;
+                break;
         }
 
     }
