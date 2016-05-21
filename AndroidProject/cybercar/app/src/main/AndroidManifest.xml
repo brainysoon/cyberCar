@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -63,14 +63,11 @@
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
     <!-- END OF IT++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-
-
     <!-- SimpleCropView相关权限+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- Bmob++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <!-- 允许联网 -->
@@ -96,7 +93,8 @@
         android:theme="@style/AppTheme">
 
         <!-- App 主界面 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -294,13 +292,17 @@
         <!-- END OF TIMBER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
         <activity android:name=".activities.MyCarsActivity" />
-        <activity android:name=".activities.MyInfoActivity" />
+        <activity
+            android:name=".activities.MyInfoActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.regulations.MyRegulationsActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.navigate.InitNavigateActivity" />
         <activity android:name=".activities.CropImageActivity" />
-        <activity android:name=".activities.Register.StartRegisterActivity"></activity>
+        <activity android:name=".activities.Register.StartRegisterActivity" />
+        <activity android:name=".activities.forgot.TelActivity" />
+        <activity android:name=".activities.forgot.EditPasswordActivity"></activity>
     </application>
 
 </manifest>
