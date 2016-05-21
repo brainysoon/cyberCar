@@ -1,11 +1,14 @@
 package com.fat246.cybercar.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -16,18 +19,25 @@ import com.fat246.cybercar.R;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.openwidgets.CircleImageView;
+import com.isseiaoki.simplecropview.callback.CropCallback;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-public class MyInfoActivity extends AppCompatActivity {
+public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
     private CircleImageView mAvatorView;
     private TextInputEditText mNickView;
@@ -37,15 +47,24 @@ public class MyInfoActivity extends AppCompatActivity {
     private Button mSubmitView;
     private PtrClassicFrameLayout mPtrFrame;
 
-    private Bitmap mAvator;
+    public static Bitmap mAvator;
 
     //flag
     private boolean isEdit = false;
+
+    private boolean isEditAvator = false;
+
+    public static MyInfoActivity mInstant;
+
+    //user
+    public User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_info);
+
+        mInstant = this;
 
         initToolbar();
 
@@ -72,6 +91,9 @@ public class MyInfoActivity extends AppCompatActivity {
         initPtr();
 
         setListener();
+
+        //得到Bitmap
+        mAvator = ((BitmapDrawable) mAvatorView.getDrawable()).getBitmap();
     }
 
     //setListener
@@ -81,15 +103,33 @@ public class MyInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //是够修改
                 if (isEdit) {
 
-                    setUnedit();
-                    isEdit = false;
+                    updateUser();
                 } else {
 
                     setEdit();
                     isEdit = true;
+                    mSubmitView.setText("提交修改");
                 }
+            }
+        });
+
+        //点击头像
+        mAvatorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(MyInfoActivity.this, CropImageActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putInt(CropImageActivity.ACTION_KEY, 1);
+
+                mIntent.putExtras(bundle);
+
+                startActivity(mIntent);
             }
         });
     }
@@ -156,7 +196,9 @@ public class MyInfoActivity extends AppCompatActivity {
 
                         Toast.makeText(MyInfoActivity.this, "加载成功！", Toast.LENGTH_SHORT).show();
 
-                        User mUser = list.get(0);
+                        mUser = list.get(0);
+
+                        mUser.setTableName("User");
 
                         //加载头像
                         mUser.getUser_Avator().download(MyInfoActivity.this, new DownloadFileListener() {
@@ -221,5 +263,146 @@ public class MyInfoActivity extends AppCompatActivity {
         mManView.setEnabled(true);
         mWomanView.setEnabled(true);
         mDateView.setEnabled(true);
+    }
+
+    //
+    private void updateUser() {
+
+        //nick
+        mUser.setUser_NickName(mNickView.getText().toString().trim());
+
+        //sex
+        Boolean sex = mManView.isChecked();
+        mUser.setUser_Sex(sex);
+
+        //birthday
+        mUser.setUser_Birthday(mDateView.getText().toString().trim());
+
+        if (isEditAvator) {
+
+            String name = saveAvator(mAvator);
+
+            if (name != null) {
+
+                File f = new File(name);
+
+                if (f.exists()) {
+
+                    final BmobFile avator = new BmobFile(f);
+
+                    avator.upload(MyInfoActivity.this, new UploadFileListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            mUser.setUser_Avator(avator);
+                            Log.e("here", ">>>>" + avator.toString());
+
+                            mUser.update(MyInfoActivity.this, mUser.getObjectId(), new UpdateListener() {
+                                @Override
+                                public void onSuccess() {
+
+                                    Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                    isEdit = false;
+                                    setUnedit();
+                                    mSubmitView.setText("修改信息");
+                                    isEditAvator = false;
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+
+                                    Log.e("here", i + ">>>>" + s);
+
+                                    Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                            Toast.makeText(MyInfoActivity.this, "长传图片失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        } else {
+            mUser.update(MyInfoActivity.this, mUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void onSuccess() {
+
+                    Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                    isEdit = false;
+                    setUnedit();
+                    mSubmitView.setText("修改信息");
+                    isEditAvator = false;
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+
+                    Log.e("here", i + ">>>>" + s);
+
+                    Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSuccess(Bitmap cropped) {
+
+        mAvatorView.setImageBitmap(cropped);
+
+        mAvator = cropped;
+
+        isEditAvator = true;
+    }
+
+    @Override
+    public void onError() {
+        Toast.makeText(this, "截取图片失败！", Toast.LENGTH_SHORT).show();
+    }
+
+    //saveAvator
+    private String saveAvator(Bitmap bm) {
+
+        try {
+
+            Log.e("png>>>>>", "开始保存");
+
+            String name = Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
+
+            File f = new File(MyApplication.USER_AVATOR_DIRCTORY, name);
+
+            if (f.exists()) {
+
+                f.delete();
+            }
+
+            name = f.getAbsolutePath();
+
+            Log.e("MyF>>>", MyApplication.USER_AVATOR_DIRCTORY);
+            Log.e("f>>>AboslutePath", f.getAbsolutePath());
+
+            FileOutputStream fos = new FileOutputStream(f);
+
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+            fos.flush();
+
+            fos.close();
+
+            Log.e("png>>>>>", "保存成功");
+
+            return name;
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            return null;
+        }
     }
 }
