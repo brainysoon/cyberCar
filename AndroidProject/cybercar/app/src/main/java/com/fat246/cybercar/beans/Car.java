@@ -14,6 +14,8 @@ public class Car extends BmobObject {
     private String Car_Nick;
     private String Car_ModelType;
 
+    private String User_Tel;
+
     //get
     public String getCar_Num() {
         return this.Car_Num;
@@ -37,6 +39,10 @@ public class Car extends BmobObject {
 
     public String getCar_ModelType() {
         return this.Car_ModelType;
+    }
+
+    public String getUser_Tel() {
+        return this.User_Tel;
     }
 
 }
