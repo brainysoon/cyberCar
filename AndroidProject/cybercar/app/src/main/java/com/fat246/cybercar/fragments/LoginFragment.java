@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.activities.Register.RegisterActivity;
+import com.fat246.cybercar.activities.forgot.TelActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.checkouts.CheckUserInfo;
@@ -47,6 +48,7 @@ public class LoginFragment extends Fragment {
     private ScrollView mScrollView;
 
     private TextView mRegister;
+    private TextView mForgot;
 
     //上下文
     private Context mContext;
@@ -226,7 +228,7 @@ public class LoginFragment extends Fragment {
                             } else {
 
                                 Toast.makeText(getContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
-
+                                reBackToLogin();
                             }
                         }
 
@@ -273,6 +275,17 @@ public class LoginFragment extends Fragment {
                 startActivity(mIntent);
             }
         });
+
+        //跳转到修改密码
+        mForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(getContext(), TelActivity.class);
+
+                startActivity(mIntent);
+            }
+        });
     }
 
     //找到 相应的View
@@ -301,6 +314,8 @@ public class LoginFragment extends Fragment {
 
         //content
         mScrollView = (ScrollView) rootView.findViewById(R.id.fragment_login_scrollview_content);
+
+        mForgot = (TextView) rootView.findViewById(R.id.fragment_login_textview_forgot);
     }
 
     //登陆前的校验
