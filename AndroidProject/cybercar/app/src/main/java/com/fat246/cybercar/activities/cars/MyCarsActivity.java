@@ -3,10 +3,12 @@ package com.fat246.cybercar.activities.cars;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,7 @@ public class MyCarsActivity extends AppCompatActivity {
 
         initView();
 
-        mPtrFrame.autoRefresh();
+        beginToRefreshX();
     }
 
     //initView;
@@ -75,7 +77,6 @@ public class MyCarsActivity extends AppCompatActivity {
 
         initPtr();
 
-        beginToRefresh();
     }
 
     //initPtr
@@ -94,9 +95,7 @@ public class MyCarsActivity extends AppCompatActivity {
             public void onRefreshBegin(PtrFrameLayout frame) {
 
                 //开始刷新
-                beginToRefresh();
-
-                mPtrFrame.refreshComplete();
+                new CarsAsync().execute();
             }
         });
 
@@ -208,49 +207,6 @@ public class MyCarsActivity extends AppCompatActivity {
         }
     }
 
-    private void beginToRefresh() {
-
-        final BmobQuery<Car> query = new BmobQuery<>("Car");
-
-        query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
-
-        query.findObjects(MyCarsActivity.this, new FindListener<Car>() {
-            @Override
-            public void onSuccess(List<Car> list) {
-
-                if (list.size() > 0) {
-
-                    mCarData = list;
-
-                    mModelData.clear();
-                    mBrandData.clear();
-
-                    for (Car i : list) {
-
-                        //没有这个型号
-                        if (mModelData.get(i.getCar_ModelType()) == null) {
-
-                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
-
-                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
-
-                            query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
-                        }
-                    }
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
     class ModelFindListener extends FindListener<Model> {
 
         @Override
@@ -295,5 +251,108 @@ public class MyCarsActivity extends AppCompatActivity {
         public void onError(int i, String s) {
 
         }
+    }
+
+    class CarsAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            beginToRefresh();
+
+            return null;
+        }
+
+        private void beginToRefresh() {
+
+            final BmobQuery<Car> query = new BmobQuery<>("Car");
+
+            query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+
+            query.findObjects(MyCarsActivity.this, new FindListener<Car>() {
+                @Override
+                public void onSuccess(List<Car> list) {
+
+                    if (list.size() > 0) {
+
+                        mCarData = list;
+
+                        mModelData.clear();
+                        mBrandData.clear();
+
+                        for (Car i : list) {
+
+                            //没有这个型号
+                            if (mModelData.get(i.getCar_ModelType()) == null) {
+
+                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
+
+                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
+                            }
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            mAdapter.notifyDataSetChanged();
+
+            mPtrFrame.refreshComplete();
+
+            Log.e("here", "comes");
+        }
+    }
+
+    private void beginToRefreshX() {
+
+        final BmobQuery<Car> query = new BmobQuery<>("Car");
+
+        query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+
+        query.findObjects(MyCarsActivity.this, new FindListener<Car>() {
+            @Override
+            public void onSuccess(List<Car> list) {
+
+                if (list.size() > 0) {
+
+                    mCarData = list;
+
+                    mModelData.clear();
+                    mBrandData.clear();
+
+                    for (Car i : list) {
+
+                        //没有这个型号
+                        if (mModelData.get(i.getCar_ModelType()) == null) {
+
+                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
+
+                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                            query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
+                        }
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
