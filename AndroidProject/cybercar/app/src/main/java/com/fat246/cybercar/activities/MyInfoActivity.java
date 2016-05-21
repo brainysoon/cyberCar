@@ -1,5 +1,6 @@
 package com.fat246.cybercar.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,6 +132,26 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 mIntent.putExtras(bundle);
 
                 startActivity(mIntent);
+            }
+        });
+
+        //设置时间选择
+        mDateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar calendar = Calendar.getInstance();
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                new DatePickerDialog(MyInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        mDateView.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                    }
+                }, mYear, mMonth, mDay).show();
             }
         });
     }
