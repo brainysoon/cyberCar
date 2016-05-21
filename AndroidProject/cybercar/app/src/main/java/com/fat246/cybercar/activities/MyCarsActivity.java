@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.fragments.MyCarsFragment;
 
 public class MyCarsActivity extends AppCompatActivity {
 
@@ -16,9 +15,6 @@ public class MyCarsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_cars);
 
         initToolbar();
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.activity_my_cars_container, MyCarsFragment.newInstance()).commit();
 
     }
 
