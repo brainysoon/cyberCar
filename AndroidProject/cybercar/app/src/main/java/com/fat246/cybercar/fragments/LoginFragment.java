@@ -228,7 +228,7 @@ public class LoginFragment extends Fragment {
                             } else {
 
                                 Toast.makeText(getContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
-
+                                reBackToLogin();
                             }
                         }
 
