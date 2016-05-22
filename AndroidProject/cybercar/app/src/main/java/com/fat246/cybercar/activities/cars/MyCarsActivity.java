@@ -113,8 +113,6 @@ public class MyCarsActivity extends AppCompatActivity {
                 Intent mIntnet = new Intent(MyCarsActivity.this, AddCarsActivity.class);
 
                 startActivity(mIntnet);
-
-                MyCarsActivity.this.finish();
             }
         });
     }
