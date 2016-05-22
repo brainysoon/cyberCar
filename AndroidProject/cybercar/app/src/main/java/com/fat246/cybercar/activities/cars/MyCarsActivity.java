@@ -3,6 +3,7 @@ package com.fat246.cybercar.activities.cars;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +47,18 @@ public class MyCarsActivity extends AppCompatActivity {
     private ListView mListView;
     private FloatingActionButton mAction;
 
+    //详细信息
+    private CircleImageView mImageView;
+    private TextView mNum;
+    private TextView mNick;
+    private TextView mRack;
+    private TextView mEngine;
+    private TextView mBrand;
+    private TextView mModel;
+    private TextView mMileage;
+    private ImageView mCancle;
+    private LinearLayout mDialog;
+
     //data
     private List<Car> mCarData = new ArrayList<>();
     private HashMap<String, Model> mModelData = new LinkedHashMap<>();
@@ -72,6 +88,18 @@ public class MyCarsActivity extends AppCompatActivity {
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.activity_my_cars_ptr);
         mListView = (ListView) findViewById(R.id.activity_my_cars_list);
         mAction = (FloatingActionButton) findViewById(R.id.activity_my_cars_action);
+
+        mImageView = (CircleImageView) findViewById(R.id.activity_my_cars_image);
+        mNum = (TextView) findViewById(R.id.activity_my_cars_num);
+        mNick = (TextView) findViewById(R.id.activity_my_cars_nick);
+        mRack = (TextView) findViewById(R.id.activity_my_cars_rack);
+        mEngine = (TextView) findViewById(R.id.activity_my_cars_engine);
+        mBrand = (TextView) findViewById(R.id.activity_my_cars_brand);
+        mModel = (TextView) findViewById(R.id.activity_my_cars_model);
+        mMileage = (TextView) findViewById(R.id.activity_my_cars_mileage);
+        mCancle = (ImageView) findViewById(R.id.activity_my_cars_cancle);
+        mDialog = (LinearLayout) findViewById(R.id.activity_my_cars_dialog);
+
 
         initListView();
 
@@ -106,6 +134,44 @@ public class MyCarsActivity extends AppCompatActivity {
         mAdapter = new CarsAdapter(MyCarsActivity.this);
 
         mListView.setAdapter(mAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                mDialog.setVisibility(View.VISIBLE);
+
+                CircleImageView imageView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
+
+                Bitmap bt = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+                mImageView.setImageBitmap(bt);
+
+                Car mCar = mCarData.get(position);
+
+                Model model = mModelData.get(mCar.getCar_ModelType());
+
+                if (model != null) {
+
+                    mBrand.setText(model.getBrand_Name());
+                }
+
+                mNum.setText(mCar.getCar_Num());
+                mNick.setText(mCar.getCar_Nick());
+                mRack.setText(mCar.getCar_RackNum());
+                mEngine.setText(mCar.getCar_EngineNum());
+                mMileage.setText(mCar.getCar_Mileage() + "");
+                mModel.setText(mCar.getCar_ModelType());
+            }
+        });
+
+        mCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mDialog.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     //initToolbar
@@ -170,7 +236,7 @@ public class MyCarsActivity extends AppCompatActivity {
         //initView
         private void initView(View view, int i) {
 
-            final CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_image);
+            final CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
             TextView mNum = (TextView) view.findViewById(R.id.activity_my_cars_item_num);
             TextView mNick = (TextView) view.findViewById(R.id.activity_my_cars_item_nick);
 
