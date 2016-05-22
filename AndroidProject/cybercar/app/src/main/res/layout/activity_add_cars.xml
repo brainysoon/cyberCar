@@ -10,10 +10,153 @@
         android:id="@+id/activity_my_cars_toolbar"
         layout="@layout/my_toolbar" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/activity_add_cars_progressbar"
+            android:layout_width="@dimen/fragment_login_progressbar_size"
+            android:layout_height="@dimen/fragment_login_progressbar_size"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible" />
 
-    </RelativeLayout>
+        <ScrollView
+            android:id="@+id/activity_add_cars_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.fat246.cybercar.openwidgets.CircleImageView
+                        android:id="@+id/activity_add_cars_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/avator" />
+
+                    <Spinner
+                        android:id="@+id/activity_add_cars_brand"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:textAlignment="center" />
+
+                    <Spinner
+                        android:id="@+id/activity_add_cars_model"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_add_cars_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="车牌号" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_add_cars_rack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="车架号"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_add_cars_engine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="引擎号"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_add_cars_mileage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="现在公里数"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_add_cars_nick"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="宝贝名称" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activity_add_cars_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="添加新车" />
+
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 </LinearLayout>

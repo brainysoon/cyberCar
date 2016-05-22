@@ -16,6 +16,18 @@ public class Car extends BmobObject {
 
     private String User_Tel;
 
+    public Car(String Car_Num, String Car_RackNum, String Car_EngineNum, Double Car_Mileage,
+               String Car_Nick, String Car_ModelType, String User_Tel) {
+        super();
+
+        this.Car_Num = Car_Num;
+        this.Car_RackNum = Car_RackNum;
+        this.Car_EngineNum = Car_EngineNum;
+        this.Car_Mileage = Car_Mileage;
+        this.Car_Nick = Car_Nick;
+        this.Car_ModelType = Car_ModelType;
+    }
+
     //get
     public String getCar_Num() {
         return this.Car_Num;
