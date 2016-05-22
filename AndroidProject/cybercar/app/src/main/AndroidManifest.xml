@@ -300,7 +300,9 @@
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.navigate.InitNavigateActivity" />
         <activity android:name=".activities.CropImageActivity" />
-        <activity android:name=".activities.Register.StartRegisterActivity" />
+        <activity
+            android:name=".activities.Register.StartRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.forgot.TelActivity" />
         <activity android:name=".activities.forgot.EditPasswordActivity" />
         <activity android:name=".activities.cars.AddCarsActivity"></activity>
