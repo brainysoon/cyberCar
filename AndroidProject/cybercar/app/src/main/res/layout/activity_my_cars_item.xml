@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <com.fat246.cybercar.openwidgets.CircleImageView
-            android:id="@+id/activity_my_cars_image"
+            android:id="@+id/activity_my_cars_item_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/avator" />
