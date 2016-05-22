@@ -1,6 +1,7 @@
 package com.fat246.cybercar.activities.cars;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -105,6 +106,17 @@ public class MyCarsActivity extends AppCompatActivity {
 
         initPtr();
 
+        mAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntnet = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+
+                startActivity(mIntnet);
+
+                MyCarsActivity.this.finish();
+            }
+        });
     }
 
     //initPtr
