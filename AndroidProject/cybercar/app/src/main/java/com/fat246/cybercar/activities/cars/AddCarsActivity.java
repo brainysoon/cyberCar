@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Brand;
 import com.fat246.cybercar.beans.Car;
 import com.fat246.cybercar.beans.Model;
@@ -31,6 +32,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class AddCarsActivity extends AppCompatActivity {
 
@@ -176,15 +178,31 @@ public class AddCarsActivity extends AppCompatActivity {
                 String engine = mEngine.getText().toString().trim();
                 String mlieage = mMileage.getText().toString().trim();
                 String nick = mNick.getText().toString().trim();
-//                String
+
+                String model = ((Model)mModel.getSelectedItem()).getModel_Name();
 
                 Double mMlieage = Double.parseDouble(mlieage);
 
                 //假设所有验证都完事了
 
-//                Car mCar = new Car(num, rack, engine, mMlieage, nick, );
+                Car mCar = new Car(num, rack, engine, mMlieage, nick
+                        , model, MyApplication.mUser.getUser_Tel());
 
+                mCar.save(AddCarsActivity.this, new SaveListener() {
+                    @Override
+                    public void onSuccess() {
 
+                        Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                        AddCarsActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                        Toast.makeText(AddCarsActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

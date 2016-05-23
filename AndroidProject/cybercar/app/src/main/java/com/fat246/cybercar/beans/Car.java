@@ -26,6 +26,7 @@ public class Car extends BmobObject {
         this.Car_Mileage = Car_Mileage;
         this.Car_Nick = Car_Nick;
         this.Car_ModelType = Car_ModelType;
+        this.User_Tel = User_Tel;
     }
 
     //get
