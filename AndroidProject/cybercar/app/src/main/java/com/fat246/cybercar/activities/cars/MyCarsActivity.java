@@ -35,6 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
@@ -42,7 +43,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-public class MyCarsActivity extends AppCompatActivity {
+public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity.succeedAdd {
 
     private PtrClassicFrameLayout mPtrFrame;
     private ListView mListView;
@@ -60,6 +61,11 @@ public class MyCarsActivity extends AppCompatActivity {
     private ImageView mCancle;
     private LinearLayout mDialog;
 
+    private boolean mActionFlag = false;
+    private Car mCarClick = null;
+
+    public static AddCarsActivity.succeedAdd succeed = null;
+
     //data
     private List<Car> mCarData = new ArrayList<>();
     private HashMap<String, Model> mModelData = new LinkedHashMap<>();
@@ -75,6 +81,8 @@ public class MyCarsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cars);
+
+        succeed = this;
 
         initToolbar();
 
@@ -110,11 +118,59 @@ public class MyCarsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent mIntnet = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+                if (mActionFlag) {
 
-                startActivity(mIntnet);
+                    mCarClick.setTableName("Car");
+
+                    mCarClick.delete(MyCarsActivity.this, new DeleteListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
+
+                            toBack();
+
+                            mPtrFrame.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    //开始刷新
+                                    new CarsAsync().execute();
+                                }
+                            }, 500);
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                            Toast.makeText(MyCarsActivity.this, "删除失败!", Toast.LENGTH_SHORT).show();
+
+                            Log.e("here>>>" + i, s);
+                        }
+                    });
+
+                } else {
+
+                    Intent mIntnet = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+
+                    startActivity(mIntnet);
+                }
             }
         });
+    }
+
+    private void toDialog() {
+
+        mDialog.setVisibility(View.VISIBLE);
+        mActionFlag = true;
+        mAction.setImageResource(R.drawable.ic_cancel_80);
+    }
+
+    private void toBack() {
+
+        mDialog.setVisibility(View.INVISIBLE);
+        mActionFlag = false;
+        mAction.setImageResource(R.drawable.ic_add);
     }
 
     //initPtr
@@ -134,8 +190,18 @@ public class MyCarsActivity extends AppCompatActivity {
 
                 //开始刷新
                 new CarsAsync().execute();
+
             }
         });
+
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //开始刷新
+                new CarsAsync().execute();
+            }
+        }, 1000);
 
     }
 
@@ -149,7 +215,7 @@ public class MyCarsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                mDialog.setVisibility(View.VISIBLE);
+                toDialog();
 
                 CircleImageView imageView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
 
@@ -157,21 +223,21 @@ public class MyCarsActivity extends AppCompatActivity {
 
                 mImageView.setImageBitmap(bt);
 
-                Car mCar = mCarData.get(position);
+                mCarClick = mCarData.get(position);
 
-                Model model = mModelData.get(mCar.getCar_ModelType());
+                Model model = mModelData.get(mCarClick.getCar_ModelType());
 
                 if (model != null) {
 
                     mBrand.setText(model.getBrand_Name());
                 }
 
-                mNum.setText(mCar.getCar_Num());
-                mNick.setText(mCar.getCar_Nick());
-                mRack.setText(mCar.getCar_RackNum());
-                mEngine.setText(mCar.getCar_EngineNum());
-                mMileage.setText(mCar.getCar_Mileage() + "");
-                mModel.setText(mCar.getCar_ModelType());
+                mNum.setText(mCarClick.getCar_Num());
+                mNick.setText(mCarClick.getCar_Nick());
+                mRack.setText(mCarClick.getCar_RackNum());
+                mEngine.setText(mCarClick.getCar_EngineNum());
+                mMileage.setText(mCarClick.getCar_Mileage() + "");
+                mModel.setText(mCarClick.getCar_ModelType());
             }
         });
 
@@ -179,7 +245,7 @@ public class MyCarsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                mDialog.setVisibility(View.INVISIBLE);
+                toBack();
             }
         });
     }
@@ -430,5 +496,18 @@ public class MyCarsActivity extends AppCompatActivity {
                 Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void succeedAddCars() {
+
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //开始刷新
+                new CarsAsync().execute();
+            }
+        }, 500);
     }
 }

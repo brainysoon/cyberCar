@@ -179,7 +179,7 @@ public class AddCarsActivity extends AppCompatActivity {
                 String mlieage = mMileage.getText().toString().trim();
                 String nick = mNick.getText().toString().trim();
 
-                String model = ((Model)mModel.getSelectedItem()).getModel_Name();
+                String model = ((Model) mModel.getSelectedItem()).getModel_Name();
 
                 Double mMlieage = Double.parseDouble(mlieage);
 
@@ -193,6 +193,11 @@ public class AddCarsActivity extends AppCompatActivity {
                     public void onSuccess() {
 
                         Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                        if (MyCarsActivity.succeed != null) {
+
+                            MyCarsActivity.succeed.succeedAddCars();
+                        }
 
                         AddCarsActivity.this.finish();
                     }
@@ -369,5 +374,10 @@ public class AddCarsActivity extends AppCompatActivity {
             textView.setText(mModelData.get(position).getModel_Name());
             return textView;
         }
+    }
+
+    public interface succeedAdd {
+
+        void succeedAddCars();
     }
 }
