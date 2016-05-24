@@ -26,6 +26,7 @@ import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.activities.carmusics.BaseActivity;
 import com.fat246.cybercar.activities.carmusics.NowPlayingActivity;
+import com.fat246.cybercar.activities.cars.MyCarsActivity;
 import com.fat246.cybercar.activities.moregas.MoreGasActivity;
 import com.fat246.cybercar.activities.navigate.InitNavigateActivity;
 import com.fat246.cybercar.activities.regulations.CustomRegulationActivity;
@@ -797,7 +798,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         public void run() {
 
             //is
-            if (isLogin()){
+            if (isLogin()) {
 
                 Intent mIntent = new Intent(MainActivity.this, MyInfoActivity.class);
 
@@ -812,7 +813,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         public void run() {
 
             //先判断是否登陆
-            if (isLogin()){
+            if (isLogin()) {
 
                 Intent mIntent = new Intent(MainActivity.this, MyOrdersActivity.class);
 
@@ -826,9 +827,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         @Override
         public void run() {
 
-            Intent mIntent = new Intent(MainActivity.this, MyCarsActivity.class);
+            if (isLogin()) {
 
-            startActivity(mIntent);
+                Intent mIntent = new Intent(MainActivity.this, MyCarsActivity.class);
+
+                startActivity(mIntent);
+            }
         }
     };
 

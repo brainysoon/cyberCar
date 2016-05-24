@@ -199,7 +199,7 @@ public class MyOrdersActivity extends AppCompatActivity {
             TextView mOrder_GasNum = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_num);
             TextView mOrder_Status = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_status);
 
-            Order order = mDataList.get(position);
+            Order order = mDataList.get(mDataList.size()-position-1);
 
             mOrder_ID.setText(order.getOrder_ID());
             mOrder_GasType.setText(order.getOrder_GasClass());

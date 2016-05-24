@@ -236,6 +236,7 @@ public class LoginFragment extends Fragment {
                         public void onError(int i, String s) {
 
                             Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
+                            reBackToLogin();
                         }
                     });
                 }
