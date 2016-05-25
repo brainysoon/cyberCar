@@ -387,9 +387,4 @@ public class InitNavigateFragment extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
     }
-
-    //算路
-    public void routeplanToNavi() {
-
-    }
 }

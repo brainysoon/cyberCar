@@ -160,7 +160,7 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
 
         @Override
         public BitmapDescriptor getStartMarker() {
-            return BitmapDescriptorFactory.fromResource(R.drawable.icon_st);
+            return BitmapDescriptorFactory.fromResource(R.drawable.icon_car_now);
         }
 
         @Override
