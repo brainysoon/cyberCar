@@ -298,7 +298,9 @@
         <activity android:name=".activities.regulations.MyRegulationsActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />
-        <activity android:name=".activities.navigate.InitNavigateActivity" />
+        <activity
+            android:name=".activities.navigate.InitNavigateActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.CropImageActivity" />
         <activity
             android:name=".activities.Register.StartRegisterActivity"

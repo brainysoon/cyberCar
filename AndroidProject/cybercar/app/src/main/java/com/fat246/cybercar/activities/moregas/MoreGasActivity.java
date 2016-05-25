@@ -26,6 +26,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.navigate.NavigateActivity;
 import com.fat246.cybercar.beans.GasStationInfo;
 import com.fat246.cybercar.holder.StationDialogHolder;
 
@@ -52,6 +53,7 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
 
     //是否是第一次进入第一次定位
     private boolean isFirstLocation = true;
+    private LatLng mLatLng;
 
     //标注点 加油站的位置
     private BitmapDescriptor mMarkBitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_local_gas_station_red);
@@ -126,6 +128,34 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
                 startActivity(mIntent);
 
                 MoreGasActivity.this.finish();
+            }
+        });
+
+        //到哪儿去
+        mGoHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LatLng mStationLatLng = new LatLng(nowDialogStation.getGas_station_lat()
+                        , nowDialogStation.getGas_station_lon());
+
+                if (mStationLatLng != null && mLatLng != null) {
+
+                    Intent mIntent = new Intent(MoreGasActivity.this, NavigateActivity.class);
+
+                    Bundle mBundle = new Bundle();
+
+                    mBundle.putDouble(NavigateActivity.sLat, mLatLng.latitude);
+                    mBundle.putDouble(NavigateActivity.sLng, mLatLng.longitude);
+                    mBundle.putDouble(NavigateActivity.eLat, mStationLatLng.latitude);
+                    mBundle.putDouble(NavigateActivity.eLng, mStationLatLng.longitude);
+
+                    mIntent.putExtras(mBundle);
+
+                    startActivity(mIntent);
+
+                    MoreGasActivity.this.finish();
+                }
             }
         });
     }
@@ -224,11 +254,11 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
                         bdLocation.getLatitude(), 5000, 1, 1), MoreGasActivity.this);
 
                 //经纬度信息
-                LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+                mLatLng = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
 
                 MapStatus.Builder mBuilder = new MapStatus.Builder();
 
-                mBuilder.target(ll).zoom(18.0f);
+                mBuilder.target(mLatLng).zoom(18.0f);
 
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mBuilder.build()));
             }

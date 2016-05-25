@@ -4,112 +4,122 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_horizontal_margin"
     tools:context="com.fat246.cybercar.fragments.InitNavigateFragment">
+    ]
 
-    <LinearLayout
+    <include
+        android:id="@+id/fragment_init_navigate_progress_bar"
+        layout="@layout/my_progress_bar" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_init_navigate_re_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_directions_car_black_48dp" />
-            </RelativeLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_directions_car_black_48dp" />
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/icon_st" />
-
-                    <EditText
-                        android:id="@+id/fragment_init_navigate_auto_start"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:hint="起始位置" />
+                        android:gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/fragment_init_navigate_img_ref"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_refresh_2x" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_st" />
 
-                </LinearLayout>
+                        <EditText
+                            android:id="@+id/fragment_init_navigate_auto_start"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="起始位置" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical">
+                        <ImageView
+                            android:id="@+id/fragment_init_navigate_img_ref"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_refresh_2x" />
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/icon_en" />
+                    </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/fragment_init_navigate_auto_end"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:hint="终点位置" />
+                        android:gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/fragment_init_navigate_img_swap"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_swap" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_en" />
+
+                        <EditText
+                            android:id="@+id/fragment_init_navigate_auto_end"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="终点位置" />
+
+                        <ImageView
+                            android:id="@+id/fragment_init_navigate_img_swap"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_swap" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/fragment_init_navigate_list_advice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/fragment_init_navigate_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开始导航" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/fragment_init_navigate_list_advice"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/fragment_init_navigate_button_nav"
-            android:layout_width="match_parent"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fragment_init_navigate_action_settings"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始导航" />
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fragment_init_navigate_action_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:src="@drawable/settings_white" />
-
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/settings_white" />
+    </RelativeLayout>
 
 </RelativeLayout>
