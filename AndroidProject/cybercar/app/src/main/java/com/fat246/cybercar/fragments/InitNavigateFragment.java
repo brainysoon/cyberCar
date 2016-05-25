@@ -1,6 +1,7 @@
 package com.fat246.cybercar.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -31,6 +34,7 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.navigate.InitNavigateActivity;
+import com.fat246.cybercar.activities.navigate.NavigateActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +62,9 @@ public class InitNavigateFragment extends Fragment {
     private ListView mListView;
     private FloatingActionButton mAction;
     private ImageView mSwap;
+
+    private ProgressBar progressBar;
+    private RelativeLayout relativeLayout;
 
     //位置
     private LatLng mStartLocation;
@@ -201,23 +208,25 @@ public class InitNavigateFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String str = mStart.getText().toString().trim();
+                toPlan();
 
-                PoiNearbySearchOption option = new PoiNearbySearchOption();
+                if (mStartLocation != null && mEndLocation != null) {
 
-                //检索关键字
-                option.keyword(str);
+                    Intent mIntent = new Intent(getContext(), NavigateActivity.class);
 
-                //当前位置
-                option.location(new LatLng(mNowLocation.getLatitude(), mNowLocation.getLongitude()));
+                    Bundle mBundle = new Bundle();
 
-                //分页编号
-                option.pageNum(1);
+                    mBundle.putDouble(NavigateActivity.sLat, mStartLocation.latitude);
+                    mBundle.putDouble(NavigateActivity.sLng, mStartLocation.longitude);
+                    mBundle.putDouble(NavigateActivity.eLat, mEndLocation.latitude);
+                    mBundle.putDouble(NavigateActivity.eLng, mEndLocation.longitude);
 
-                //检索半径
-                option.radius(5000);
+                    mIntent.putExtras(mBundle);
 
-                mPoiSearch.searchNearby(option);
+                    startActivity(mIntent);
+                }
+
+                backPlan();
             }
         });
 
@@ -332,6 +341,10 @@ public class InitNavigateFragment extends Fragment {
         mListView = (ListView) rootView.findViewById(R.id.fragment_init_navigate_list_advice);
         mAction = (FloatingActionButton) rootView.findViewById(R.id.fragment_init_navigate_action_settings);
         mSwap = (ImageView) rootView.findViewById(R.id.fragment_init_navigate_img_swap);
+
+        progressBar = (ProgressBar) rootView.findViewById(R.id.fragment_init_navigate_progress_bar)
+                .findViewById(R.id.progressbar);
+        relativeLayout = (RelativeLayout) rootView.findViewById(R.id.fragment_init_navigate_re_layout);
     }
 
     @Override
@@ -360,5 +373,23 @@ public class InitNavigateFragment extends Fragment {
     public interface canToPrefer {
 
         void toPrefer();
+    }
+
+    //算路等待
+    public void toPlan() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.INVISIBLE);
+    }
+
+    public void backPlan() {
+
+        progressBar.setVisibility(View.INVISIBLE);
+        relativeLayout.setVisibility(View.VISIBLE);
+    }
+
+    //算路
+    public void routeplanToNavi() {
+
     }
 }
