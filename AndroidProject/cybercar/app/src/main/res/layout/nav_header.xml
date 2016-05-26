@@ -22,7 +22,7 @@
                 android:id="@+id/menu_header_imageview_avator"
                 android:layout_width="@dimen/register_detail_info_fragment_circleimageview_size"
                 android:layout_height="@dimen/register_detail_info_fragment_circleimageview_size"
-                android:src="@drawable/ic_outline" />
+                android:src="@drawable/avator" />
         </RelativeLayout>
 
         <LinearLayout
