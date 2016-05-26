@@ -97,7 +97,6 @@ public class LogoFragment extends Fragment {
 
                             Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
 
-                            mIntent = new Intent(getContext(), MainActivity.class);
                         } else {
 
                             Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
