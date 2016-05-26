@@ -77,6 +77,9 @@ public class LogoFragment extends Fragment {
 
             User mUser = mPrefernce.getUserInfo();
 
+            //这个还是得要，Login的时候有用
+            MyApplication.mUser = mUser;
+
             //判断是否要自动登陆
             if (mPrefernce.isAutoLogin(mUser.getUser_Tel())) {
 
@@ -102,27 +105,31 @@ public class LogoFragment extends Fragment {
                             Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
                         }
 
+                        startActivity(mIntent);
+                        getActivity().finish();
+
                     }
 
                     @Override
                     public void onError(int i, String s) {
 
-                        Toast.makeText(getContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyApplication.getInstance().getApplicationContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
+
+                        startActivity(mIntent);
+                        getActivity().finish();
                     }
                 });
-            }
+            } else {
 
+                startActivity(mIntent);
+                getActivity().finish();
+            }
         } catch (Exception ex) {
 
             ex.printStackTrace();
 
-        } finally {
-
-            startActivity(mIntent);
-            getActivity().finish();
         }
     }
-
 
     //管理生命周期
     @Override
@@ -134,7 +141,14 @@ public class LogoFragment extends Fragment {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                Utils();
+                if (MyApplication.isLoginSucceed) {
+
+                    startActivity(mIntent);
+                    getActivity().finish();
+                } else {
+
+                    Utils();
+                }
             }
         }).start();
     }
