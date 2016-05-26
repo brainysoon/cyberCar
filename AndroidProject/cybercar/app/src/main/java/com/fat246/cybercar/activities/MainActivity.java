@@ -597,6 +597,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     //回到未登录
     private void backToUnLogin() {
 
+        //设置为未登录
+        MyApplication.isLoginSucceed = false;
+        MyApplication.mUser = null;
+
         mAccount.setText("立即登录");
         mRegister.setText("立即注册");
 

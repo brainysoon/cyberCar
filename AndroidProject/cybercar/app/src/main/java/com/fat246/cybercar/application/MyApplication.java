@@ -143,7 +143,7 @@ public class MyApplication extends Application {
 
 
     //get
-    public MyApplication getInstance() {
+    public static MyApplication getInstance() {
 
         return mInstance;
     }
