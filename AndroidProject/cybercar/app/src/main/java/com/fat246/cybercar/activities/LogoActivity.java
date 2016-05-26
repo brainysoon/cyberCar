@@ -18,5 +18,4 @@ public class LogoActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().add(R.id.activity_logo_framelayout, mFragment).commit();
     }
-
 }

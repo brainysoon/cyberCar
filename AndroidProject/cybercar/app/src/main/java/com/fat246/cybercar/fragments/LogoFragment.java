@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +36,21 @@ public class LogoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PreferencesUtility.getInstance(getContext()).isSettingsUserStraight()) {
+        //判断跳转到哪儿去
+        try {
 
-            mIntent = new Intent(getContext(), MainActivity.class);
+            if (PreferencesUtility.getInstance(getContext()).isSettingsUserStraight()) {
 
-        } else {
+                mIntent = new Intent(getContext(), MainActivity.class);
 
-            mIntent = new Intent(getContext(), LoginActivity.class);
+            } else {
+
+                mIntent = new Intent(getContext(), LoginActivity.class);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
     }
 
@@ -54,75 +61,69 @@ public class LogoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_logo, container, false);
     }
 
-    //find view
-    private void findView(View rootView) {
-
-        mImageView = (ImageView) rootView.findViewById(R.id.fragment_logo_imageview);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        findView(view);
+        mImageView = (ImageView) view.findViewById(R.id.fragment_logo_imageview);
     }
 
     public void Utils() {
-        PreferencesUtility mPrefernce = PreferencesUtility.getInstance(getContext().getApplicationContext());
 
-        User mUser = mPrefernce.getUserInfo();
+        try {
 
-        Log.e("User", mUser.toString());
+            PreferencesUtility mPrefernce = PreferencesUtility.getInstance(getContext().getApplicationContext());
 
-        MyApplication.mUser = mUser;
+            User mUser = mPrefernce.getUserInfo();
 
-        //判断是否要自动登陆
-        if (mPrefernce.isAutoLogin(mUser.getUser_Tel())) {
+            //判断是否要自动登陆
+            if (mPrefernce.isAutoLogin(mUser.getUser_Tel())) {
 
-            BmobQuery<User> query = new BmobQuery<>("User");
+                BmobQuery<User> query = new BmobQuery<>("User");
 
-            query.addWhereMatches(PreferencesUtility.USER_TEL, mUser.getUser_Tel());
-            query.addWhereMatches(PreferencesUtility.USER_PASSWORD, mUser.getUser_Password());
+                query.addWhereMatches(PreferencesUtility.USER_TEL, mUser.getUser_Tel());
+                query.addWhereMatches(PreferencesUtility.USER_PASSWORD, mUser.getUser_Password());
 
-            query.findObjects(getContext(), new FindListener<User>() {
-                @Override
-                public void onSuccess(List<User> list) {
+                query.findObjects(getContext(), new FindListener<User>() {
+                    @Override
+                    public void onSuccess(List<User> list) {
 
-                    //登录成功
-                    if (list.size() > 0) {
+                        //登录成功
+                        if (list.size() > 0) {
 
-                        MyApplication.isLoginSucceed = true;
-                        MyApplication.mUser = list.get(0);
+                            MyApplication.isLoginSucceed = true;
+                            MyApplication.mUser = list.get(0);
 
-                    } else {
+                            Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
-                    startActivity(mIntent);
-                    getActivity().finish();
+                    @Override
+                    public void onError(int i, String s) {
 
-                    Log.e("succeed", "》》》》成功");
+                        Toast.makeText(getContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-                }
+        } catch (Exception ex) {
 
-                @Override
-                public void onError(int i, String s) {
+            ex.printStackTrace();
 
-                    Toast.makeText(getContext(), "网络出错！", Toast.LENGTH_SHORT).show();
-                    startActivity(mIntent);
-                    getActivity().finish();
-
-                    Log.e("defead", "》》》》失败");
-                }
-            });
-        } else {
+        }finally {
 
             startActivity(mIntent);
             getActivity().finish();
         }
     }
 
+
+    //管理生命周期
     @Override
     public void onResume() {
         super.onResume();
