@@ -4,8 +4,6 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
-//    24.0.0 rc3
-
     defaultConfig {
         applicationId "com.fat246.cybercar"
         minSdkVersion 14
@@ -91,6 +89,8 @@ dependencies {
 
     //bmob-sms ：Bmob单独为短信服务提供的包
     compile 'cn.bmob.android:bmob-sms:1.0.1'
+
+    //违章提供的jar包
     compile files('libs/weizhang_sdk.jar')
 
     //下拉刷新依赖
