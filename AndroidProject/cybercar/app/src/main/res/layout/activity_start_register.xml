@@ -142,6 +142,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/button_text_size"
                     android:text="@string/register_now" />
 
             </LinearLayout>

@@ -47,6 +47,9 @@
                 style="@style/login_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size"
                 android:text="@string/send_vertifh_code" />
         </LinearLayout>
     </FrameLayout>

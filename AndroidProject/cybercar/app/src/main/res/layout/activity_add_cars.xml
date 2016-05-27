@@ -154,6 +154,9 @@
                     android:id="@+id/activity_add_cars_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/button_text_size"
                     android:text="添加新车" />
 
             </LinearLayout>
