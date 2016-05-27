@@ -491,7 +491,6 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
             startActivity(intent);
 
-            MyRegulationsActivity.this.finish();
         }
     }
 
