@@ -45,6 +45,9 @@
                 android:id="@+id/activity_tel_send"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size"
                 android:text="发送验证码" />
         </LinearLayout>
     </FrameLayout>

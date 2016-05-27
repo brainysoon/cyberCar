@@ -157,25 +157,47 @@ public class LoginFragment extends Fragment {
     //设置一些东西
     private void setSomeThing() {
 
-        if (MyApplication.mUser != null) {
+        try {
 
-            mUserName.setText(MyApplication.mUser.getUser_Tel());
+            if (MyApplication.mUser != null) {
 
-            //是否保存密码
-            if (PreferencesUtility.getInstance(getContext())
-                    .isSavePassword(MyApplication.mUser.getUser_Tel())) {
+                toSetSomeThing();
+            } else {
 
-                mSavePassword.setChecked(true);
+                PreferencesUtility mPrefernce = PreferencesUtility.getInstance(getContext().getApplicationContext());
 
-                mUserPassword.setText(MyApplication.mUser.getUser_Password());
+                User mUser = mPrefernce.getUserInfo();
+
+                //这个还是得要，Login的时候有用
+                MyApplication.mUser = mUser;
+
+                toSetSomeThing();
             }
+        } catch (Exception e) {
 
-            //是否自动登陆
-            if (PreferencesUtility.getInstance(getContext())
-                    .isAutoLogin(MyApplication.mUser.getUser_Tel())) {
+            e.printStackTrace();
+        }
+    }
 
-                mAutoLogin.setChecked(true);
-            }
+    //toSetSomeThing
+    private void toSetSomeThing() throws Exception {
+
+        mUserName.setText(MyApplication.mUser.getUser_Tel());
+
+        //是否保存密码
+        if (PreferencesUtility.getInstance(getContext())
+                .isSavePassword(MyApplication.mUser.getUser_Tel())) {
+
+            mSavePassword.setChecked(true);
+
+            mUserPassword.setText(MyApplication.mUser.getUser_Password());
+        }
+
+        //是否自动登陆
+        if (PreferencesUtility.getInstance(getContext())
+                .isAutoLogin(MyApplication.mUser.getUser_Tel())) {
+
+            mAutoLogin.setChecked(true);
         }
     }
 

@@ -14,6 +14,8 @@
 
     <dimen name="activity_city_list_textview_list_tip">30.0dp</dimen>
 
+    <dimen name="button_text_size">18sp</dimen>
+
     <!--有关违章信息的尺寸-->
     <dimen name="csy_pd">10.0dp</dimen>
     <dimen name="csy_mg">15.0dp</dimen>

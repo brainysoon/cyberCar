@@ -70,14 +70,6 @@ public class CustomRegulationActivity extends AppCompatActivity {
             initLoacation();
         }
 
-        // ********************************************************
-        Log.d("初始化服务代码", "");
-        Intent weizhangIntent = new Intent(this, WeizhangIntentService.class);
-        weizhangIntent.putExtra("appId", 1626);// 您的appId
-        weizhangIntent.putExtra("appKey", "624fbe005c8138700f31bdfca484f878");// 您的appKey
-        startService(weizhangIntent);
-        // ********************************************************
-
         // 选择省份缩写
         query_city = (TextView) findViewById(R.id.cx_city);
         chepai_number = (EditText) findViewById(R.id.chepai_number);
@@ -452,7 +444,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
     /***********************************************************************************************
      * 用map 解决所在地和车牌号第一位的信息
      */
-    private static Map<String, String> SHORT_PROVINCE = null;
+    public static Map<String, String> SHORT_PROVINCE = null;
 
     public static String getShortProvince(String longProvince) {
 
@@ -464,7 +456,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
         return SHORT_PROVINCE.get(longProvince);
     }
 
-    private static void initProvince() {
+    public static void initProvince() {
 
         SHORT_PROVINCE = new HashMap<>();
 
@@ -501,7 +493,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
         SHORT_PROVINCE.put("浙江", "浙");
     }
 
-    private static int getCityId(String province, String city) {
+    public static int getCityId(String province, String city) {
 
         List<ProvinceInfoJson> provinceInfoJsons = WeizhangClient.getAllProvince();
 

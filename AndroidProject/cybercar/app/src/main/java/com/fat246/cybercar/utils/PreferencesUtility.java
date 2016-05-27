@@ -57,12 +57,12 @@ public final class PreferencesUtility {
     /**
      * 有关用户信息的缓存
      */
-    public static final String USER_TEL = "user_tel";
-    public static final String USER_PASSWORD = "user_password";
-    public static final String USER_NICKNAME = "user_nickname";
-    public static final String USER_SEX = "user_sex";
-    public static final String USER_BIRTHDAY = "user_birthday";
-    public static final String USER_AVATOR_PATH = "user_avator_path";
+    public static final String USER_TEL = "User_Tel";
+    public static final String USER_PASSWORD = "User_Password";
+    public static final String USER_NICKNAME = "User_NickName";
+    public static final String USER_SEX = "User_Sex";
+    public static final String USER_BIRTHDAY = "User_Birthday";
+    public static final String USER_AVATOR_PATH = "User_Avator";
 
     private static PreferencesUtility sInstance;
 
@@ -72,7 +72,7 @@ public final class PreferencesUtility {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static final PreferencesUtility getInstance(final Context context) {
+    public static final PreferencesUtility getInstance(final Context context){
         if (sInstance == null) {
             sInstance = new PreferencesUtility(context.getApplicationContext());
         }
@@ -111,7 +111,7 @@ public final class PreferencesUtility {
     }
 
     //启动过后去哪个界面
-    public boolean isSettingsUserStraight() {
+    public boolean isSettingsUserStraight() throws Exception {
 
         Log.e("getPre", mPreferences.getBoolean(SETTINGS_KEY_USER_STRAIGHT, false) + "");
 
@@ -143,13 +143,13 @@ public final class PreferencesUtility {
 
         File Avator_File = new File(User_Avator_Path);
 
-        BmobFile User_Avator ;
+        BmobFile User_Avator;
         if (!Avator_File.exists()) {
 
             User_Avator = BmobFile.createEmptyFile();
-        }else {
+        } else {
 
-            User_Avator= new BmobFile(Avator_File);
+            User_Avator = new BmobFile(Avator_File);
         }
 
 
