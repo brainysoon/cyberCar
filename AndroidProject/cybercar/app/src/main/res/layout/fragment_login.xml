@@ -86,7 +86,8 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:background="?attr/colorPrimary"
                 android:text="@string/fragment_login_button_login"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
 
             <RelativeLayout
                 style="@style/login_style"
