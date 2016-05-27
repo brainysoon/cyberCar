@@ -13,6 +13,8 @@
     <string name="edit_info">修改信息</string>
     <string name="submit_edit">提交修改</string>
 
+    <string name="custom_regulations">自定义查询</string>
+
     <!--Logo Fragment-->
     <string name="fragment_logo_imageview_contentDescription">广告</string>
     <string name="fragment_logo_button_login">登陆</string>
