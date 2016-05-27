@@ -1,13 +1,15 @@
 package com.fat246.cybercar.application;
 
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Environment;
+import android.util.Log;
 
 import com.afollestad.appthemeengine.ATE;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.cheshouye.api.client.WeizhangIntentService;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.permissions.Nammu;
@@ -36,7 +38,7 @@ public class MyApplication extends Application {
     private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
 
     //保存头像的位置
-    public static String USER_AVATOR_DIRCTORY ;
+    public static String USER_AVATOR_DIRCTORY;
 
     //全局队列
     private static RequestQueue mRequestQueue;
@@ -50,7 +52,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MyApplication.USER_AVATOR_DIRCTORY=this.getExternalCacheDir().getAbsolutePath();
+        MyApplication.USER_AVATOR_DIRCTORY = this.getExternalCacheDir().getAbsolutePath();
 
         //初始化实例
         mInstance = this;
@@ -69,6 +71,9 @@ public class MyApplication extends Application {
 
         //初始化Bmob
         Bmob.initialize(this, BOMB_APPKEY);
+
+        //查询违章信息的Service
+        initRegulation();
     }
 
     //Timber
@@ -146,6 +151,18 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
 
         return mInstance;
+    }
+
+    //iniRegulation
+    private void initRegulation() {
+
+        // ********************************************************
+        Log.d("初始化服务代码", "");
+        Intent weizhangIntent = new Intent(this, WeizhangIntentService.class);
+        weizhangIntent.putExtra("appId", 1626);// 您的appId
+        weizhangIntent.putExtra("appKey", "624fbe005c8138700f31bdfca484f878");// 您的appKey
+        startService(weizhangIntent);
+        // ********************************************************
     }
 
 }
