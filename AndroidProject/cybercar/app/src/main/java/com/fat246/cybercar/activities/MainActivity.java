@@ -845,9 +845,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         @Override
         public void run() {
 
-            Intent mIntent = new Intent(MainActivity.this, MyRegulationsActivity.class);
+           if (isLogin()){
 
-            startActivity(mIntent);
+               Intent mIntent = new Intent(MainActivity.this, MyRegulationsActivity.class);
+
+               startActivity(mIntent);
+           }
         }
     };
 
