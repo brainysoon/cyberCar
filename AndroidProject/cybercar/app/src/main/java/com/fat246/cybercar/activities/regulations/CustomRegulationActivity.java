@@ -20,7 +20,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.cheshouye.api.client.WeizhangClient;
-import com.cheshouye.api.client.WeizhangIntentService;
 import com.cheshouye.api.client.json.CarInfo;
 import com.cheshouye.api.client.json.CityInfoJson;
 import com.cheshouye.api.client.json.InputConfigJson;
@@ -232,6 +231,8 @@ public class CustomRegulationActivity extends AppCompatActivity {
         if (rootView != null) {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+            toolbar.setTitle("自定义查询");
 
             setSupportActionBar(toolbar);
 

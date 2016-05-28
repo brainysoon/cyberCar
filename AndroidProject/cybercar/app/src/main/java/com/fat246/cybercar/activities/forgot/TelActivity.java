@@ -74,6 +74,8 @@ public class TelActivity extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("验证手机");
+
             setSupportActionBar(toolbar);
 
 

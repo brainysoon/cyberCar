@@ -221,6 +221,8 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("违章");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

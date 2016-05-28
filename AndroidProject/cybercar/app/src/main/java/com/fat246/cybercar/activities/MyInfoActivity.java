@@ -188,6 +188,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("我的信息");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -215,8 +217,6 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 public void onSuccess(List<User> list) {
 
                     if (list.size() > 0) {
-
-                        Toast.makeText(MyInfoActivity.this, "加载成功！", Toast.LENGTH_SHORT).show();
 
                         mUser = list.get(0);
 
