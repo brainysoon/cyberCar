@@ -3,6 +3,7 @@ package com.fat246.cybercar.activities.moregas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -78,6 +79,8 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_gas);
 
+        initToolbar();
+
         findView();
 
         setSometing();
@@ -85,6 +88,30 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
         setListener();
 
     }
+
+    //initToolbar
+    private void initToolbar() {
+
+        View rootView = findViewById(R.id.activity_more_gas_bar);
+
+        if (rootView != null) {
+
+            Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+            toolbar.setTitle("加油");
+
+            setSupportActionBar(toolbar);
+
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    MoreGasActivity.this.finish();
+                }
+            });
+        }
+    }
+
 
     //设置监听事件
     private void setListener() {
