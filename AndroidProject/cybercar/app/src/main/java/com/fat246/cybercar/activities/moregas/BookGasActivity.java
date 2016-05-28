@@ -11,12 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.GasStationInfo;
 import com.fat246.cybercar.beans.Order;
@@ -46,6 +47,8 @@ public class BookGasActivity extends AppCompatActivity {
     private EditText mNum;
     private TextView mTime;
     private Button mSubmit;
+    private ProgressBar progressBar;
+    private LinearLayout linearLayout;
 
     //ArrayAdapter
     private ArrayAdapter<String> mAdapter;
@@ -111,52 +114,71 @@ public class BookGasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Float i=confirmNum();
+                showBar();
 
-                if ( i> 0) {
+                try {
 
-                    //判断是否登陆
-                    if (MyApplication.isLoginSucceed) {
+                    Float i = confirmNum();
 
-                        Date date = new Date();
+                    if (i > 0) {
 
-                        String id = new SimpleDateFormat("yyyyMMddHHmmss").format(date) + ((int) (Math.random() * 10000));
+                        //判断是否登陆
+                        if (MyApplication.isLoginSucceed) {
 
-                        String Order_Station = mGasStation.getGas_station_name();
+                            Date date = new Date();
 
-                        String Order_GasClass = mType.getSelectedItem().toString();
+                            final String id = new SimpleDateFormat("yyyyMMddHHmmss").format(date) + ((int) (Math.random() * 10000));
 
-                        String Order_GasPrice = mPrice.getText().toString().trim();
+                            String Order_Station = mGasStation.getGas_station_name();
 
-                        Float price=Float.parseFloat(Order_GasPrice);
+                            String Order_GasClass = mType.getSelectedItem().toString();
 
-                        Order order=new Order(MyApplication.mUser.getUser_Tel(),id,
-                                Order_Station,1,new BmobDate(date),Order_GasClass,price,i);
+                            String Order_GasPrice = mPrice.getText().toString().trim();
 
-                        order.save(BookGasActivity.this, new SaveListener() {
-                            @Override
-                            public void onSuccess() {
+                            Float price = Float.parseFloat(Order_GasPrice);
 
-                                Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
+                            final Order order = new Order(MyApplication.mUser.getUser_Tel(), id,
+                                    Order_Station, 1, new BmobDate(date), Order_GasClass, price, i);
 
-                                Intent mIntent=new Intent(BookGasActivity.this, MainActivity.class);
+                            order.save(BookGasActivity.this, new SaveListener() {
+                                @Override
+                                public void onSuccess() {
 
-                                startActivity(mIntent);
+                                    Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
 
-                                BookGasActivity.this.finish();
-                            }
+                                    Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
 
-                            @Override
-                            public void onFailure(int i, String s) {
+                                    Bundle mBundle = new Bundle();
 
-                                Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                    mBundle.putString("Order_ID", order.getOrder_ID());
+                                    mBundle.putString("User_Tel", order.getUser_Tel());
+                                    mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
+                                    mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
 
-                    } else {
+                                    mIntent.putExtras(mBundle);
 
-                        Toast.makeText(BookGasActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                                    startActivity(mIntent);
+
+                                    BookGasActivity.this.finish();
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+
+                                    Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                    hideBar();
+                                }
+                            });
+
+                        } else {
+
+                            Toast.makeText(BookGasActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                            hideBar();
+                        }
                     }
+                } catch (Exception e) {
+
+                    hideBar();
                 }
             }
         });
@@ -264,6 +286,9 @@ public class BookGasActivity extends AppCompatActivity {
         mNum = (EditText) findViewById(R.id.activity_book_gas_edittext_num);
         mTime = (TextView) findViewById(R.id.activity_book_gas_textview_time);
         mSubmit = (Button) findViewById(R.id.activity_book_gas_button_submit);
+        View view = findViewById(R.id.activity_book_gas_bar);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+        linearLayout = (LinearLayout) findViewById(R.id.activity_book_gas_linear);
     }
 
     //初始化GasStation
@@ -311,6 +336,20 @@ public class BookGasActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    //forword
+    private void showBar() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.INVISIBLE);
+    }
+
+    //back
+    private void hideBar() {
+
+        progressBar.setVisibility(View.INVISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
     }
 
 }
