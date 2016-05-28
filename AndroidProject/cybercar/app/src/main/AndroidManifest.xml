@@ -310,6 +310,7 @@
         <activity
             android:name=".activities.cars.AddCarsActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.moregas.QRCodeActivity"></activity>
     </application>
 
 </manifest>
