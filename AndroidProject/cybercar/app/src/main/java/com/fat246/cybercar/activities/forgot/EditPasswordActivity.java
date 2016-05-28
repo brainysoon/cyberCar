@@ -110,7 +110,7 @@ public class EditPasswordActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onFailure(int i, String s) {
-                                                    Log.e("here2",i+">>>>"+s);
+                                                    Log.e("here2", i + ">>>>" + s);
 
                                                     Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
                                                     showLayout();
@@ -126,7 +126,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                                     @Override
                                     public void onError(int i, String s) {
 
-                                        Log.e("here1",i+">>>>"+s);
+                                        Log.e("here1", i + ">>>>" + s);
 
                                         Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
                                         showLayout();
@@ -197,6 +197,8 @@ public class EditPasswordActivity extends AppCompatActivity {
         if (rootView != null) {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+            toolbar.setTitle("修改密码");
 
             setSupportActionBar(toolbar);
 

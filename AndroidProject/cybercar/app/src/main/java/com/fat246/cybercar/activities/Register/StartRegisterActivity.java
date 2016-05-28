@@ -93,6 +93,8 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("详细信息");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

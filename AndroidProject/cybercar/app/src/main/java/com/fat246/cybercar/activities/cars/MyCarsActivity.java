@@ -259,6 +259,8 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("我的汽车");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

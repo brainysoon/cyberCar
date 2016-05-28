@@ -38,6 +38,8 @@ public class InitNavigateActivity extends AppCompatActivity
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("设置导航");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

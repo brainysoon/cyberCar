@@ -9,6 +9,6 @@
         android:layout_width="@dimen/fragment_login_progressbar_size"
         android:layout_height="@dimen/fragment_login_progressbar_size"
         android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
 </FrameLayout>

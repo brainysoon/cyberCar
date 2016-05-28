@@ -46,7 +46,9 @@ dependencies {
     compile files('libs/juhe_sdk_v_2_7.jar')
     compile files('libs/renderscript-v8.jar')
     //volley 网络依赖
-//    compile 'com.android.volley:volley:1.0.0'
+
+    //    compile 'com.android.volley:volley:1.0.0'
+
     //违章信息查询依赖
 
     //boomenu 菜单依赖
@@ -89,10 +91,10 @@ dependencies {
 
     //bmob-sms ：Bmob单独为短信服务提供的包
     compile 'cn.bmob.android:bmob-sms:1.0.1'
-
     //违章提供的jar包
     compile files('libs/weizhang_sdk.jar')
-
     //下拉刷新依赖
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+    //二维码支持的jar
+    compile files('libs/zixing-core-3.2.0.jar')
 }

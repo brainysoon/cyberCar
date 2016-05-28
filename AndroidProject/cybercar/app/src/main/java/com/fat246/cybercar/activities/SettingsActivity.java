@@ -30,6 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("设置");
+
             setSupportActionBar(toolbar);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {

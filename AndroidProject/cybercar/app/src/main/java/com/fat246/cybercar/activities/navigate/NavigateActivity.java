@@ -2,6 +2,8 @@ package com.fat246.cybercar.activities.navigate;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -43,12 +45,36 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate);
 
+        initToolbar();
 
         findView();
 
         setSomething();
 
         initSearch();
+    }
+
+    //initToolbar
+    private void initToolbar() {
+
+        View rootView = findViewById(R.id.activity_navigate_bar);
+
+        if (rootView != null) {
+
+            Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+            toolbar.setTitle("导航");
+
+            setSupportActionBar(toolbar);
+
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    NavigateActivity.this.finish();
+                }
+            });
+        }
     }
 
     private void initSearch() {

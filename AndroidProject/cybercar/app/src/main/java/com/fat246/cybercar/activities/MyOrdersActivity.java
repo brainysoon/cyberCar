@@ -1,18 +1,21 @@
 package com.fat246.cybercar.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.moregas.QRCodeActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Order;
 
@@ -51,6 +54,33 @@ public class MyOrdersActivity extends AppCompatActivity {
         initPtr();
 
         beginToRefresh();
+
+        setListener();
+    }
+
+    //setListener
+    private void setListener() {
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Order order = mDataList.get(position);
+
+                Intent mIntent = new Intent(MyOrdersActivity.this, QRCodeActivity.class);
+
+                Bundle mBundle = new Bundle();
+
+                mBundle.putString("Order_ID", order.getOrder_ID());
+                mBundle.putString("User_Tel", order.getUser_Tel());
+                mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
+                mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
+
+                mIntent.putExtras(mBundle);
+
+                startActivity(mIntent);
+            }
+        });
     }
 
     //initList
@@ -109,6 +139,8 @@ public class MyOrdersActivity extends AppCompatActivity {
         if (rootView != null) {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+            toolbar.setTitle("我的订单");
 
             setSupportActionBar(toolbar);
 
@@ -199,7 +231,7 @@ public class MyOrdersActivity extends AppCompatActivity {
             TextView mOrder_GasNum = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_num);
             TextView mOrder_Status = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_status);
 
-            Order order = mDataList.get(mDataList.size()-position-1);
+            Order order = mDataList.get(mDataList.size() - position - 1);
 
             mOrder_ID.setText(order.getOrder_ID());
             mOrder_GasType.setText(order.getOrder_GasClass());

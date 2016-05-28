@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("登录");
 
             setSupportActionBar(toolbar);
 
