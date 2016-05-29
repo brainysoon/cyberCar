@@ -334,7 +334,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                                     isEdit = false;
                                     setUnedit();
                                     mSubmitView.setText("修改信息");
-                                    isEditAvator = false;
+
+                                    //一定要更新信息
+                                    MyApplication.mUser = mUser;
                                 }
 
                                 @Override
@@ -365,7 +367,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                     isEdit = false;
                     setUnedit();
                     mSubmitView.setText("修改信息");
-                    isEditAvator = false;
+
+                    //一定要更新信息，不然就会多一个接口
+                    MyApplication.mUser = mUser;
                 }
 
                 @Override

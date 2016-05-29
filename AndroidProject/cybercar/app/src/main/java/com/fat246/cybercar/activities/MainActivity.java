@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +59,7 @@ import cn.bmob.v3.listener.DownloadFileListener;
 public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
 
     //主Activity 实例
-    private static MainActivity mMainActivity;
+    public static MainActivity mMainActivity;
 
     //View
     private BoomMenuButton mBoomMenuButton;
@@ -845,12 +846,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         @Override
         public void run() {
 
-           if (isLogin()){
+            if (isLogin()) {
 
-               Intent mIntent = new Intent(MainActivity.this, MyRegulationsActivity.class);
+                Intent mIntent = new Intent(MainActivity.this, MyRegulationsActivity.class);
 
-               startActivity(mIntent);
-           }
+                startActivity(mIntent);
+            }
         }
     };
 
