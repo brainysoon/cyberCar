@@ -73,6 +73,7 @@ public class RegulationResultActivity extends AppCompatActivity {
 
             Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
+            toolbar.setTitle("查询结果");
 
             setSupportActionBar(toolbar);
 

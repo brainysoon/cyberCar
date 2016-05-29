@@ -123,15 +123,21 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
             @Override
             public void onClick(View v) {
 
-                Intent mIntent = new Intent(MyInfoActivity.this, CropImageActivity.class);
+                if (isEdit) {
 
-                Bundle bundle = new Bundle();
+                    Intent mIntent = new Intent(MyInfoActivity.this, CropImageActivity.class);
 
-                bundle.putInt(CropImageActivity.ACTION_KEY, 1);
+                    Bundle bundle = new Bundle();
 
-                mIntent.putExtras(bundle);
+                    bundle.putInt(CropImageActivity.ACTION_KEY, 1);
 
-                startActivity(mIntent);
+                    mIntent.putExtras(bundle);
+
+                    startActivity(mIntent);
+                } else {
+
+                    Toast.makeText(MyInfoActivity.this, "请先点击修改！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -328,7 +334,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                                     isEdit = false;
                                     setUnedit();
                                     mSubmitView.setText("修改信息");
-                                    isEditAvator = false;
+
+                                    //一定要更新信息
+                                    MyApplication.mUser = mUser;
                                 }
 
                                 @Override
@@ -359,7 +367,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                     isEdit = false;
                     setUnedit();
                     mSubmitView.setText("修改信息");
-                    isEditAvator = false;
+
+                    //一定要更新信息，不然就会多一个接口
+                    MyApplication.mUser = mUser;
                 }
 
                 @Override

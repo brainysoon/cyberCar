@@ -14,7 +14,7 @@
             android:id="@+id/activity_my_cars_item_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/avator" />
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"
