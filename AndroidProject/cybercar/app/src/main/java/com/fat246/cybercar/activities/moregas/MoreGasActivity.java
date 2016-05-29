@@ -154,7 +154,6 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
 
                 startActivity(mIntent);
 
-                MoreGasActivity.this.finish();
             }
         });
 
@@ -181,7 +180,6 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
 
                     startActivity(mIntent);
 
-                    MoreGasActivity.this.finish();
                 }
             }
         });
