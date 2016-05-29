@@ -42,7 +42,7 @@
                         android:id="@+id/activity_add_cars_image"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/avator" />
+                        android:src="@mipmap/ic_launcher" />
 
                     <Spinner
                         android:id="@+id/activity_add_cars_brand"
@@ -155,9 +155,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/colorPrimary"
+                    android:text="添加新车"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/button_text_size"
-                    android:text="添加新车" />
+                    android:textSize="@dimen/button_text_size" />
 
             </LinearLayout>
         </ScrollView>
