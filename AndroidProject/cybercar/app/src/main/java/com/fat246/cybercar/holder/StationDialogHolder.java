@@ -6,6 +6,10 @@ import android.widget.TextView;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.beans.GasStationInfo;
 
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 /**
  * Created by Administrator on 2016/4/29.
  */
@@ -52,9 +56,36 @@ public class StationDialogHolder {
         mBrand.setText(newGasStationInfo.getGas_station_brandname());
         mType.setText(newGasStationInfo.getGas_station_type());
         mDiscount.setText(newGasStationInfo.getGas_station_discount());
-        mPrice.setText(newGasStationInfo.getGas_station_gastprice());
+        mPrice.setText(exPrice(newGasStationInfo.getGas_station_gastprice()));
         mFwlsmc.setText(newGasStationInfo.getGas_station_fwlsmc());
         mDistance.setText(newGasStationInfo.getGas_station_distance());
         mPosition.setText(newGasStationInfo.getGas_station_address());
+    }
+
+    //转换油价
+    public String exPrice(String str) {
+
+        String newstring ="";
+
+        try {
+
+            JSONObject jsonObject = new JSONObject(str);
+
+            Iterator<String> iterator = jsonObject.keys();
+
+            while (iterator.hasNext()) {
+
+                String key = iterator.next();
+
+                String value = key + ":" + jsonObject.get(key) + ",";
+
+                newstring += value;
+            }
+
+            return newstring;
+        } catch (Exception e) {
+
+            return str;
+        }
     }
 }
