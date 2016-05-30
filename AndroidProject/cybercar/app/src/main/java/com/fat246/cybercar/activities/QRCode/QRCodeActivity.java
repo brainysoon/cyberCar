@@ -1,4 +1,4 @@
-package com.fat246.cybercar.activities.moregas;
+package com.fat246.cybercar.activities.QRCode;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

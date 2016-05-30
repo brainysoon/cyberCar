@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.QRCode.DecodeActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Brand;
 import com.fat246.cybercar.beans.Car;
@@ -151,7 +152,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
                 } else {
 
-                    Intent mIntnet = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+                    Intent mIntnet = new Intent(MyCarsActivity.this, DecodeActivity.class);
 
                     startActivity(mIntnet);
                 }

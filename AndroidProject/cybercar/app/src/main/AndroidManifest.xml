@@ -310,7 +310,11 @@
         <activity
             android:name=".activities.cars.AddCarsActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.moregas.QRCodeActivity"></activity>
+        <activity android:name=".activities.QRCode.QRCodeActivity" />
+        <activity android:name=".activities.QRCode.DecodeActivity" />
+        <activity
+            android:name=".activities.QRCode.QRResultActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

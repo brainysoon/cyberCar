@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.moregas.QRCodeActivity;
+import com.fat246.cybercar.activities.QRCode.QRCodeActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Order;
 
