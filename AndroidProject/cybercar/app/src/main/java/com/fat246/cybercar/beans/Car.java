@@ -8,13 +8,12 @@ import cn.bmob.v3.BmobObject;
 public class Car extends BmobObject {
 
     private String Car_Num;
+    private String User_Tel;
     private String Car_RackNum;
     private String Car_EngineNum;
     private Double Car_Mileage;
     private String Car_Nick;
     private String Car_ModelType;
-
-    private String User_Tel;
 
     public Car(String Car_Num, String Car_RackNum, String Car_EngineNum, Double Car_Mileage,
                String Car_Nick, String Car_ModelType, String User_Tel) {

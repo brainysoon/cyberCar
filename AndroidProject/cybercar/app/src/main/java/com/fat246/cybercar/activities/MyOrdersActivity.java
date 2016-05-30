@@ -71,6 +71,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
                 Bundle mBundle = new Bundle();
 
+                mBundle.putInt(QRCodeActivity.Action, 0);
                 mBundle.putString("Order_ID", order.getOrder_ID());
                 mBundle.putString("User_Tel", order.getUser_Tel());
                 mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());

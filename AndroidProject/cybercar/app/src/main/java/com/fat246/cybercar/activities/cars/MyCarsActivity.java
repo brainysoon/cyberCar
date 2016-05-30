@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.QRCode.DecodeActivity;
+import com.fat246.cybercar.activities.QRCode.QRCodeActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Brand;
 import com.fat246.cybercar.beans.Car;
@@ -49,6 +50,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private PtrClassicFrameLayout mPtrFrame;
     private ListView mListView;
     private FloatingActionButton mAction;
+    private FloatingActionButton mQRCode;
 
     //详细信息
     private CircleImageView mImageView;
@@ -63,7 +65,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private LinearLayout mDialog;
 
     private boolean mActionFlag = false;
-    private Car mCarClick = null;
+    public static Car mCarClick = null;
 
     public static AddCarsActivity.succeedAdd succeed = null;
 
@@ -98,6 +100,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.activity_my_cars_ptr);
         mListView = (ListView) findViewById(R.id.activity_my_cars_list);
         mAction = (FloatingActionButton) findViewById(R.id.activity_my_cars_action);
+        mQRCode = (FloatingActionButton) findViewById(R.id.activity_my_cars_action_qrcode);
 
         mImageView = (CircleImageView) findViewById(R.id.activity_my_cars_image);
         mNum = (TextView) findViewById(R.id.activity_my_cars_num);
@@ -158,6 +161,22 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 }
             }
         });
+
+        mQRCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(MyCarsActivity.this, QRCodeActivity.class);
+
+                Bundle mBundle = new Bundle();
+
+                mBundle.putInt(QRCodeActivity.Action, 1);
+
+                mIntent.putExtras(mBundle);
+
+                startActivity(mIntent);
+            }
+        });
     }
 
     private void toDialog() {
@@ -165,6 +184,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
         mDialog.setVisibility(View.VISIBLE);
         mActionFlag = true;
         mAction.setImageResource(R.drawable.ic_cancel_80);
+        mQRCode.setVisibility(View.VISIBLE);
     }
 
     private void toBack() {
@@ -172,6 +192,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
         mDialog.setVisibility(View.INVISIBLE);
         mActionFlag = false;
         mAction.setImageResource(R.drawable.ic_add);
+        mQRCode.setVisibility(View.INVISIBLE);
     }
 
     //initPtr
