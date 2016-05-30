@@ -97,4 +97,7 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     //二维码支持的jar
     compile files('libs/zixing-core-3.2.0.jar')
+
+    //扫描二维码
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
 }
