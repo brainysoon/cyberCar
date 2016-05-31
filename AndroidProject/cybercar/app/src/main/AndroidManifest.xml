@@ -192,9 +192,6 @@
         <activity android:name=".activities.regulations.CustomRegulationActivity" />
 
         <!-- 非自定义查询违章信息的Activity -->
-        <activity
-            android:name=".activities.regulations.RegulationActivity"
-            android:theme="@style/LogoTheme" />
         <activity android:name=".activities.moregas.MoreGasActivity" />
 
         <!-- 城市List相关的Activity -->
