@@ -344,7 +344,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             Float num = order.getOrder_GasNum();
 
             mOrder_AllPrice.setText(price * num + "");
-            mOrder_Status.setText(order.getOrder_Status() + "");
+            mOrder_Status.setText(getStatus(order.getOrder_Status()));
         }
     }
 
@@ -367,5 +367,18 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
                 break;
         }
+    }
+
+    //订单状态
+    public static String getStatus(int i) {
+
+        switch (i) {
+
+            case 1:
+
+                return "配货中";
+        }
+
+        return "null";
     }
 }
