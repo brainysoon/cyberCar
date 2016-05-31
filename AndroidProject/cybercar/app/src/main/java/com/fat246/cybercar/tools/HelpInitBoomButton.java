@@ -58,7 +58,7 @@ public class HelpInitBoomButton {
     };
 
     //颜色
-    private static String[] Colors = {
+    public static String[] Colors = {
             "#F44336",
             "#E91E63",
             "#9C27B0",

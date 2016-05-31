@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,11 +33,18 @@ import com.fat246.cybercar.beans.Brand;
 import com.fat246.cybercar.beans.Car;
 import com.fat246.cybercar.beans.Model;
 import com.fat246.cybercar.openwidgets.CircleImageView;
+import com.fat246.cybercar.tools.HelpInitBoomButton;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.Types.BoomType;
+import com.nightonke.boommenu.Types.ButtonType;
+import com.nightonke.boommenu.Types.PlaceType;
+import com.nightonke.boommenu.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.DeleteListener;
@@ -45,12 +55,11 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity.succeedAdd {
+public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity.succeedAdd, BoomMenuButton.OnSubButtonClickListener {
 
     private PtrClassicFrameLayout mPtrFrame;
     private ListView mListView;
     private FloatingActionButton mAction;
-    private FloatingActionButton mQRCode;
 
     //详细信息
     private CircleImageView mImageView;
@@ -64,7 +73,6 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private ImageView mCancle;
     private LinearLayout mDialog;
 
-    private boolean mActionFlag = false;
     public static Car mCarClick = null;
 
     public static AddCarsActivity.succeedAdd succeed = null;
@@ -80,6 +88,22 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private ModelFindListener mModelListener = new ModelFindListener();
     private BrandFindListener mBrandListener = new BrandFindListener();
 
+    //BoomData
+    private String[] title = new String[]{
+            "详细信息",
+            "二维码",
+            "删除"
+    };
+    private int[][] colors;
+
+    //Resource
+    private static int[] drawablesResource = new int[]{
+            R.drawable.ic_info,
+            R.drawable.ic_qrcode,
+            R.drawable.ic_delete
+    };
+    private Drawable[] drawables;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,9 +113,38 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
         initToolbar();
 
+        initBoom();
+
         initView();
 
         beginToRefreshX();
+
+
+    }
+
+    private void initBoom() {
+
+        colors = new int[3][2];
+
+        //随机数
+        Random mRandom = new Random();
+
+        for (int i = 0; i < 3; i++) {
+
+            int r = Math.abs(mRandom.nextInt() % HelpInitBoomButton.Colors.length);
+
+            colors[i][1] = Color.parseColor(HelpInitBoomButton.Colors[r]);
+
+            colors[i][0] = Util.getInstance().getPressedColor(colors[i][1]);
+        }
+
+        //加载图片资源
+        drawables = new Drawable[3];
+
+        for (int i = 0; i < 3; i++) {
+
+            drawables[i] = ContextCompat.getDrawable(this, drawablesResource[i]);
+        }
     }
 
     //initView;
@@ -100,7 +153,6 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.activity_my_cars_ptr);
         mListView = (ListView) findViewById(R.id.activity_my_cars_list);
         mAction = (FloatingActionButton) findViewById(R.id.activity_my_cars_action);
-        mQRCode = (FloatingActionButton) findViewById(R.id.activity_my_cars_action_qrcode);
 
         mImageView = (CircleImageView) findViewById(R.id.activity_my_cars_image);
         mNum = (TextView) findViewById(R.id.activity_my_cars_num);
@@ -122,59 +174,39 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             @Override
             public void onClick(View v) {
 
-                if (mActionFlag) {
+                Intent mIntnet = new Intent(MyCarsActivity.this, DecodeActivity.class);
 
-                    mCarClick.setTableName("Car");
-
-                    mCarClick.delete(MyCarsActivity.this, new DeleteListener() {
-                        @Override
-                        public void onSuccess() {
-
-                            Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
-
-                            toBack();
-
-                            mPtrFrame.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    //开始刷新
-                                    new CarsAsync().execute();
-                                }
-                            }, 500);
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                            Toast.makeText(MyCarsActivity.this, "删除失败!", Toast.LENGTH_SHORT).show();
-
-                            Log.e("here>>>" + i, s);
-                        }
-                    });
-
-                } else {
-
-                    Intent mIntnet = new Intent(MyCarsActivity.this, DecodeActivity.class);
-
-                    startActivity(mIntnet);
-                }
+                startActivity(mIntnet);
             }
         });
+    }
 
-        mQRCode.setOnClickListener(new View.OnClickListener() {
+    private void deleteCar() {
+
+        mCarClick.setTableName("Car");
+
+        mCarClick.delete(MyCarsActivity.this, new DeleteListener() {
             @Override
-            public void onClick(View v) {
+            public void onSuccess() {
 
-                Intent mIntent = new Intent(MyCarsActivity.this, QRCodeActivity.class);
+                Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
 
-                Bundle mBundle = new Bundle();
+                mPtrFrame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-                mBundle.putInt(QRCodeActivity.Action, 1);
+                        //开始刷新
+                        new CarsAsync().execute();
+                    }
+                }, 500);
+            }
 
-                mIntent.putExtras(mBundle);
+            @Override
+            public void onFailure(int i, String s) {
 
-                startActivity(mIntent);
+                Toast.makeText(MyCarsActivity.this, "删除失败!", Toast.LENGTH_SHORT).show();
+
+                Log.e("here>>>" + i, s);
             }
         });
     }
@@ -182,17 +214,14 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private void toDialog() {
 
         mDialog.setVisibility(View.VISIBLE);
-        mActionFlag = true;
-        mAction.setImageResource(R.drawable.ic_cancel_80);
-        mQRCode.setVisibility(View.VISIBLE);
+        mAction.setVisibility(View.INVISIBLE);
     }
 
     private void toBack() {
 
         mDialog.setVisibility(View.INVISIBLE);
-        mActionFlag = false;
         mAction.setImageResource(R.drawable.ic_add);
-        mQRCode.setVisibility(View.INVISIBLE);
+        mAction.setVisibility(View.VISIBLE);
     }
 
     //initPtr
@@ -339,6 +368,46 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             final CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
             TextView mNum = (TextView) view.findViewById(R.id.activity_my_cars_item_num);
             TextView mNick = (TextView) view.findViewById(R.id.activity_my_cars_item_nick);
+            final BoomMenuButton menuButton = (BoomMenuButton) view.findViewById(R.id.activity_my_cars_item_boom_ham);
+
+            menuButton.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    menuButton.init(
+                            drawables, // The drawables of images of sub buttons. Can not be null.
+                            title,     // The texts of sub buttons, ok to be null.
+                            colors,          // The colors of sub buttons, including pressed-state and normal-state.
+                            ButtonType.HAM,        // The button type.
+                            BoomType.PARABOLA,        // The boom type.
+                            PlaceType.HAM_3_1,     // The place type.
+                            null,                     // Ease type to move the sub buttons when showing.
+                            null,                     // Ease type to scale the sub buttons when showing.
+                            null,                     // Ease type to rotate the sub buttons when showing.
+                            null,                     // Ease type to move the sub buttons when dismissing.
+                            null,                     // Ease type to scale the sub buttons when dismissing.
+                            null,                     // Ease type to rotate the sub buttons when dismissing.
+                            null                      // Rotation degree.
+                    );
+
+                    menuButton.setSubButtonShadowOffset(
+                            Util.getInstance().dp2px(2), Util.getInstance().dp2px(2));
+                }
+            }, 1);
+
+            menuButton.setTag(new Integer(i));
+
+            menuButton.setOnSubButtonClickListener(MyCarsActivity.this);
+            menuButton.setOnClickListener(new BoomMenuButton.OnClickListener() {
+                @Override
+                public void onClick() {
+
+                    Integer i = (Integer) menuButton.getTag();
+
+                    mCarClick = mCarData.get(i);
+
+                    Log.e("i++", menuButton.getTag().toString());
+                }
+            });
 
             Car mCar = mCarData.get(i);
 
@@ -534,4 +603,41 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             }
         }, 500);
     }
+
+    @Override
+    public void onClick(int buttonIndex) {
+
+        switch (buttonIndex) {
+
+            case 0:
+
+
+                break;
+
+            case 1:
+
+                toQRCode();
+                break;
+
+            case 2:
+
+                deleteCar();
+                break;
+        }
+    }
+
+    //toQRCode
+    private void toQRCode() {
+
+        Intent mIntent = new Intent(MyCarsActivity.this, QRCodeActivity.class);
+
+        Bundle mBundle = new Bundle();
+
+        mBundle.putInt(QRCodeActivity.Action, 1);
+
+        mIntent.putExtras(mBundle);
+
+        startActivity(mIntent);
+    }
+
 }
