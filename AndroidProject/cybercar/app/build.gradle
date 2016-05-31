@@ -99,5 +99,5 @@ dependencies {
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
 
     //推送消息的jar包
-    compile files('libs/Bmob_Push_V0.9beta_20160520.jar')
+    compile 'cn.bmob.android:bmob-push:0.8'
 }
