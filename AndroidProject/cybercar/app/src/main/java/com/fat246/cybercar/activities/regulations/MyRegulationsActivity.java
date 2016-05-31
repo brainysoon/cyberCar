@@ -276,7 +276,7 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            convertView = layoutInflater.inflate(R.layout.activity_my_cars_item, null);
+            convertView = layoutInflater.inflate(R.layout.activity_regulation_item, null);
 
             initView(convertView, position);
 

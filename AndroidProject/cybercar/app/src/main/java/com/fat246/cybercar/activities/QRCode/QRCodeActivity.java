@@ -1,4 +1,4 @@
-package com.fat246.cybercar.activities.moregas;
+package com.fat246.cybercar.activities.QRCode;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,7 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.activities.cars.MyCarsActivity;
 import com.fat246.cybercar.application.MyApplication;
+import com.fat246.cybercar.beans.Car;
 import com.fat246.cybercar.utils.QRCodeUtil;
 
 import org.json.JSONObject;
@@ -22,10 +24,14 @@ import java.util.Calendar;
 
 public class QRCodeActivity extends AppCompatActivity {
 
+    public static final String Action = "action";
+
     private ImageView mImageView;
     private ProgressBar progressBar;
 
     private static final int Xlenght = 1000;
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,33 @@ public class QRCodeActivity extends AppCompatActivity {
 
         Bundle mBundel = intent.getExtras();
 
-        new QRCodeAsync(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_launcher)).execute(mBundel);
+        int i = mBundel.getInt(Action);
+
+        switch (i) {
+
+            case 0:
+
+                toolbar.setTitle("订单二维码");
+
+                new QRCodeAsync(BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.ic_launcher)).execute(mBundel);
+
+                break;
+
+            case 1:
+
+                toolbar.setTitle("汽车二维码");
+                String str = mBundel.getString("car_info", "");
+
+                if (MyCarsActivity.mCarClick!=null){
+
+                    new QRCodeStrAsync(BitmapFactory.decodeResource(getResources(),
+                            R.mipmap.ic_launcher)).execute(MyCarsActivity.mCarClick);
+
+                }
+
+                break;
+        }
     }
 
     //findView
@@ -67,9 +98,9 @@ public class QRCodeActivity extends AppCompatActivity {
 
         if (rootView != null) {
 
-            Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
-            toolbar.setTitle("订单二维码");
+            toolbar.setTitle("二维码");
 
             setSupportActionBar(toolbar);
 
@@ -167,6 +198,71 @@ public class QRCodeActivity extends AppCompatActivity {
             }
 
             hideBar();
+        }
+    }
+
+    class QRCodeStrAsync extends AsyncTask<Car, Void, String> {
+
+        private Bitmap logo;
+
+        @Override
+        protected String doInBackground(Car... params) {
+
+            Car mCar = params[0];
+
+            JSONObject jsonObject = new JSONObject();
+
+            try {
+
+                jsonObject.put("a", mCar.getCar_Num());
+                jsonObject.put("b", mCar.getUser_Tel());
+                jsonObject.put("c", mCar.getCar_RackNum());
+                jsonObject.put("d", mCar.getCar_EngineNum());
+                jsonObject.put("e", mCar.getCar_Mileage().toString());
+                jsonObject.put("f", mCar.getCar_Nick());
+                jsonObject.put("g", mCar.getCar_ModelType());
+
+            } catch (Exception e) {
+
+            }
+
+            String str = jsonObject.toString();
+
+            String name = MyApplication.USER_AVATOR_DIRCTORY + Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
+
+
+            boolean isSucceed = QRCodeUtil.createQRImage(str, Xlenght, Xlenght,
+                    logo, name);
+
+            if (isSucceed) {
+
+                return name;
+            } else {
+
+                return "null";
+            }
+        }
+
+        public QRCodeStrAsync(Bitmap logo) {
+
+            this.logo = logo;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if (s.equals("null")) {
+
+                Toast.makeText(QRCodeActivity.this, "加载失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Bitmap bm = BitmapFactory.decodeFile(s);
+
+                mImageView.setImageBitmap(bm);
+            }
+
+            hideBar();
+
         }
     }
 }

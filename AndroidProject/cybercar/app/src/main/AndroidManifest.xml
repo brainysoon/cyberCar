@@ -192,9 +192,6 @@
         <activity android:name=".activities.regulations.CustomRegulationActivity" />
 
         <!-- 非自定义查询违章信息的Activity -->
-        <activity
-            android:name=".activities.regulations.RegulationActivity"
-            android:theme="@style/LogoTheme" />
         <activity android:name=".activities.moregas.MoreGasActivity" />
 
         <!-- 城市List相关的Activity -->
@@ -310,7 +307,11 @@
         <activity
             android:name=".activities.cars.AddCarsActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.moregas.QRCodeActivity"></activity>
+        <activity android:name=".activities.QRCode.QRCodeActivity" />
+        <activity android:name=".activities.QRCode.DecodeActivity" />
+        <activity
+            android:name=".activities.QRCode.QRResultActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

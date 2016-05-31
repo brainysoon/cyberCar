@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.fat246.cybercar.activities.moregas.QRCodeActivity">
+    tools:context=".activities.QRCode.QRCodeActivity">
 
     <include
         android:id="@+id/activity_qrcode_toolbar"
@@ -23,7 +23,8 @@
         <ImageView
             android:id="@+id/activity_qrcode_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 
