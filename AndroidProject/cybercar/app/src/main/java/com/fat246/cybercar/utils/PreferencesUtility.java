@@ -53,6 +53,7 @@ public final class PreferencesUtility {
     private static final String SETTINGS_KEY_REGULATION_LOCATION = "settings_key_regulation_location";
     private static final String SETTINGS_KEY_MUSIC_AUTO = "settings_key_music_auto";
     private static final String SETTINGS_KEY_MUSIC_CONTINUE = "settings_key_music_continue";
+    private static final String SETTINGS_KEY_CAR_PUSH = "settings_key_car_push";
 
     /**
      * 有关用户信息的缓存
@@ -72,7 +73,7 @@ public final class PreferencesUtility {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static final PreferencesUtility getInstance(final Context context){
+    public static final PreferencesUtility getInstance(final Context context) {
         if (sInstance == null) {
             sInstance = new PreferencesUtility(context.getApplicationContext());
         }
@@ -96,6 +97,12 @@ public final class PreferencesUtility {
     public boolean isSettingsMusicAuto() {
 
         return mPreferences.getBoolean(SETTINGS_KEY_MUSIC_AUTO, false);
+    }
+
+    //是否推送消息
+    public boolean isSettingsCarPush() {
+
+        return mPreferences.getBoolean(SETTINGS_KEY_CAR_PUSH, true);
     }
 
     //退出App是否继续播放音乐
