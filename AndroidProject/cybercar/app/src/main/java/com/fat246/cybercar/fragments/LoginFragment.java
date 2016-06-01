@@ -28,6 +28,7 @@ import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.checkouts.CheckUserInfo;
 import com.fat246.cybercar.utils.PreferencesUtility;
+import com.fat246.cybercar.utils.SucceedLoginUtil;
 
 import java.util.List;
 
@@ -246,11 +247,13 @@ public class LoginFragment extends Fragment {
                                         .saveIsSavePassAndAutoLogin(list.get(0).getUser_Tel(),
                                                 mSavePassword.isChecked(), mAutoLogin.isChecked());
 
+                                //更新设备信息
+                                SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
 
                                 getActivity().finish();
                             } else {
 
-                                Toast.makeText(getContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext().getApplicationContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
                                 reBackToLogin();
                             }
                         }
@@ -261,7 +264,7 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
                             reBackToLogin();
 
-                            Log.e("i>>"+i,s);
+                            Log.e("i>>" + i, s);
                         }
                     });
                 }

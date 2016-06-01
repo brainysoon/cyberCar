@@ -83,13 +83,19 @@ public class MyApplication extends Application {
     }
 
     //initPush
-    private void initPush(){
+    private void initPush() {
 
         //是否需要启动推送服务
-        if (PreferencesUtility.getInstance(this).isSettingsCarPush()){
+        if (PreferencesUtility.getInstance(this).isSettingsCarPush()) {
 
             // 使用推送服务时的初始化操作
             BmobInstallation.getCurrentInstallation(this).save();
+
+            BmobInstallation installation = BmobInstallation.getCurrentInstallation(this);
+
+            //订阅维护信息
+            installation.subscribe("Maintain");
+            installation.save();
 
             // 启动推送服务
             BmobPush.startWork(this);
