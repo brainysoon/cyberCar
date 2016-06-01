@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.fat246.cybercar.utils.NotificationUtil;
+
 import cn.bmob.push.PushConstants;
 
 /**
@@ -19,6 +21,8 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
 
             Log.d("bmob", "客户端收到推送内容：" + intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
 
+            new NotificationUtil(context)
+                    .sendNotification(intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
         }
     }
 }
