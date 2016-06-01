@@ -34,6 +34,6 @@ proguard/
 
 # Android Studio captures folder
 captures/
-AndroidProject/cybercar/app/app.iml
-AndroidProject/servicecar/app/app.iml
-AndroidProject/servicecar/servicecar.iml
+
+# ºöÂÔ¸ÃËÀµÄ.idea
+.idea/*
