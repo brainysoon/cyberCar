@@ -18,6 +18,7 @@ import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.utils.PreferencesUtility;
+import com.fat246.cybercar.utils.SucceedLoginUtil;
 
 import java.util.List;
 
@@ -100,9 +101,12 @@ public class LogoFragment extends Fragment {
 
                             Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
 
+                            //更新设备设备信息
+                            SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
+
                         } else {
 
-                            Toast.makeText(getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext().getApplicationContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
                         }
 
                         startActivity(mIntent);

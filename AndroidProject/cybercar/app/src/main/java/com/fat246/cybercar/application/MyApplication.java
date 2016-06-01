@@ -13,11 +13,14 @@ import com.cheshouye.api.client.WeizhangIntentService;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.beans.User;
 import com.fat246.cybercar.permissions.Nammu;
+import com.fat246.cybercar.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.thinkland.sdk.android.JuheSDKInitializer;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 
 public class MyApplication extends Application {
 
@@ -74,6 +77,29 @@ public class MyApplication extends Application {
 
         //查询违章信息的Service
         initRegulation();
+
+        //启动推送消息
+        initPush();
+    }
+
+    //initPush
+    private void initPush() {
+
+        //是否需要启动推送服务
+        if (PreferencesUtility.getInstance(this).isSettingsCarPush()) {
+
+            // 使用推送服务时的初始化操作
+            BmobInstallation.getCurrentInstallation(this).save();
+
+            BmobInstallation installation = BmobInstallation.getCurrentInstallation(this);
+
+            //订阅维护信息
+            installation.subscribe("Maintain");
+            installation.save();
+
+            // 启动推送服务
+            BmobPush.startWork(this);
+        }
     }
 
     //Timber

@@ -17,6 +17,12 @@
         android:key="preference_car"
         android:title="@string/settings_head_car">
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_key_car_push"
+            android:summary="@string/settings_car_push"
+            android:title="@string/settings_car_auto_push" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

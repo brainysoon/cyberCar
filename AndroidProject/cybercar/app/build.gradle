@@ -95,7 +95,9 @@ dependencies {
     compile files('libs/weizhang_sdk.jar')
     //下拉刷新依赖
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-
     //扫描二维码
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+
+    //推送消息的jar包
+    compile 'cn.bmob.android:bmob-push:0.8'
 }
