@@ -314,7 +314,7 @@ public class AddCarsActivity extends AppCompatActivity {
     //initToolbar
     private void initToolbar() {
 
-        View rootView = findViewById(R.id.activity_my_cars_toolbar);
+        View rootView = findViewById(R.id.activity_add_cars_bar);
 
         if (rootView != null) {
 
