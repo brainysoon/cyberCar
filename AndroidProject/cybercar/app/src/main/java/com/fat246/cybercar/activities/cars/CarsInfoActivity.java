@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,9 @@ public class CarsInfoActivity extends AppCompatActivity {
     private TextView mCarMaintain;
     private LinearLayout linearLayout;
 
+    private LinearLayout layout;
+    private ProgressBar progressBar;
+
     private int action = 0;
 
     //maintain
@@ -55,22 +59,11 @@ public class CarsInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cars_info);
 
-        initData();
-
         initToolbar();
 
         findView();
 
-        initView();
-    }
-
-    //initView
-    private void initView() {
-
-        if (action != 1) {
-
-
-        }
+        initData();
     }
 
     //initData
@@ -95,6 +88,8 @@ public class CarsInfoActivity extends AppCompatActivity {
 
                 //加载数据
                 if (num != null) {
+
+                    showBar();
                     findCar();
                 }
                 break;
@@ -117,6 +112,8 @@ public class CarsInfoActivity extends AppCompatActivity {
                     mCar = list.get(0);
 
                     initViewAfterFind();
+
+                    hideBar();
                 }
             }
 
@@ -124,6 +121,8 @@ public class CarsInfoActivity extends AppCompatActivity {
             public void onError(int i, String s) {
 
                 Toast.makeText(CarsInfoActivity.this, "汽车信息加载失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+
+                hideBar();
             }
         });
     }
@@ -230,6 +229,9 @@ public class CarsInfoActivity extends AppCompatActivity {
         mCarLightStatus = (TextView) findViewById(R.id.activity_cars_info_light);
         mCarMaintain = (TextView) findViewById(R.id.activity_cars_info_mantain);
         linearLayout = (LinearLayout) findViewById(R.id.activity_cars_info_layout_mantain);
+
+        layout = (LinearLayout) findViewById(R.id.activity_cars_info_layout);
+        progressBar = (ProgressBar) findViewById(R.id.activity_cars_info_bar).findViewById(R.id.progressbar);
     }
 
     //initToolbar
@@ -253,5 +255,19 @@ public class CarsInfoActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    //showbar
+    private void showBar() {
+
+        layout.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    //hidebar
+    private void hideBar() {
+
+        layout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }
