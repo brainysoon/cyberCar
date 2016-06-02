@@ -186,7 +186,7 @@ public class AddCarsActivity extends AppCompatActivity {
                 //假设所有验证都完事了
 
                 Car mCar = new Car(num, rack, engine, mMlieage, nick
-                        , model, MyApplication.mUser.getUser_Tel());
+                        , model, MyApplication.mUser.getUser_Tel(),0.0,0.0,0.0,0.0);
 
                 mCar.save(AddCarsActivity.this, new SaveListener() {
                     @Override
