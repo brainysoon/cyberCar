@@ -44,6 +44,10 @@ public class AddCarsActivity extends AppCompatActivity {
     private TextInputEditText mEngine;
     private TextInputEditText mMileage;
     private TextInputEditText mNick;
+    private TextInputEditText mGas;
+    private TextInputEditText mEngineStatus;
+    private TextInputEditText mSpeedStatus;
+    private TextInputEditText mLightStatus;
     private Button mAdd;
     private ProgressBar progressBar;
     private ScrollView scrollView;
@@ -94,6 +98,11 @@ public class AddCarsActivity extends AppCompatActivity {
         mAdd = (Button) findViewById(R.id.activity_add_cars_add);
         progressBar = (ProgressBar) findViewById(R.id.activity_add_cars_progressbar);
         scrollView = (ScrollView) findViewById(R.id.activity_add_cars_scrollview);
+
+        mGas = (TextInputEditText) findViewById(R.id.activity_add_cars_gas);
+        mEngineStatus = (TextInputEditText) findViewById(R.id.activity_add_cars_engine_status);
+        mSpeedStatus = (TextInputEditText) findViewById(R.id.activity_add_cars_speed);
+        mLightStatus = (TextInputEditText) findViewById(R.id.activity_add_cars_light);
 
         setListener();
 
@@ -173,41 +182,57 @@ public class AddCarsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String num = mNum.getText().toString().trim();
-                String rack = mRack.getText().toString().trim();
-                String engine = mEngine.getText().toString().trim();
-                String mlieage = mMileage.getText().toString().trim();
-                String nick = mNick.getText().toString().trim();
+                try {
 
-                String model = ((Model) mModel.getSelectedItem()).getModel_Name();
+                    String num = mNum.getText().toString().trim();
+                    String rack = mRack.getText().toString().trim();
+                    String engine = mEngine.getText().toString().trim();
+                    String mlieage = mMileage.getText().toString().trim();
+                    String nick = mNick.getText().toString().trim();
 
-                Double mMlieage = Double.parseDouble(mlieage);
+                    String gas_str = mGas.getText().toString().trim();
+                    String engine_str = mEngineStatus.getText().toString().trim();
+                    String speed_str = mSpeedStatus.getText().toString().trim();
+                    String light_str = mLightStatus.getText().toString().trim();
 
-                //假设所有验证都完事了
+                    String model = ((Model) mModel.getSelectedItem()).getModel_Name();
 
-                Car mCar = new Car(num, rack, engine, mMlieage, nick
-                        , model, MyApplication.mUser.getUser_Tel(),0.0,0.0,0.0,0.0);
+                    Double mMlieage = Double.parseDouble(mlieage);
+                    Double gas = Double.parseDouble(gas_str);
+                    Double engine_status = Double.parseDouble(engine_str);
+                    Double speed = Double.parseDouble(speed_str);
+                    Double light = Double.parseDouble(light_str);
 
-                mCar.save(AddCarsActivity.this, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
 
-                        Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                    //假设所有验证都完事了
 
-                        if (MyCarsActivity.succeed != null) {
+                    Car mCar = new Car(num, rack, engine, mMlieage, nick
+                            , model, MyApplication.mUser.getUser_Tel(), gas, engine_status, speed, light);
 
-                            MyCarsActivity.succeed.succeedAddCars();
+                    mCar.save(AddCarsActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                            if (MyCarsActivity.succeed != null) {
+
+                                MyCarsActivity.succeed.succeedAddCars();
+                            }
+
+                            AddCarsActivity.this.finish();
                         }
 
-                        AddCarsActivity.this.finish();
-                    }
+                        @Override
+                        public void onFailure(int i, String s) {
 
-                    @Override
-                    public void onFailure(int i, String s) {
+                            Toast.makeText(AddCarsActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (Exception e) {
 
-                        Toast.makeText(AddCarsActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    Toast.makeText(AddCarsActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

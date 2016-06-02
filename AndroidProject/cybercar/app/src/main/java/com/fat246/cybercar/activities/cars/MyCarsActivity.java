@@ -179,6 +179,17 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 startActivity(mIntnet);
             }
         });
+
+        mAction.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Intent mIntent = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+
+                startActivity(mIntent);
+                return true;
+            }
+        });
     }
 
     private void deleteCar() {
@@ -214,12 +225,12 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private void toDialog() {
 
         mDialog.setVisibility(View.VISIBLE);
-        mAction.setVisibility(View.INVISIBLE);
+        mAction.setVisibility(View.GONE);
     }
 
     private void toBack() {
 
-        mDialog.setVisibility(View.INVISIBLE);
+        mDialog.setVisibility(View.GONE);
         mAction.setImageResource(R.drawable.ic_add);
         mAction.setVisibility(View.VISIBLE);
     }
@@ -611,7 +622,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
             case 0:
 
-
+                toInfo();
                 break;
 
             case 1:
@@ -638,6 +649,21 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
         mIntent.putExtras(mBundle);
 
         startActivity(mIntent);
+    }
+
+    //toInfo
+    private void toInfo() {
+
+        Intent mIntnet = new Intent(MyCarsActivity.this, CarsInfoActivity.class);
+
+        Bundle mBundle = new Bundle();
+
+        mBundle.putString(CarsInfoActivity.Num, mCarClick.getCar_Num());
+        mBundle.putInt(CarsInfoActivity.Action, 0);
+
+        mIntnet.putExtras(mBundle);
+
+        startActivity(mIntnet);
     }
 
 }
