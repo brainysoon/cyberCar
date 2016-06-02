@@ -162,7 +162,7 @@
                             android:id="@+id/activity_add_cars_gas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="油量：" />
+                            android:hint="油量" />
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
@@ -196,7 +196,7 @@
                             android:id="@+id/activity_add_cars_speed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="变速器状态：" />
+                            android:hint="变速器状态" />
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
@@ -213,7 +213,7 @@
                             android:id="@+id/activity_add_cars_light"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="车灯状态：" />
+                            android:hint="车灯状态" />
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>

@@ -315,9 +315,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.QRCode.QRCodeActivity" />
         <activity android:name=".activities.QRCode.DecodeActivity" />
-        <activity
-            android:name=".activities.QRCode.QRResultActivity"
-            android:launchMode="singleInstance" />
 
         <!-- Boom推送相关 -->
         <service
@@ -332,6 +329,7 @@
 
         <receiver android:name="cn.bmob.push.PushReceiver">
             <intent-filter>
+
                 <!-- 优先级加最高 -->
                 <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -349,7 +347,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.cars.CarsInfoActivity"></activity>
+        <activity android:name=".activities.cars.CarsInfoActivity" />
+        <activity android:name=".activities.moregas.OrderDetailActivity"></activity>
     </application>
 
 </manifest>
