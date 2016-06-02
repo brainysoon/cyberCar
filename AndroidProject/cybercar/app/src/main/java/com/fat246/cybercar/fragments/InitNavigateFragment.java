@@ -73,6 +73,9 @@ public class InitNavigateFragment extends Fragment {
     //callback
     private canToPrefer mCallBack;
 
+    //iswhere
+    private boolean isWhere = false;
+
     public InitNavigateFragment() {
         // Required empty public constructor
     }
@@ -245,26 +248,53 @@ public class InitNavigateFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                String str = s.toString().trim();
+                searchNearby(s.toString().trim());
+            }
+        });
 
-                //编写如内容了
-                if (!str.equals("")) {
+        //编写
+        mStart.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    PoiNearbySearchOption option = new PoiNearbySearchOption();
+            }
 
-                    //检索关键字
-                    option.keyword(str);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    //当前位置
-                    option.location(new LatLng(mNowLocation.getLatitude(), mNowLocation.getLongitude()));
+            }
 
-                    //分页编号
-                    option.pageNum(1);
+            @Override
+            public void afterTextChanged(Editable s) {
 
-                    //检索半径
-                    option.radius(5000);
+                searchNearby(s.toString().trim());
+            }
+        });
 
-                    mPoiSearch.searchNearby(option);
+        //focus
+        mStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+
+                    isWhere = true;
+
+                    searchNearby(mStart.getText().toString().trim());
+                }
+            }
+        });
+
+        //focux
+        mEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+
+                    isWhere = false;
+
+                    searchNearby(mEnd.getText().toString().trim());
                 }
             }
         });
@@ -285,11 +315,21 @@ public class InitNavigateFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                PoiInfo poiInfo = mPoiInfo.get(position);
+                if (isWhere) {
 
-                mEnd.setText(poiInfo.name);
+                    PoiInfo poiInfo = mPoiInfo.get(position);
 
-                mEndLocation = poiInfo.location;
+                    mStart.setText(poiInfo.name);
+
+                    mStartLocation = poiInfo.location;
+                } else {
+
+                    PoiInfo poiInfo = mPoiInfo.get(position);
+
+                    mEnd.setText(poiInfo.name);
+
+                    mEndLocation = poiInfo.location;
+                }
             }
         });
 
@@ -329,6 +369,30 @@ public class InitNavigateFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //search
+    private void searchNearby(String str) {
+
+        //编写如内容了
+        if (!str.equals("")) {
+
+            PoiNearbySearchOption option = new PoiNearbySearchOption();
+
+            //检索关键字
+            option.keyword(str);
+
+            //当前位置
+            option.location(new LatLng(mNowLocation.getLatitude(), mNowLocation.getLongitude()));
+
+            //分页编号
+            option.pageNum(1);
+
+            //检索半径
+            option.radius(5000);
+
+            mPoiSearch.searchNearby(option);
+        }
     }
 
     //findView
