@@ -10,10 +10,25 @@
         android:id="@+id/activity_navigate_bar"
         layout="@layout/my_toolbar" />
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/activity_navigate_mapview_map"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true" />
+        android:layout_height="match_parent">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/activity_navigate_mapview_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+        <Button
+            android:id="@+id/activity_navigate_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimaryDark"
+            android:text="开始跟踪"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 
 </LinearLayout>
