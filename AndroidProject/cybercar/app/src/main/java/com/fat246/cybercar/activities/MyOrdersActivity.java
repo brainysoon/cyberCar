@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.QRCode.QRCodeActivity;
+import com.fat246.cybercar.activities.moregas.OrderDetailActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.Order;
 import com.fat246.cybercar.tools.HelpInitBoomButton;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -56,7 +58,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
     private String[] title = new String[]{
             "详细信息",
             "二维码",
-            "删除"
+            "取消订单"
     };
     private int[][] colors;
 
@@ -67,7 +69,9 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             R.drawable.ic_delete
     };
     private Drawable[] drawables;
+
     public static Integer posi;
+    public static Order mOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,7 +334,9 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
                 public void onClick() {
 
                     Integer i = (Integer) menuButton.getTag();
-                    posi = i;
+                    posi = mDataList.size() - i - 1;
+
+                    mOrder = mDataList.get(posi);
 
                     Log.e("i++", menuButton.getTag().toString());
                 }
@@ -355,7 +361,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
             case 0:
 
-
+                toOrderDetail();
                 break;
 
             case 1:
@@ -365,8 +371,48 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
             case 2:
 
+                deleteOrder(posi);
                 break;
         }
+    }
+
+    //订单详细信息
+    private void toOrderDetail() {
+
+        Intent mIntent = new Intent(MyOrdersActivity.this, OrderDetailActivity.class);
+
+        startActivity(mIntent);
+    }
+
+    //删除订单
+    private void deleteOrder(final int posi) {
+
+        Order order = mDataList.get(posi);
+
+        if (order.getOrder_Status() > 4) {
+
+            Toast.makeText(MyOrdersActivity.this, "已完成的订单无法删除！", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
+        order.setTableName("Order");
+
+        order.delete(MyOrdersActivity.this, new DeleteListener() {
+            @Override
+            public void onSuccess() {
+
+                Toast.makeText(MyOrdersActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
+                mDataList.remove(posi);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+                Toast.makeText(MyOrdersActivity.this, "删除失败！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //订单状态
