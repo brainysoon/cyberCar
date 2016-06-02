@@ -4,12 +4,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.RouteLine;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -23,7 +32,7 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.fat246.cybercar.R;
 
-public class NavigateActivity extends AppCompatActivity implements OnGetRoutePlanResultListener {
+public class NavigateActivity extends AppCompatActivity implements OnGetRoutePlanResultListener, BDLocationListener {
 
     public static final String sLat = "sLat";
     public static final String sLng = "sLng";
@@ -34,8 +43,17 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
     private MapView mMap;
     private BaiduMap mBaiduMap;
 
+    private Button mLoc;
+
     OverlayManager routeOverlay = null;
     RouteLine route = null;
+
+    //定位Client
+    private LocationClient mLocationClient;
+    private boolean isLoc = false;
+
+    //标注点当前位置
+    private BitmapDescriptor mNowLoc = BitmapDescriptorFactory.fromResource(R.drawable.icon_car_now);
 
     //serach
     RoutePlanSearch mSearch;
@@ -105,6 +123,25 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
 
         //开启交通图
         mBaiduMap.setTrafficEnabled(true);
+
+        mLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isLoc) {
+
+                    mLoc.setText("开始跟踪");
+                    isLoc = false;
+                    mLocationClient.stop();
+                } else {
+
+                    mLoc.setText("停止跟踪");
+                    isLoc = true;
+
+                    mLocationClient.start();
+                }
+            }
+        });
     }
 
     //findView
@@ -112,8 +149,35 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
 
         mMap = (MapView) findViewById(R.id.activity_navigate_mapview_map);
 
+        mLoc = (Button) findViewById(R.id.activity_navigate_loc);
+
         mBaiduMap = mMap.getMap();
 
+        //开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+
+        //定位初始化
+        mLocationClient = new LocationClient(this);
+
+        //注册监听事件
+        mLocationClient.registerLocationListener(this);
+
+        //设置
+        LocationClientOption option = new LocationClientOption();
+
+        option.setOpenGps(true); //打开GPS
+
+        option.setCoorType("gcj02"); //设置坐标类型
+        option.setScanSpan(500);   //定位间隙
+
+//        option.setIsNeedAddress(true);
+
+        //绑定设置
+        mLocationClient.setLocOption(option);
+
+        //设置一些 configeration
+        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.COMPASS,
+                true, mNowLoc));
 
     }
 
@@ -130,6 +194,11 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
         super.onResume();
 
         mMap.onResume();
+
+        if (isLoc) {
+
+            mLocationClient.start();
+        }
     }
 
     @Override
@@ -137,6 +206,11 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
         super.onPause();
 
         mMap.onPause();
+
+        if (isLoc) {
+
+            mLocationClient.stop();
+        }
     }
 
     @Override
@@ -186,12 +260,43 @@ public class NavigateActivity extends AppCompatActivity implements OnGetRoutePla
 
         @Override
         public BitmapDescriptor getStartMarker() {
-            return BitmapDescriptorFactory.fromResource(R.drawable.icon_car_now);
+            return mNowLoc;
         }
 
         @Override
         public BitmapDescriptor getTerminalMarker() {
             return BitmapDescriptorFactory.fromResource(R.drawable.icon_en);
         }
+    }
+
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+
+        //map View 销毁过后不再处理新的定位
+        if (bdLocation == null || mMap == null) {
+
+            return;
+        }
+
+        //更新当前位置
+        LatLng nowLoc = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+
+        MyLocationData mLocationData = new MyLocationData.Builder()
+                .accuracy(bdLocation.getRadius())
+                //此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(bdLocation.getLatitude())
+                .longitude(bdLocation.getLongitude()).build();
+
+        //设置定位数据
+        mBaiduMap.setMyLocationData(mLocationData);
+
+
+        //经纬度信息
+
+        MapStatus.Builder mBuilder = new MapStatus.Builder();
+
+        mBuilder.target(nowLoc).zoom(18.0f);
+
+        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mBuilder.build()));
     }
 }
