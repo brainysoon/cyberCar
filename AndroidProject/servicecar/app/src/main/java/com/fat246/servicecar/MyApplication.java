@@ -2,6 +2,7 @@ package com.fat246.servicecar;
 
 import android.app.Application;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 
 /**
@@ -18,5 +19,9 @@ public class MyApplication extends Application {
 
         //初始化Bmob
         Bmob.initialize(this, BOMB_APPKEY);
+        // 初始化BmobSDK
+
+        // 启动推送服务
+        BmobPush.startWork(this);
     }
 }
