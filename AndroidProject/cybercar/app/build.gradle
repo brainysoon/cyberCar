@@ -8,8 +8,8 @@ android {
         applicationId "com.fat246.cybercar"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 13
-        versionName "1.1.1"
+        versionCode 14
+        versionName "1.1.2"
     }
     buildTypes {
         release {
