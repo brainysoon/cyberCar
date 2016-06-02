@@ -15,8 +15,15 @@ public class Car extends BmobObject {
     private String Car_Nick;
     private String Car_ModelType;
 
+    //各种指标
+    private Double Car_Gas;
+    private Double Car_EngineStatus;
+    private Double Car_SpeedStatus;
+    private Double Car_LightStatus;
+
     public Car(String Car_Num, String Car_RackNum, String Car_EngineNum, Double Car_Mileage,
-               String Car_Nick, String Car_ModelType, String User_Tel) {
+               String Car_Nick, String Car_ModelType, String User_Tel, Double Car_Gas,
+               Double Car_EngineStatus, Double Car_SpeedStatus, Double Car_LightStatus) {
         super();
 
         this.Car_Num = Car_Num;
@@ -26,6 +33,11 @@ public class Car extends BmobObject {
         this.Car_Nick = Car_Nick;
         this.Car_ModelType = Car_ModelType;
         this.User_Tel = User_Tel;
+
+        this.Car_Gas = Car_Gas;
+        this.Car_EngineStatus = Car_EngineStatus;
+        this.Car_SpeedStatus = Car_SpeedStatus;
+        this.Car_LightStatus = Car_LightStatus;
     }
 
     //get
@@ -57,4 +69,19 @@ public class Car extends BmobObject {
         return this.User_Tel;
     }
 
+    public Double getCar_Gas() {
+        return this.Car_Gas;
+    }
+
+    public Double getCar_EngineStatus() {
+        return this.Car_EngineStatus;
+    }
+
+    public Double getCar_SpeedStatus() {
+        return this.Car_SpeedStatus;
+    }
+
+    public Double getCar_LightStatus() {
+        return this.Car_LightStatus;
+    }
 }

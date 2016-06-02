@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.activities.cars.CarsInfoActivity;
 
 /**
@@ -16,7 +15,7 @@ import com.fat246.cybercar.activities.cars.CarsInfoActivity;
  */
 public class NotificationUtil {
 
-    private static final int NOTIFICATION_FLAG = 1;
+    private static int NOTIFICATION_FLAG = 1;
 
     public static final String NOTIFICATION_NUM = "NOTIFICATION_NUM";
     public static final String NOTIFICATION_STR = "NOTIFICATION_STR";
@@ -35,7 +34,7 @@ public class NotificationUtil {
     public void sendNotification(String str, String num) {
 
 
-        Intent mIntent = new Intent(context, MainActivity.class);
+        Intent mIntent = new Intent(context, CarsInfoActivity.class);
 
         Bundle mBundle = new Bundle();
 
@@ -66,6 +65,6 @@ public class NotificationUtil {
         // 需要注意build()是在API level
         // 16及之后增加的，在API11中可以使用getNotificatin()来代替
         notify2.flags |= Notification.FLAG_AUTO_CANCEL;
-        mNotificationManager.notify(NOTIFICATION_FLAG, notify2);
+        mNotificationManager.notify(NOTIFICATION_FLAG++, notify2);
     }
 }
