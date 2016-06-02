@@ -72,7 +72,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 toolbar.setTitle("汽车二维码");
                 String str = mBundel.getString("car_info", "");
 
-                if (MyCarsActivity.mCarClick!=null){
+                if (MyCarsActivity.mCarClick != null) {
 
                     new QRCodeStrAsync(BitmapFactory.decodeResource(getResources(),
                             R.mipmap.ic_launcher)).execute(MyCarsActivity.mCarClick);
@@ -215,12 +215,15 @@ public class QRCodeActivity extends AppCompatActivity {
             try {
 
                 jsonObject.put("a", mCar.getCar_Num());
-                jsonObject.put("b", mCar.getUser_Tel());
                 jsonObject.put("c", mCar.getCar_RackNum());
                 jsonObject.put("d", mCar.getCar_EngineNum());
                 jsonObject.put("e", mCar.getCar_Mileage().toString());
                 jsonObject.put("f", mCar.getCar_Nick());
                 jsonObject.put("g", mCar.getCar_ModelType());
+                jsonObject.put("h", mCar.getCar_Gas().toString());
+                jsonObject.put("i", mCar.getCar_EngineStatus().toString());
+                jsonObject.put("j", mCar.getCar_SpeedStatus().toString());
+                jsonObject.put("k", mCar.getCar_LightStatus().toString());
 
             } catch (Exception e) {
 

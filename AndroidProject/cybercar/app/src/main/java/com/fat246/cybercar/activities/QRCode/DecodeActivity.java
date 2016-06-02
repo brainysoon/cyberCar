@@ -1,23 +1,37 @@
 package com.fat246.cybercar.activities.QRCode;
 
-import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.application.MyApplication;
+import com.fat246.cybercar.beans.Car;
+
+import org.json.JSONObject;
+
+import cn.bmob.v3.listener.SaveListener;
 
 public class DecodeActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
     private QRCodeReaderView mQRCdoeReaderView;
     private ImageView mImageView;
+
+    private RelativeLayout layout;
+    private ProgressBar progressBar;
+
+    public static boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +70,9 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
         mQRCdoeReaderView = (QRCodeReaderView) findViewById(R.id.activity_decode_reader);
         mImageView = (ImageView) findViewById(R.id.activity_decode_redline_image);
 
+        layout = (RelativeLayout) findViewById(R.id.activity_decode_layout);
+        progressBar = (ProgressBar) findViewById(R.id.activity_decode_pro_bar).findViewById(R.id.progressbar);
+
     }
 
     //initToolbar
@@ -84,14 +101,67 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
 
-        Intent mIntent = new Intent(DecodeActivity.this, QRResultActivity.class);
+        Log.e("qrcode>>>text", text);
 
-        Bundle mBundle = new Bundle();
-        mBundle.putString("qr_info", text);
-        mIntent.putExtras(mBundle);
+        if (flag) {
 
-        startActivity(mIntent);
-        DecodeActivity.this.finish();
+            //
+            flag = false;
+
+            //showbar
+            showBar();
+
+            try {
+
+                JSONObject jsonObject = new JSONObject(text);
+
+                String a = jsonObject.getString("a");
+                String c = jsonObject.getString("c");
+                String d = jsonObject.getString("d");
+                String e = jsonObject.getString("e");
+                String f = jsonObject.getString("f");
+                String g = jsonObject.getString("g");
+                String h = jsonObject.getString("h");
+                String i = jsonObject.getString("i");
+                String j = jsonObject.getString("j");
+                String k = jsonObject.getString("k");
+
+                Double mileage = Double.parseDouble(e);
+                Double gas = Double.parseDouble(h);
+                Double engine = Double.parseDouble(i);
+                Double speed = Double.parseDouble(j);
+                Double light = Double.parseDouble(k);
+
+                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+
+                mCar.save(DecodeActivity.this, new SaveListener() {
+                    @Override
+                    public void onSuccess() {
+
+                        Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                        hideBar();
+
+                        DecodeActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                        Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+
+                        hideBar();
+                        flag = true;
+                    }
+                });
+
+            } catch (Exception e) {
+
+                flag = true;
+
+                hideBar();
+            }
+        }
     }
 
     @Override
@@ -116,4 +186,19 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
         mQRCdoeReaderView.getCameraManager().stopPreview();
     }
 
+    //showbar
+    private void showBar() {
+
+        layout.setVisibility(View.INVISIBLE);
+
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    //hideBar
+    private void hideBar() {
+
+        layout.setVisibility(View.VISIBLE);
+
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 }

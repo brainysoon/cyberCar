@@ -28,6 +28,7 @@ import cn.bmob.v3.listener.FindListener;
 public class CarsInfoActivity extends AppCompatActivity {
 
     public static final String Action = "Action";
+    public static final String Num = "num";
 
     //View
     private CircleImageView mBrand;
@@ -78,6 +79,15 @@ public class CarsInfoActivity extends AppCompatActivity {
         switch (action) {
 
             case 0:
+
+                num = mBundle.getString(Num);
+
+                if (num != null) {
+
+                    showBar();
+
+                    findCar();
+                }
 
                 break;
 
