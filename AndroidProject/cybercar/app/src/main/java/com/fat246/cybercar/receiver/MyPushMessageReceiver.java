@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.fat246.cybercar.utils.NotificationUtil;
 
+import org.json.JSONObject;
+
 import cn.bmob.push.PushConstants;
 
 /**
@@ -19,10 +21,31 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
 
         if (intent.getAction().equals(PushConstants.ACTION_MESSAGE)) {
 
-            Log.d("bmob", "客户端收到推送内容：" + intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
+            Log.e("bmob", "客户端收到推送内容：" + intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
 
-            new NotificationUtil(context)
-                    .sendNotification(intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
+
+            String json = intent.getStringExtra(PushConstants.EXTRA_PUSH_MESSAGE_STRING);
+
+            try {
+
+                JSONObject jsonObject = new JSONObject(json);
+
+                String content = jsonObject.getString("alert");
+
+                String [] strs=content.split(":");
+
+                Log.e("strs",strs.length+"");
+
+                content=strs[0];
+                String num=strs[1];
+
+                new NotificationUtil(context)
+                        .sendNotification(content,num);
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
         }
     }
 }
