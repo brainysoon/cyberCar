@@ -122,15 +122,15 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 //给予维护汽车
                 if (mCar.getCar_Mileage() > 15000) {
 
-                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Mileage);
+                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Mileage, mCar.getCar_Num());
 
                     mMsgs.add(msg);
                 }
 
                 //油量
-                if (mCar.getCar_Gas() <10){
+                if (mCar.getCar_Gas() < 10) {
 
-                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Gas);
+                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Gas, mCar.getCar_Num());
 
                     mMsgs.add(msg);
                 }
@@ -138,7 +138,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 //发动机
                 if (mCar.getCar_EngineStatus() > 10) {
 
-                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Engine);
+                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Engine, mCar.getCar_Num());
 
                     mMsgs.add(msg);
                 }
@@ -146,7 +146,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 //变速器
                 if (mCar.getCar_SpeedStatus() > 10) {
 
-                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Speed);
+                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Speed, mCar.getCar_Num());
 
                     mMsgs.add(msg);
                 }
@@ -154,7 +154,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 //车灯
                 if (mCar.getCar_LightStatus() > 10) {
 
-                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Light);
+                    Msg msg = new Msg(mCar.getUser_Tel(), Status_Light, mCar.getCar_Num());
 
                     mMsgs.add(msg);
                 }
@@ -178,7 +178,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
                 query.addWhereEqualTo("uid", msg.getUser_Tel());
                 bmobPush.setQuery(query);
-                bmobPush.pushMessage(msg.getMsg_Content());
+                bmobPush.pushMessage(msg.getMsg_Content()+":"+msg.getCar_Num());
 
                 Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
 
