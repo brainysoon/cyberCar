@@ -315,20 +315,23 @@ public class InitNavigateFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (isWhere) {
+                if (mPoiInfo != null) {
 
-                    PoiInfo poiInfo = mPoiInfo.get(position);
+                    if (isWhere) {
 
-                    mStart.setText(poiInfo.name);
+                        PoiInfo poiInfo = mPoiInfo.get(position);
 
-                    mStartLocation = poiInfo.location;
-                } else {
+                        mStart.setText(poiInfo.name);
 
-                    PoiInfo poiInfo = mPoiInfo.get(position);
+                        mStartLocation = poiInfo.location;
+                    } else {
 
-                    mEnd.setText(poiInfo.name);
+                        PoiInfo poiInfo = mPoiInfo.get(position);
 
-                    mEndLocation = poiInfo.location;
+                        mEnd.setText(poiInfo.name);
+
+                        mEndLocation = poiInfo.location;
+                    }
                 }
             }
         });
