@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
     public static String Status_Light = "车灯该检查维修了！";
 
     private ListView mListView;
+    private Button mStart;
 
     private List<Msg> mDataList = new ArrayList<>();
 
@@ -42,7 +44,14 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
         initListView();
 
-        initData();
+        mStart = (Button) findViewById(R.id.start);
+
+        mStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
 
     }
 
@@ -178,7 +187,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
                 query.addWhereEqualTo("uid", msg.getUser_Tel());
                 bmobPush.setQuery(query);
-                bmobPush.pushMessage(msg.getMsg_Content()+":"+msg.getCar_Num());
+                bmobPush.pushMessage(msg.getMsg_Content() + ":" + msg.getCar_Num());
 
                 Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
 
