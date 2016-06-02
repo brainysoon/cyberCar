@@ -74,6 +74,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     private LinearLayout mDialog;
 
     public static Car mCarClick = null;
+    public static int poi;
 
     public static AddCarsActivity.succeedAdd succeed = null;
 
@@ -202,14 +203,9 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
                 Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
 
-                mPtrFrame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                mCarData.remove(poi);
 
-                        //开始刷新
-                        new CarsAsync().execute();
-                    }
-                }, 500);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -415,6 +411,8 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                     Integer i = (Integer) menuButton.getTag();
 
                     mCarClick = mCarData.get(i);
+
+                    poi = i;
 
                     Log.e("i++", menuButton.getTag().toString());
                 }
