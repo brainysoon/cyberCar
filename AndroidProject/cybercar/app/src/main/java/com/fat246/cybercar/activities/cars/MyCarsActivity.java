@@ -179,6 +179,17 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 startActivity(mIntnet);
             }
         });
+
+        mAction.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Intent mIntent = new Intent(MyCarsActivity.this, AddCarsActivity.class);
+
+                startActivity(mIntent);
+                return true;
+            }
+        });
     }
 
     private void deleteCar() {
