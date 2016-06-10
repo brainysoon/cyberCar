@@ -22,6 +22,7 @@ public class SucceedLoginUtil {
 
         BmobQuery<MyBmobInstallation> query = new BmobQuery<MyBmobInstallation>();
         query.addWhereEqualTo("installationId", BmobInstallation.getInstallationId(context));
+        query.addWhereMatches("uid",mUser.getUser_Tel());
         query.findObjects(context, new FindListener<MyBmobInstallation>() {
 
             @Override
