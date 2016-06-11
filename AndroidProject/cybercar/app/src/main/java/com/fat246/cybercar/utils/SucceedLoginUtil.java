@@ -22,7 +22,6 @@ public class SucceedLoginUtil {
 
         BmobQuery<MyBmobInstallation> query = new BmobQuery<MyBmobInstallation>();
         query.addWhereEqualTo("installationId", BmobInstallation.getInstallationId(context));
-        query.addWhereMatches("uid",mUser.getUser_Tel());
         query.findObjects(context, new FindListener<MyBmobInstallation>() {
 
             @Override
@@ -32,25 +31,21 @@ public class SucceedLoginUtil {
                     MyBmobInstallation mbi = object.get(0);
 
 
-                    if (mbi.getUid() == null || mbi.getUid().equals(mUser.getUser_Tel())) {
+                    mbi.setUid(mUser.getUser_Tel());
+                    mbi.update(context, new UpdateListener() {
 
-                        mbi.setUid(mUser.getUser_Tel());
-                        mbi.update(context, new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            Log.i("bmob", "设备信息更新成功");
+                        }
 
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                Log.i("bmob", "设备信息更新成功");
-                            }
-
-                            @Override
-                            public void onFailure(int code, String msg) {
-                                // TODO Auto-generated method stub
-                                Log.i("bmob", "设备信息更新失败:" + msg);
-                            }
-                        });
-
-                    }
+                        @Override
+                        public void onFailure(int code, String msg) {
+                            // TODO Auto-generated method stub
+                            Log.i("bmob", "设备信息更新失败:" + msg);
+                        }
+                    });
                 }
             }
 
