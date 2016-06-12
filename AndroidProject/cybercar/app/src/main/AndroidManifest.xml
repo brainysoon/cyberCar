@@ -176,7 +176,7 @@
         <!-- 百度API相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="8xqMg8Hksz82ywiIv4G65bXKmGdzQBYw" />
+            android:value="pPXAZOMRGgKR49tvccjHl4LOohBnusXq" />
         <!-- END OF IT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
 

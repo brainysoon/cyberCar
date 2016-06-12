@@ -213,7 +213,7 @@ public class GasStationInfo {
     public static void attmptGasStationPost(Context mContext, Parameters parameters, final canHandGasStationPostResult mHand) {
 
         //得用聚合数据自带的方法来得到数据
-        JuheData.executeWithAPI(mContext, API_ID, GAS_STATION_INFO_POST_URL, JuheData.POST, parameters, new DataCallBack() {
+        JuheData.executeWithAPI(mContext, API_ID, GAS_STATION_INFO_POST_URL, JuheData.GET, parameters, new DataCallBack() {
             @Override
             public void onSuccess(int i, String s) {
 
