@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.fat246.cybercar.R;
+import com.fat246.cybercar.fragments.FirstLoadFragment;
 import com.fat246.cybercar.fragments.LogoFragment;
+import com.fat246.cybercar.utils.PreferencesUtility;
 
 public class LogoActivity extends AppCompatActivity {
 
@@ -14,7 +16,15 @@ public class LogoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
 
-        Fragment mFragment = new LogoFragment();
+        Fragment mFragment =null;
+
+        if (PreferencesUtility.getInstance(this).setIsFirstLoad()){
+
+            mFragment=FirstLoadFragment.newInstance();
+        }else {
+
+            mFragment = new LogoFragment();
+        }
 
         getSupportFragmentManager().beginTransaction().add(R.id.activity_logo_framelayout, mFragment).commit();
     }

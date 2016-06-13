@@ -58,4 +58,5 @@
     <!--END OF Timber++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
     <color name="overlay">#AA1C1C1C</color>
     <color name="windowBackground">#1C1C1C</color>
+    <color name="theme_700">#455A64</color>
 </resources>
