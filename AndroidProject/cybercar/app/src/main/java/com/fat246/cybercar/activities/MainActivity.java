@@ -1,6 +1,8 @@
 package com.fat246.cybercar.activities;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.fat246.cybercar.ITimberService;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.activities.carmusics.BaseActivity;
@@ -57,6 +59,7 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.listener.DownloadFileListener;
@@ -593,6 +596,15 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             exitTime = System.currentTimeMillis();
         } else {
 
+            //是否继续播放音乐
+            if (!PreferencesUtility.getInstance(this).isSettingsMusicContinue()) {
+
+                if (MusicPlayer.isPlaying()) {
+
+                    MusicPlayer.playOrPause();
+                }
+            }
+
             super.onBackPressed();
         }
     }
@@ -630,6 +642,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
             backToUnLogin();
         }
+
     }
 
     //回到未登录
@@ -757,12 +770,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         return mMainActivity;
     }
 
-    //onStop
+    //onDestory
 
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         //是否继续播放音乐
         if (!PreferencesUtility.getInstance(this).isSettingsMusicContinue()) {

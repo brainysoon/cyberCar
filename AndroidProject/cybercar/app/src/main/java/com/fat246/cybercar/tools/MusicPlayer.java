@@ -37,6 +37,7 @@ import com.fat246.cybercar.R;
 import com.fat246.cybercar.dataloaders.SongLoader;
 import com.fat246.cybercar.helpers.MusicPlaybackTrack;
 import com.fat246.cybercar.services.MusicService;
+import com.fat246.cybercar.utils.PreferencesUtility;
 import com.fat246.cybercar.utils.TimberUtils.IdType;
 
 import java.util.Arrays;
@@ -104,6 +105,14 @@ public class MusicPlayer {
 
     public static void initPlaybackServiceWithSettings(final Context context) {
         setShowAlbumArtOnLockscreen(true);
+
+        if (PreferencesUtility.getInstance(context).isSettingsMusicAuto()){
+
+            if (!MusicPlayer.isPlaying()){
+
+                MusicPlayer.playOrPause();
+            }
+        }
     }
 
     public static void setShowAlbumArtOnLockscreen(final boolean enabled) {
