@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             navigationView.getMenu().findItem(R.id.nav_myregulations).setIcon(R.drawable.ic_gavel_2x);
 
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music);
-            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play);
+//            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play);
             navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note);
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music);
 
@@ -360,7 +360,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
             //音乐
             navigationView.getMenu().findItem(R.id.nav_library).setIcon(R.drawable.library_music_white);
-            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
+//            navigationView.getMenu().findItem(R.id.nav_playlists).setIcon(R.drawable.playlist_play_white);
             navigationView.getMenu().findItem(R.id.nav_queue).setIcon(R.drawable.music_note_white);
             navigationView.getMenu().findItem(R.id.nav_nowplaying).setIcon(R.drawable.bookmark_music_white);
 
@@ -405,10 +405,10 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 runnable = navigateLibrary;
 
                 break;
-            case R.id.nav_playlists:
-                runnable = navigatePlaylist;
-
-                break;
+//            case R.id.nav_playlists:
+//                runnable = navigatePlaylist;
+//
+//                break;
             case R.id.nav_nowplaying:
                 NavigationUtils.navigateToNowplaying(MainActivity.this, false);
                 break;
@@ -517,7 +517,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     private void initNavigationMap() {
 
         navigationMap.put(Constants.NAVIGATE_LIBRARY, navigateLibrary);
-        navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
+//        navigationMap.put(Constants.NAVIGATE_PLAYLIST, navigatePlaylist);
         navigationMap.put(Constants.NAVIGATE_QUEUE, navigateQueue);
         navigationMap.put(Constants.NAVIGATE_NOWPLAYING, navigateNowplaying);
         navigationMap.put(Constants.NAVIGATE_ALBUM, navigateAlbum);
@@ -795,16 +795,16 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
-    Runnable navigatePlaylist = new Runnable() {
-        public void run() {
-            mNavigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
-            Fragment fragment = new PlaylistFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
-            transaction.replace(R.id.fragment_container, fragment).commit();
-
-        }
-    };
+//    Runnable navigatePlaylist = new Runnable() {
+//        public void run() {
+//            mNavigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
+//            Fragment fragment = new PlaylistFragment();
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.hide(getSupportFragmentManager().findFragmentById(R.id.fragment_container));
+//            transaction.replace(R.id.fragment_container, fragment).commit();
+//
+//        }
+//    };
     Runnable navigateQueue = new Runnable() {
         public void run() {
             mNavigationView.getMenu().findItem(R.id.nav_queue).setChecked(true);

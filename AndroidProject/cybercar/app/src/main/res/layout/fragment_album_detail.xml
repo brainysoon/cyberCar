@@ -47,7 +47,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <com.naman14.timber.widgets.CircleImageView
+                <com.fat246.cybercar.openwidgets.CircleImageView
                     android:id="@+id/artist_art"
                     android:layout_width="50dp"
                     android:layout_height="50dp"

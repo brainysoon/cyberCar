@@ -31,10 +31,6 @@
 
             android:title="@string/library" />
         <item
-            android:id="@+id/nav_playlists"
-
-            android:title="@string/playlists" />
-        <item
             android:id="@+id/nav_queue"
 
             android:title="@string/playing_queue" />
