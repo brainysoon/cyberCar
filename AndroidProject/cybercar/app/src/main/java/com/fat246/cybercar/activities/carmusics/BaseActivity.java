@@ -191,9 +191,9 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
-            case R.id.action_settings:
-                NavigationUtils.navigateToSettings(this);
-                return true;
+//            case R.id.action_settings:
+//                NavigationUtils.navigateToSettings(this);
+//                return true;
             case R.id.action_shuffle:
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

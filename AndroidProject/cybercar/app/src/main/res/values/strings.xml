@@ -52,8 +52,8 @@
 
     <!--Menu 功能 名字-->
     <string name="fragment_drawer_menu_function_carinfos">车辆</string>
-    <string name="title_activity_city_list">CityListActivity</string>
-    <string name="title_activity_regulation_result">RegulationResultActivity</string>
+    <string name="title_activity_city_list">城市</string>
+    <string name="title_activity_regulation_result">违章</string>
 
     <!--违章信息-->
     <string name="csy_form_tip">目前仅支持小型汽车查询</string>
@@ -89,7 +89,7 @@
     <!--END OF IT***********************************************************************************-->
 
     <!--START Of Timber String++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
 
     <string name="songs">歌曲</string>
     <string name="albums">专辑</string>
@@ -98,13 +98,13 @@
     <string name="accessibility_pause">暂停</string>
     <string name="accessibility_next">下一曲</string>
     <string name="accessibility_prev">上一曲</string>
-    <string name="accessibility_shuffle">Shuffle</string>
-    <string name="accessibility_shuffle_all">Shuffle all</string>
-    <string name="accessibility_repeat">Repeat</string>
-    <string name="accessibility_repeat_all">Repeat all</string>
-    <string name="accessibility_repeat_one">Repeat one</string>
-    <string name="accessibility_queue">Open queue</string>
-    <string name="accessibility_browse">Browse music</string>
+    <string name="accessibility_shuffle">随机</string>
+    <string name="accessibility_shuffle_all">随机播放全部</string>
+    <string name="accessibility_repeat">循环</string>
+    <string name="accessibility_repeat_all">全部循环</string>
+    <string name="accessibility_repeat_one">单曲循环</string>
+    <string name="accessibility_queue">打开播放列表</string>
+    <string name="accessibility_browse">浏览音乐</string>
 
     <string name="menu_sort_by">排序方法</string>
     <string name="sort_order_entry_az">字典序A-Z</string>
@@ -116,15 +116,15 @@
     <string name="sort_order_entry_duration">时长</string>
     <string name="sort_order_entry_date_added">添加时间</string>
     <string name="sort_order_entry_track_list">Track list</string>
-    <string name="sort_order_entry_number_of_songs">Number of songs</string>
-    <string name="sort_order_entry_number_of_albums">Number of albums</string>
-    <string name="sort_order_entry_filename">Filename</string>
+    <string name="sort_order_entry_number_of_songs">歌曲数</string>
+    <string name="sort_order_entry_number_of_albums">歌手数</string>
+    <string name="sort_order_entry_filename">文件名</string>
 
-    <string name="error_playing_track">Error Playing track</string>
+    <string name="error_playing_track">播放出错了</string>
 
-    <string name="playlist_last_added">Last Added</string>
-    <string name="playlist_recently_played">Recently Played</string>
-    <string name="playlist_top_tracks">My Top Tracks</string>
+    <string name="playlist_last_added">最新添加</string>
+    <string name="playlist_recently_played">最近播放</string>
+    <string name="playlist_top_tracks">我的纪录</string>
 
     <string name="timber_source">Report any bugs <u> here </u> </string>
     <string name="timber_feature_request">Specify any feature request in the Google+ community <u> here </u></string>
@@ -141,8 +141,8 @@
     <string name="last_opened">Last Opened</string>
 
     <string name="search">搜索</string>
-    <string name="action_shuffle_all">Shuffle All</string>
-    <string name="action_equalizer">Equalizer</string>
+    <string name="action_shuffle_all">全部播放</string>
+    <string name="action_equalizer">均衡器</string>
     <string name="search_library">搜索歌曲</string>
 
     <string name="select_theme">Select Theme</string>
