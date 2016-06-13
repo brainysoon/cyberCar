@@ -3,6 +3,7 @@ package com.fat246.cybercar.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,16 @@ public class LogoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mImageView = (ImageView) view.findViewById(R.id.fragment_logo_imageview);
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolbhu.cn"));
+
+                startActivity(intent);
+            }
+        });
     }
 
     //处理跳转和自动登陆等。
