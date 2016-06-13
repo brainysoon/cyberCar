@@ -32,7 +32,8 @@ public class AboutActivity extends AppCompatActivity {
             "TrackSelector",
             "Okio",
             "QRCodeReaderView",
-
+            "ShowcaseView",
+            "Timber"
     };
 
     @Override
