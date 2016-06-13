@@ -86,8 +86,8 @@ public class LogoFragment extends Fragment {
 
                 BmobQuery<User> query = new BmobQuery<>("User");
 
-                query.addWhereMatches(PreferencesUtility.USER_TEL, mUser.getUser_Tel());
-                query.addWhereMatches(PreferencesUtility.USER_PASSWORD, mUser.getUser_Password());
+                query.addWhereEqualTo(PreferencesUtility.USER_TEL, mUser.getUser_Tel());
+                query.addWhereEqualTo(PreferencesUtility.USER_PASSWORD, mUser.getUser_Password());
 
                 query.findObjects(getContext(), new FindListener<User>() {
                     @Override

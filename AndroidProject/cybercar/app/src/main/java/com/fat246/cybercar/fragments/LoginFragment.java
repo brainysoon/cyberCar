@@ -222,8 +222,8 @@ public class LoginFragment extends Fragment {
 
                     BmobQuery<User> query = new BmobQuery<>("User");
 
-                    query.addWhereMatches("User_Tel", userName);
-                    query.addWhereMatches("User_Password", userPassword);
+                    query.addWhereEqualTo("User_Tel", userName);
+                    query.addWhereEqualTo("User_Password", userPassword);
 
                     query.findObjects(getContext(), new FindListener<User>() {
                         @Override
