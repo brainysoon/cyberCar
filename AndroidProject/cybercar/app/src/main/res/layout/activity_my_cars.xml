@@ -150,7 +150,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="引擎号：" />
+                        android:text="发动机号：" />
 
                     <TextView
                         android:id="@+id/activity_my_cars_engine"
