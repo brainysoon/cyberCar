@@ -65,6 +65,8 @@ public final class PreferencesUtility {
     public static final String USER_BIRTHDAY = "User_Birthday";
     public static final String USER_AVATOR_PATH = "User_Avator";
 
+    public static final String IS_FIRST_LOAD="is_first_load";
+
     private static PreferencesUtility sInstance;
 
     private static SharedPreferences mPreferences;
@@ -78,6 +80,20 @@ public final class PreferencesUtility {
             sInstance = new PreferencesUtility(context.getApplicationContext());
         }
         return sInstance;
+    }
+
+    public boolean setIsFirstLoad(){
+
+        return mPreferences.getBoolean(IS_FIRST_LOAD,true);
+    }
+
+    public void setNotFirstLoad(){
+
+        SharedPreferences.Editor editor=mPreferences.edit();
+
+        editor.putBoolean(IS_FIRST_LOAD,false);
+
+        editor.apply();
     }
 
 

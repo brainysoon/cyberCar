@@ -18,7 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +51,9 @@ import com.fat246.cybercar.utils.Constants;
 import com.fat246.cybercar.utils.NavigationUtils;
 import com.fat246.cybercar.utils.PreferencesUtility;
 import com.fat246.cybercar.utils.TimberUtils;
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.HashMap;
@@ -56,7 +62,7 @@ import java.util.Map;
 import cn.bmob.v3.listener.DownloadFileListener;
 
 
-public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
+public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer,OnShowcaseEventListener {
 
     //主Activity 实例
     public static MainActivity mMainActivity;
@@ -206,6 +212,37 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
                 }
             }
         });
+
+        //add ShowcaseView
+        if (PreferencesUtility.getInstance(this).setIsFirstLoad()){
+
+            showcaseView();
+
+            //setNot
+            PreferencesUtility.getInstance(this).setNotFirstLoad();
+        }
+    }
+
+    //initShowcaseView
+    private void showcaseView(){
+
+        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+
+        ViewTarget target = new ViewTarget(R.id.activity_main_boommenubutton_menu, this);
+        ShowcaseView sv = new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("主菜单")
+                .setContentText("点击这个,然后可以看到主菜单.")
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setShowcaseEventListener(this)
+//                .replaceEndButton(R.layout.view_custom_button)
+                .build();
+        sv.setButtonPosition(lps);
     }
 
     //响应Action
@@ -940,5 +977,25 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
             return true;
         }
+    }
+
+    @Override
+    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+    }
+
+    @Override
+    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+    }
+
+    @Override
+    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+    }
+
+    @Override
+    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
     }
 }
