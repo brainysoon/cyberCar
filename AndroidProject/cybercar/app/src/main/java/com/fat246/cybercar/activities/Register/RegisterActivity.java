@@ -103,6 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 mIntent.putExtra("Tel", tel);
 
                                 startActivity(mIntent);
+
+                                RegisterActivity.this.finish();
                             } else {
 
                                 e.printStackTrace();
