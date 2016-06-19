@@ -35,6 +35,7 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.navigate.InitNavigateActivity;
 import com.fat246.cybercar.activities.navigate.NavigateActivity;
+import com.fat246.cybercar.activities.navigate.OpenActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,6 @@ public class InitNavigateFragment extends Fragment {
     private Button mNav;
     private ImageView mRef;
     private ListView mListView;
-    private FloatingActionButton mAction;
     private ImageView mSwap;
 
     private ProgressBar progressBar;
@@ -69,9 +69,6 @@ public class InitNavigateFragment extends Fragment {
     //位置
     private LatLng mStartLocation;
     private LatLng mEndLocation;
-
-    //callback
-    private canToPrefer mCallBack;
 
     //iswhere
     private boolean isWhere = false;
@@ -94,8 +91,6 @@ public class InitNavigateFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-
-        mCallBack = (InitNavigateActivity) getActivity();
     }
 
     @Override
@@ -215,7 +210,7 @@ public class InitNavigateFragment extends Fragment {
 
                 if (mStartLocation != null && mEndLocation != null) {
 
-                    Intent mIntent = new Intent(getContext(), NavigateActivity.class);
+                    Intent mIntent = new Intent(getContext(), OpenActivity.class);
 
                     Bundle mBundle = new Bundle();
 
@@ -336,15 +331,6 @@ public class InitNavigateFragment extends Fragment {
             }
         });
 
-        mAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mCallBack.toPrefer();
-
-            }
-        });
-
         //交换
         mSwap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,7 +392,6 @@ public class InitNavigateFragment extends Fragment {
         mNav = (Button) rootView.findViewById(R.id.fragment_init_navigate_button_nav);
         mRef = (ImageView) rootView.findViewById(R.id.fragment_init_navigate_img_ref);
         mListView = (ListView) rootView.findViewById(R.id.fragment_init_navigate_list_advice);
-        mAction = (FloatingActionButton) rootView.findViewById(R.id.fragment_init_navigate_action_settings);
         mSwap = (ImageView) rootView.findViewById(R.id.fragment_init_navigate_img_swap);
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.fragment_init_navigate_progress_bar)
@@ -434,12 +419,6 @@ public class InitNavigateFragment extends Fragment {
         super.onPause();
 
         mLocation.stop();
-    }
-
-    //跳转到设置偏好
-    public interface canToPrefer {
-
-        void toPrefer();
     }
 
     //算路等待

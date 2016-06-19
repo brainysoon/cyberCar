@@ -1,20 +1,14 @@
 package com.fat246.cybercar.activities.navigate;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.fragments.InitNavigateFragment;
-import com.fat246.cybercar.fragments.NavigatePreferFragment;
 
-public class InitNavigateActivity extends AppCompatActivity
-        implements InitNavigateFragment.canToPrefer, NavigatePreferFragment.canToInit {
-
-    //holder
-    private static Fragment[] mFragmentHolder = new Fragment[2];
+public class InitNavigateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +17,8 @@ public class InitNavigateActivity extends AppCompatActivity
 
         initToolbar();
 
-        mFragmentHolder[0] = InitNavigateFragment.newInstance();
-        mFragmentHolder[1] = NavigatePreferFragment.newInstance();
-
-        toInit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_initnavigate_container, InitNavigateFragment.newInstance()).commit();
     }
 
     //initToolbar
@@ -49,26 +41,6 @@ public class InitNavigateActivity extends AppCompatActivity
                     InitNavigateActivity.this.finish();
                 }
             });
-        }
-    }
-
-    @Override
-    public void toPrefer() {
-
-        if (mFragmentHolder[1] != null) {
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_initnavigate_container, mFragmentHolder[1]).commit();
-        }
-    }
-
-    @Override
-    public void toInit() {
-
-        if (mFragmentHolder[0] != null) {
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_initnavigate_container, mFragmentHolder[0]).commit();
         }
     }
 }
