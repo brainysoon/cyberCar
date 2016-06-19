@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.navigate.OpenActivity">
+
+    <include
+        android:id="@+id/activity_open_bar"
+        layout="@layout/my_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/activity_open_pro_bar"
+            layout="@layout/my_progress_bar"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/activity_open_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/navigate_tts_type"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/activity_open_radio_newmen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/navigate_tts_type_newman"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <RadioButton
+                            android:id="@+id/activity_open_radio_professor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/navigate_tts_type_professor"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <RadioButton
+                            android:id="@+id/activity_open_radio_none"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/navigate_tts_type_none"
+                            android:textColor="?attr/colorPrimary" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+                    <!--android:text="@string/navigate_tts_mode"-->
+                    <!--android:textColor="@color/colorPrimary"-->
+                    <!--android:textSize="18sp" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="3dp"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<CheckBox-->
+                        <!--android:id="@+id/activity_open_checkbox_eye"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:checked="true"-->
+                        <!--android:text="@string/navigate_tts_mode_eye"-->
+                        <!--android:textColor="?attr/colorPrimary" />-->
+
+                    <!--<CheckBox-->
+                        <!--android:id="@+id/activity_open_checkbox_speed"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:checked="true"-->
+                        <!--android:text="@string/navigate_tts_mode_speed"-->
+                        <!--android:textColor="?attr/colorPrimary" />-->
+
+                    <!--<CheckBox-->
+                        <!--android:id="@+id/activity_open_checkbox_safe"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/navigate_tts_mode_safe"-->
+                        <!--android:textColor="?attr/colorPrimary" />-->
+
+
+                <!--</LinearLayout>-->
+
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="2dp"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<CheckBox-->
+                        <!--android:id="@+id/activity_open_checkbox_condition"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:checked="true"-->
+                        <!--android:text="@string/navigate_tts_mode_condition"-->
+                        <!--android:textColor="?attr/colorPrimary" />-->
+
+                    <!--<CheckBox-->
+                        <!--android:id="@+id/activity_open_checkbox_straght"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/navigate_tts_mode_straght"-->
+                        <!--android:textColor="?attr/colorPrimary" />-->
+
+                <!--</LinearLayout>-->
+
+                <Switch
+                    android:id="@+id/activity_open_switch_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:checked="true"
+                    android:text="@string/navigate_condition"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <Switch
+                    android:id="@+id/activity_open_switch_full_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:checked="true"
+                    android:text="@string/navigate_full_condition"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <Switch
+                    android:id="@+id/activity_open_switch_day_night"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="@string/navigate_day_or_night"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+                <Switch
+                    android:id="@+id/activity_open_switch_power"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="@string/navigate_power"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+
+                <Button
+                    android:id="@+id/activity_open_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="?attr/colorPrimary"
+                    android:text="开始导航"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>
