@@ -27,7 +27,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.navigate.NavigateActivity;
+import com.fat246.cybercar.activities.navigate.OpenActivity;
 import com.fat246.cybercar.beans.GasStationInfo;
 import com.fat246.cybercar.holder.StationDialogHolder;
 
@@ -167,14 +167,14 @@ public class MoreGasActivity extends AppCompatActivity implements GasStationInfo
 
                 if (mStationLatLng != null && mLatLng != null) {
 
-                    Intent mIntent = new Intent(MoreGasActivity.this, NavigateActivity.class);
+                    Intent mIntent = new Intent(MoreGasActivity.this, OpenActivity.class);
 
                     Bundle mBundle = new Bundle();
 
-                    mBundle.putDouble(NavigateActivity.sLat, mLatLng.latitude);
-                    mBundle.putDouble(NavigateActivity.sLng, mLatLng.longitude);
-                    mBundle.putDouble(NavigateActivity.eLat, mStationLatLng.latitude);
-                    mBundle.putDouble(NavigateActivity.eLng, mStationLatLng.longitude);
+                    mBundle.putDouble(OpenActivity.sLat, mLatLng.latitude);
+                    mBundle.putDouble(OpenActivity.sLng, mLatLng.longitude);
+                    mBundle.putDouble(OpenActivity.eLat, mStationLatLng.latitude);
+                    mBundle.putDouble(OpenActivity.eLng, mStationLatLng.longitude);
 
                     mIntent.putExtras(mBundle);
 

@@ -32,7 +32,6 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.navigate.NavigateActivity;
 import com.fat246.cybercar.activities.navigate.OpenActivity;
 
 import java.util.ArrayList;
@@ -214,10 +213,10 @@ public class InitNavigateFragment extends Fragment {
 
                     Bundle mBundle = new Bundle();
 
-                    mBundle.putDouble(NavigateActivity.sLat, mStartLocation.latitude);
-                    mBundle.putDouble(NavigateActivity.sLng, mStartLocation.longitude);
-                    mBundle.putDouble(NavigateActivity.eLat, mEndLocation.latitude);
-                    mBundle.putDouble(NavigateActivity.eLng, mEndLocation.longitude);
+                    mBundle.putDouble(OpenActivity.sLat, mStartLocation.latitude);
+                    mBundle.putDouble(OpenActivity.sLng, mStartLocation.longitude);
+                    mBundle.putDouble(OpenActivity.eLat, mEndLocation.latitude);
+                    mBundle.putDouble(OpenActivity.eLng, mEndLocation.longitude);
 
                     mIntent.putExtras(mBundle);
 
