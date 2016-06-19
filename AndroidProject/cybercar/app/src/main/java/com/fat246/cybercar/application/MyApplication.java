@@ -27,6 +27,10 @@ public class MyApplication extends Application {
     //实例
     private static MyApplication mInstance;
 
+    //AppName
+    public static final String APP_FULL_NAME="com.fat246.cybercar";
+    public static final String APP_NAME="cybercar";
+
     //SMSSDK INFO
     private static final String SMSSDK_APPKEY = "11725853623e3";
     private static final String SMSSDK_APPSECRET = "496c4afbdfea32b78ffb5964385c46d1";
