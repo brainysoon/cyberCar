@@ -4,7 +4,6 @@ package com.fat246.cybercar.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,7 +32,6 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.fat246.cybercar.R;
-import com.fat246.cybercar.activities.navigate.InitNavigateActivity;
 import com.fat246.cybercar.activities.navigate.NavigateActivity;
 import com.fat246.cybercar.activities.navigate.OpenActivity;
 
@@ -72,6 +70,8 @@ public class InitNavigateFragment extends Fragment {
 
     //iswhere
     private boolean isWhere = false;
+
+    ArrayAdapter<String> mAdapter;
 
     public InitNavigateFragment() {
         // Required empty public constructor
@@ -174,10 +174,10 @@ public class InitNavigateFragment extends Fragment {
                         list.add(pi.name);
                     }
 
-                    ArrayAdapter<String> array = new ArrayAdapter<String>(getContext(),
+                    mAdapter = new ArrayAdapter<String>(getContext(),
                             android.R.layout.simple_list_item_1, list);
 
-                    mListView.setAdapter(array);
+                    mListView.setAdapter(mAdapter);
                 }
 
             }
@@ -327,6 +327,13 @@ public class InitNavigateFragment extends Fragment {
 
                         mEndLocation = poiInfo.location;
                     }
+
+                    if (mAdapter != null) {
+
+                        mPoiInfo.clear();
+                        mAdapter.notifyDataSetChanged();
+                    }
+
                 }
             }
         });
