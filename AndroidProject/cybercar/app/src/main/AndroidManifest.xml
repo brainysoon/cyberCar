@@ -213,8 +213,6 @@
             android:value="JH822ec387c13830fac27e9505ce23575b" />
         <!-- END OF IT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
-        <activity android:name=".activities.navigate.NavigateActivity" />
-
         <!-- 查询违章信息相关 START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         <!-- 查询违章信息的服务 -->
         <service android:name="com.cheshouye.api.client.WeizhangIntentService" />
