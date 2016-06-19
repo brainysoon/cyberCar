@@ -113,16 +113,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/button_text_size" />
         </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_init_navigate_action_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@drawable/settings_white" />
     </RelativeLayout>
 
 </RelativeLayout>
