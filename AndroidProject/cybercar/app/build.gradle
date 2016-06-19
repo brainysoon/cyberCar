@@ -97,10 +97,9 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     //扫描二维码
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
-
     //推送消息的jar包
     compile 'cn.bmob.android:bmob-push:0.8'
-
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
-
+    compile files('libs/BaiduNaviSDK_3.1.1.jar')
+    compile files('libs/httpmime-4.1.2.jar')
 }
