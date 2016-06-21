@@ -85,4 +85,12 @@
         <attr name="text_color" format="color"></attr>
     </declare-styleable>
     <!--END OF Timber ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!--Indicator-->
+    <array name="indicator_colors">
+        <item>@color/indicator_1</item>
+        <item>@color/indicator_2</item>
+        <item>@color/indicator_3</item>
+        <item>@color/indicator_4</item>
+    </array>
 </resources>

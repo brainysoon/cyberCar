@@ -59,4 +59,10 @@
     <color name="overlay">#AA1C1C1C</color>
     <color name="windowBackground">#1C1C1C</color>
     <color name="theme_700">#455A64</color>
+
+    <!--Color Indicator-->
+    <color name="indicator_1">#55B3C2</color>
+    <color name="indicator_2">#64A4A4</color>
+    <color name="indicator_3">#66D7B9</color>
+    <color name="indicator_4">#FDBC7D</color>
 </resources>
