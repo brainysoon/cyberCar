@@ -102,4 +102,5 @@ dependencies {
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
     compile files('libs/BaiduNaviSDK_3.1.1.jar')
     compile files('libs/httpmime-4.1.2.jar')
+    compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
 }
