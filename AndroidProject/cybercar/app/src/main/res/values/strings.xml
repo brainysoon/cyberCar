@@ -130,9 +130,9 @@
     <string name="timber_feature_request">Specify any feature request in the Google+ community <u> here </u></string>
 
 
-    <string name="menu_show_as">View As</string>
-    <string name="menu_show_as_entry_list">List</string>
-    <string name="menu_show_as_entry_grid">Grid</string>
+    <string name="menu_show_as">查看方式</string>
+    <string name="menu_show_as_entry_list">列表</string>
+    <string name="menu_show_as_entry_grid">方格</string>
 
     <string name="light">Light</string>
     <string name="dark">Dark</string>
