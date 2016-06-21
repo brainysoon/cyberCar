@@ -240,7 +240,7 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_weight="1"
                     android:background="?attr/colorPrimary"
-                    android:text="到哪儿去"
+                    android:text="到那儿去"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/button_text_size" />
             </LinearLayout>
