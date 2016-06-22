@@ -30,13 +30,8 @@ dependencies {
     //单元测试的一个maven依赖
     testCompile 'junit:junit:4.12'
     //百度API依赖
-    compile files('libs/baidumapapi_base_v3_7_3.jar')
-    compile files('libs/baidumapapi_cloud_v3_7_3.jar')
-    compile files('libs/baidumapapi_map_v3_7_3.jar')
-    compile files('libs/baidumapapi_radar_v3_7_3.jar')
-    compile files('libs/baidumapapi_search_v3_7_3.jar')
-    compile files('libs/baidumapapi_util_v3_7_3.jar')
-    compile files('libs/locSDK_6.23.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/httpmime-4.1.2.jar')
     //聚合数据依赖
     compile files('libs/juhe_sdk_v_2_7.jar')
     compile files('libs/renderscript-v8.jar')
@@ -95,7 +90,5 @@ dependencies {
     //推送消息的jar包
     compile 'cn.bmob.android:bmob-push:0.8'
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
-    compile files('libs/BaiduNaviSDK_3.1.1.jar')
-    compile files('libs/httpmime-4.1.2.jar')
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
 }

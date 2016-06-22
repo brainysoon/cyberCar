@@ -28,6 +28,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
@@ -185,9 +186,14 @@ public class InitNavigateFragment extends Fragment {
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 
                 Toast.makeText(getContext(), poiDetailResult.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
 
             }
         });
+
     }
 
     //initRootView
