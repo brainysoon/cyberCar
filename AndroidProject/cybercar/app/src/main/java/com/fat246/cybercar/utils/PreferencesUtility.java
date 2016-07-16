@@ -65,7 +65,11 @@ public final class PreferencesUtility {
     public static final String USER_BIRTHDAY = "User_Birthday";
     public static final String USER_AVATOR_PATH = "User_Avator";
 
-    public static final String IS_FIRST_LOAD="is_first_load";
+    //是否是第一次登录
+    public static final String IS_FIRST_LOAD = "is_first_load";
+
+    //跳过的版本号
+    public static final String JUMP_VERSION_CODE = "jump_version_code";
 
     private static PreferencesUtility sInstance;
 
@@ -82,20 +86,36 @@ public final class PreferencesUtility {
         return sInstance;
     }
 
-    public boolean setIsFirstLoad(){
+    public boolean setIsFirstLoad() {
 
-        return mPreferences.getBoolean(IS_FIRST_LOAD,true);
+        return mPreferences.getBoolean(IS_FIRST_LOAD, true);
     }
 
-    public void setNotFirstLoad(){
+    public void setNotFirstLoad() {
 
-        SharedPreferences.Editor editor=mPreferences.edit();
+        SharedPreferences.Editor editor = mPreferences.edit();
 
-        editor.putBoolean(IS_FIRST_LOAD,false);
+        editor.putBoolean(IS_FIRST_LOAD, false);
 
         editor.apply();
     }
 
+    //获得跳过的版本号
+    public int getJumpVersionCode() {
+
+        //如果没有设置跳过的版本号的话，就返回一个比较大的版本号，方便比较
+        return mPreferences.getInt(JUMP_VERSION_CODE, 10000);
+    }
+
+    //设置跳过当前最新的版本号
+    public void setJumpVersionCode(int code) {
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putInt(JUMP_VERSION_CODE, code);
+
+        editor.apply();
+    }
 
     //保存
     public void saveIsSavePassAndAutoLogin(String tel, boolean isSavePass, boolean isAutoLogin) {

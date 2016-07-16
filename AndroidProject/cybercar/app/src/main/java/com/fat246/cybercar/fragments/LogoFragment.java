@@ -18,6 +18,7 @@ import com.fat246.cybercar.activities.LoginActivity;
 import com.fat246.cybercar.activities.MainActivity;
 import com.fat246.cybercar.application.MyApplication;
 import com.fat246.cybercar.beans.User;
+import com.fat246.cybercar.manager.AutoUpdateManager;
 import com.fat246.cybercar.utils.PreferencesUtility;
 import com.fat246.cybercar.utils.SucceedLoginUtil;
 
@@ -26,7 +27,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class LogoFragment extends Fragment {
+public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpdate {
 
     //View
     private ImageView mImageView;
@@ -73,7 +74,7 @@ public class LogoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolbhu.cn"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolbhu.cn"));
 
                 startActivity(intent);
             }
@@ -151,6 +152,29 @@ public class LogoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        //检测版本信息
+        AutoUpdateManager autoUpdateManager = new AutoUpdateManager(getContext());
+
+        autoUpdateManager.beginUpdate(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mImageView.animate().setListener(null);
+    }
+
+    //更新完成过后的事情
+    @Override
+    public void toDoAfterUpdate() {
+
+        setImageAnimate();
+    }
+
+    //设置图片动画
+    private void setImageAnimate() {
+
         mImageView.animate().setDuration(1000).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -166,12 +190,5 @@ public class LogoFragment extends Fragment {
                 }
             }
         }).start();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        mImageView.animate().setListener(null);
     }
 }

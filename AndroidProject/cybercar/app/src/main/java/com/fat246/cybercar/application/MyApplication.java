@@ -3,6 +3,7 @@ package com.fat246.cybercar.application;
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
 
 import com.afollestad.appthemeengine.ATE;
@@ -28,8 +29,8 @@ public class MyApplication extends Application {
     private static MyApplication mInstance;
 
     //AppName
-    public static final String APP_FULL_NAME="com.fat246.cybercar";
-    public static final String APP_NAME="cybercar";
+    public static final String APP_FULL_NAME = "com.fat246.cybercar";
+    public static final String APP_NAME = "cybercar";
 
     //SMSSDK INFO
     private static final String SMSSDK_APPKEY = "11725853623e3";
@@ -47,6 +48,9 @@ public class MyApplication extends Application {
     //保存头像的位置
     public static String USER_AVATOR_DIRCTORY;
 
+    //保存文件的位置
+    public static String SAVE_PATH;
+
     //全局队列
     private static RequestQueue mRequestQueue;
 
@@ -60,6 +64,8 @@ public class MyApplication extends Application {
         super.onCreate();
 
         MyApplication.USER_AVATOR_DIRCTORY = this.getExternalCacheDir().getAbsolutePath();
+
+        MyApplication.SAVE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
         //初始化实例
         mInstance = this;
