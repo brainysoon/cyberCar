@@ -1,8 +1,6 @@
 package com.fat246.cybercar.activities;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
-import com.fat246.cybercar.ITimberService;
 import com.fat246.cybercar.R;
 import com.fat246.cybercar.activities.Register.RegisterActivity;
 import com.fat246.cybercar.activities.carmusics.BaseActivity;
@@ -43,6 +40,7 @@ import com.fat246.cybercar.fragments.ArtistDetailFragment;
 import com.fat246.cybercar.fragments.MainFragment;
 import com.fat246.cybercar.fragments.PlaylistFragment;
 import com.fat246.cybercar.fragments.QueueFragment;
+import com.fat246.cybercar.manager.AutoUpdateManager;
 import com.fat246.cybercar.openwidgets.CircleImageView;
 import com.fat246.cybercar.permissions.Nammu;
 import com.fat246.cybercar.permissions.PermissionCallback;
@@ -59,13 +57,12 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.listener.DownloadFileListener;
 
 
-public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer,OnShowcaseEventListener {
+public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer, OnShowcaseEventListener, AutoUpdateManager.AfterUpdate {
 
     //主Activity 实例
     public static MainActivity mMainActivity;
@@ -217,7 +214,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         });
 
         //add ShowcaseView
-        if (PreferencesUtility.getInstance(this).setIsFirstLoad()){
+        if (PreferencesUtility.getInstance(this).setIsFirstLoad()) {
 
             showcaseView();
 
@@ -227,7 +224,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
     //initShowcaseView
-    private void showcaseView(){
+    private void showcaseView() {
 
         RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -353,6 +350,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings);
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle);
             navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information);
+            navigationView.getMenu().findItem(R.id.nav_update).setIcon(R.drawable.ic_update_black);
         } else {
 
             //用户信息
@@ -371,6 +369,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
             navigationView.getMenu().findItem(R.id.nav_settings).setIcon(R.drawable.settings_white);
             navigationView.getMenu().findItem(R.id.nav_help).setIcon(R.drawable.help_circle_white);
             navigationView.getMenu().findItem(R.id.nav_about).setIcon(R.drawable.information_white);
+            navigationView.getMenu().findItem(R.id.nav_update).setIcon(R.drawable.ic_update_white);
         }
 
     }
@@ -440,6 +439,11 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
                 runnable = navigateAbout;
 
+                break;
+
+            case R.id.nav_update:
+
+                runnable = navigateAutoUpdate;
                 break;
 
         }
@@ -808,7 +812,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
-//    Runnable navigatePlaylist = new Runnable() {
+    //    Runnable navigatePlaylist = new Runnable() {
 //        public void run() {
 //            mNavigationView.getMenu().findItem(R.id.nav_playlists).setChecked(true);
 //            Fragment fragment = new PlaylistFragment();
@@ -976,6 +980,19 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
         }
     };
 
+    //检查更新版本
+    Runnable navigateAutoUpdate = new Runnable() {
+        @Override
+        public void run() {
+
+            AutoUpdateManager autoUpdateManager = new AutoUpdateManager(MainActivity.this);
+
+            autoUpdateManager.beginUpdate(MainActivity.this);
+
+            Toast.makeText(MainActivity.this, "开始检查...", Toast.LENGTH_SHORT).show();
+        }
+    };
+
     /***********************************************************************************************
      */
 
@@ -1009,6 +1026,12 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
 
     @Override
     public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+    }
+
+    //检查完版本后做的事
+    @Override
+    public void toDoAfterUpdate() {
 
     }
 }

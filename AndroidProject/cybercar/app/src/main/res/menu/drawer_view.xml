@@ -57,6 +57,10 @@
 
             android:id="@+id/nav_help"
             android:title="@string/help_and_feedback" />
+
+        <item
+            android:id="@+id/nav_update"
+            android:title="@string/auto_update" />
     </group>
 
 </menu>
