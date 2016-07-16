@@ -103,8 +103,8 @@ public final class PreferencesUtility {
     //获得跳过的版本号
     public int getJumpVersionCode() {
 
-        //如果没有设置跳过的版本号的话，就返回一个比较大的版本号，方便比较
-        return mPreferences.getInt(JUMP_VERSION_CODE, 10000);
+        //如果没有设置跳过的版本号的话，就返回一个比较小的版本号，方便比较
+        return mPreferences.getInt(JUMP_VERSION_CODE, -1);
     }
 
     //设置跳过当前最新的版本号
