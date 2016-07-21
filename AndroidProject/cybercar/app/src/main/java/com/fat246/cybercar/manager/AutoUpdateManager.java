@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -117,6 +118,9 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
                 afterUpdate.toDoAfterUpdate();
             }
         });
+
+        //设置超时时间，以及重复请求次数
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(500, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         //设置Tag
         jsonObjectRequest.setTag(AUTO_UPDATE_SERVER_ADDRESS);
