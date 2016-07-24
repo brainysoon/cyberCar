@@ -46,13 +46,13 @@ dependencies {
     //CropImage 依赖
     compile 'com.isseiaoki:simplecropview:1.1.4'
     //Timber import
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+    compile('com.github.afollestad.material-dialogs:core:0.8.6.2@aar') {
         transitive = true
     }
     compile('com.github.naman14:app-theme-engine:0.5.1@aar') {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.8.6.2@aar') {
         transitive = true
     }
     compile 'com.android.support:appcompat-v7:23.3.0'
