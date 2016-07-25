@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">卡尔</string>
+
+    <!--BottomBar Title 字符串-->
+    <string name="home">首页</string>
+    <string name="nag">导航</string>
+    <string name="music">音乐</string>
+    <string name="oil">加油</string>
+    <string name="vol">违章</string>
+
 </resources>
