@@ -5,4 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.fat246.gasservice.activities.LogoActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
+
 </RelativeLayout>
