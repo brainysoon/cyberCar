@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/csy_bg_body"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <in.srain.cube.views.ptr.PtrFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- 查询表单 -->
+                <LinearLayout
+                    android:id="@+id/cx_form"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/csy_pd"
+                    android:background="@drawable/csy_form"
+                    android:orientation="vertical"
+                    android:padding="1.0dp">
+
+                    <!-- 违章地 -->
+                    <LinearLayout style="@style/csy_row">
+
+                        <TextView
+                            style="@style/csy_row_label"
+                            android:text="@string/csy_cxdz_lab" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/csy_item_h"
+                            android:layout_gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/cx_city"
+                                style="@style/csy_textbox1"
+                                android:hint="@string/csy_cxdz_tip" />
+
+                            <ImageView
+                                style="@style/csy_row_icon"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/csy_arr_right" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <!-- 车牌号 -->
+                    <LinearLayout style="@style/csy_row1">
+
+                        <TextView
+                            style="@style/csy_row_label"
+                            android:text="@string/csy_chepai_lab" />
+
+                        <RelativeLayout
+                            android:id="@+id/btn_cpsz"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/csy_btn_h"
+                            android:layout_gravity="center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/csy_item_h"
+                                android:layout_height="fill_parent"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/csy_select"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/chepai_sz"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:layout_marginLeft="@dimen/csy_pd"
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/csy_text"
+                                    android:textSize="@dimen/csy_text_ts" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="8.0dp"
+                                    android:src="@drawable/csy_arr_drop" />
+                            </LinearLayout>
+
+                            <EditText
+                                android:id="@+id/chepai_number"
+                                style="@style/csy_textbox"
+                                android:layout_marginLeft="@dimen/csy_item_h"
+                                android:layout_marginRight="@dimen/csy_pd"
+                                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:gravity="center"
+                                android:hint="@string/csy_chepai_tip"
+                                android:inputType="textUri"
+                                android:maxLength="6" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <!-- 车架号 -->
+                    <LinearLayout
+                        android:id="@+id/row_chejia"
+                        style="@style/csy_row1">
+
+                        <TextView
+                            style="@style/csy_row_label"
+                            android:text="@string/csy_chejia_lab" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/csy_item_h"
+                            android:layout_gravity="center_vertical">
+
+                            <EditText
+                                android:id="@+id/chejia_number"
+                                style="@style/csy_textbox1" />
+
+                            <ImageView
+                                android:id="@+id/ico_chejia"
+                                style="@style/csy_row_icon"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/csy_ico_help" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <!-- 发动机号 -->
+                    <LinearLayout
+                        android:id="@+id/row_engine"
+                        style="@style/csy_row1">
+
+                        <TextView
+                            style="@style/csy_row_label"
+                            android:text="@string/csy_engine_lab" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/csy_item_h"
+                            android:layout_gravity="center_vertical">
+
+                            <EditText
+                                android:id="@+id/engine_number"
+                                style="@style/csy_textbox1" />
+
+                            <ImageView
+                                android:id="@+id/ico_engine"
+                                style="@style/csy_row_icon"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/csy_ico_help" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 按钮 -->
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cx_form"
+                    android:layout_marginLeft="@dimen/csy_pd"
+                    android:layout_marginRight="@dimen/csy_pd"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_query"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/csy_btn_h"
+                        android:layout_marginBottom="@dimen/csy_pd"
+                        android:background="?attr/colorPrimary"
+                        android:gravity="center"
+                        android:text="@string/csy_btn_query"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/csy_text_ts" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/csy_form_tip"
+                        android:textColor="@color/csy_label"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
+
+                <!-- 行驶证图示 -->
+                <FrameLayout
+                    android:id="@+id/popXSZ"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:background="#7f000000"
+                    android:paddingLeft="@dimen/csy_pd"
+                    android:paddingRight="@dimen/csy_pd"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/csy_label_w"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/csy_img_xsz" />
+
+                    <Button
+                        android:id="@+id/btn_closeXSZ"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/csy_btn_h"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/csy_pd"
+                        android:background="@drawable/csy_btn_light"
+                        android:gravity="center"
+                        android:text="@string/csy_close"
+                        android:textColor="@color/csy_text"
+                        android:textSize="@dimen/csy_text_ts" />
+                </FrameLayout>
+            </RelativeLayout>
+        </FrameLayout>
+
+    </in.srain.cube.views.ptr.PtrFrameLayout>
+
+</LinearLayout>

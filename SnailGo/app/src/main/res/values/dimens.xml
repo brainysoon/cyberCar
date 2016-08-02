@@ -1,0 +1,21 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--有关违章信息的尺寸-->
+    <dimen name="csy_pd">10.0dp</dimen>
+    <dimen name="csy_mg">15.0dp</dimen>
+    <dimen name="csy_label_w">70.0dp</dimen>
+    <dimen name="csy_icon_w">40.0dp</dimen>
+    <dimen name="csy_row_h">64.0dp</dimen>
+    <dimen name="csy_item_h">52.0dp</dimen>
+    <dimen name="csy_tip_h">30.0dp</dimen>
+    <dimen name="csy_btn_h">46.0dp</dimen>
+    <dimen name="csy_label_ts">13.0sp</dimen>
+    <dimen name="csy_tip_ts">14.0sp</dimen>
+    <dimen name="csy_text_ts">16.0sp</dimen>
+    <dimen name="csy_title_ts">18.0sp</dimen>
+
+    <dimen name="activity_city_list_textview_list_tip">30.0dp</dimen>
+</resources>

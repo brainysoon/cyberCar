@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2DA7E0</color>
+    <color name="colorPrimaryDark">#1E88E5</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--有关违章信息的颜色-->
+    <color name="csy_bg_body">#ffe9e9e9</color>
+    <color name="csy_row_on">#fff0f0f0</color>
+    <color name="csy_border">#ffd0d0d0</color>
+    <color name="csy_green">#ff3caa0f</color>
+    <color name="csy_green_on">#ff28780a</color>
+    <color name="csy_blue">#ff0a7dd2</color>
+    <color name="csy_blue_on">#ff0a64aa</color>
+    <color name="csy_label">#ff969696</color>
+    <color name="csy_text">#ff555555</color>
+    <color name="csy_hint">#ffc6c6c6</color>
 </resources>
