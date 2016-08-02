@@ -9,5 +9,5 @@
         android:id="@+id/add_car"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加车辆" />
+        android:text="自定义查询" />
 </LinearLayout>

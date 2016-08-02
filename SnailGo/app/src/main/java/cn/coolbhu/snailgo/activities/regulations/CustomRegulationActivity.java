@@ -50,7 +50,7 @@ import permissions.dispatcher.RuntimePermissions;
 public class CustomRegulationActivity extends AppCompatActivity {
 
 
-    private String defaultChepai = "粤"; // 粤=广东
+    private String defaultChepai = "苏"; // 粤=广东
 
     private TextView short_name;
     private TextView query_city;
@@ -73,6 +73,11 @@ public class CustomRegulationActivity extends AppCompatActivity {
     //rootView
     private View rootView;
 
+    //View
+    private View reNoPermission;
+    private View rePermission;
+    private Button buSetting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -82,14 +87,17 @@ public class CustomRegulationActivity extends AppCompatActivity {
 
         initToolbar();
 
+        initView();
+
         //判断是否需要定位
         if (PreferencesUtils.getInstance(this).isSettingsRegulationLocation()) {
 
             CustomRegulationActivityPermissionsDispatcher.initLoacationWithCheck(this);
         }
+    }
 
-        //初始化车首页服务
-        CustomRegulationActivityPermissionsDispatcher.initCheShouYeWithCheck(this);
+    //setListener
+    private void initView() {
 
         // 选择省份缩写
         query_city = (TextView) findViewById(R.id.cx_city);
@@ -98,7 +106,10 @@ public class CustomRegulationActivity extends AppCompatActivity {
         engine_number = (EditText) findViewById(R.id.engine_number);
         short_name = (TextView) findViewById(R.id.chepai_sz);
 
-        // ----------------------------------------------
+        //Layout + button
+        reNoPermission = findViewById(R.id.layout_no_permission);
+        rePermission = findViewById(R.id.layout_permission);
+        buSetting = (Button) findViewById(R.id.button_setting);
 
         btn_cpsz = (View) findViewById(R.id.btn_cpsz);
         btn_query = (Button) findViewById(R.id.btn_query);
@@ -177,6 +188,14 @@ public class CustomRegulationActivity extends AppCompatActivity {
         popXSZ = (View) findViewById(R.id.popXSZ);
         popXSZ.setOnTouchListener(new popOnTouchListener());
         hideShowXSZ();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //初始化车首页服务
+        CustomRegulationActivityPermissionsDispatcher.initCheShouYeWithCheck(this);
     }
 
     //initToolbar
@@ -506,6 +525,8 @@ public class CustomRegulationActivity extends AppCompatActivity {
         //开启服务
         startService(weizhangIntent);
 
+        //隐藏but
+        hideBut();
     }
 
     //开始定位
@@ -583,7 +604,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.request_permission)
                 .setIcon(R.mipmap.ic_launcher)
-                .setMessage(R.string.request_read_phone_state_permission)
+                .setMessage(R.string.request_location_permission)
                 .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -607,8 +628,8 @@ public class CustomRegulationActivity extends AppCompatActivity {
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void showLoacationDenied() {
 
-        Snackbar.make(this.findViewById(R.id.rootView), "设置权限失败", Snackbar.LENGTH_LONG)
-                .setAction("设置", new OnClickListener() {
+        Snackbar.make(this.findViewById(R.id.rootView), R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -621,7 +642,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
     @OnPermissionDenied({Manifest.permission.READ_PHONE_STATE})
     public void showRegulationDenied() {
 
-        Toast.makeText(this, R.string.read_phone_state_permission_denie, Toast.LENGTH_SHORT).show();
+        showBut();
     }
 
     @OnShowRationale({Manifest.permission.READ_PHONE_STATE})
@@ -655,10 +676,17 @@ public class CustomRegulationActivity extends AppCompatActivity {
         CustomRegulationActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    @OnNeverAskAgain({Manifest.permission.READ_PHONE_STATE})
-    public void onNeverShowAgain() {
+    //显示button
+    private void hideBut() {
 
-        Toast.makeText(this, "this", Toast.LENGTH_SHORT).show();
+        reNoPermission.setVisibility(View.INVISIBLE);
+        rePermission.setVisibility(View.VISIBLE);
+    }
 
+    //隐藏button
+    private void showBut() {
+
+        reNoPermission.setVisibility(View.VISIBLE);
+        rePermission.setVisibility(View.INVISIBLE);
     }
 }

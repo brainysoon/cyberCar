@@ -10,10 +10,12 @@
 
     <!--Abort Dialog-->
     <string name="allow">允许</string>
+    <string name="setting">设置</string>
     <string name="cancle">取消</string>
     <string name="request_permission">申请权限</string>
-    <string name="request_read_phone_state_permission">违章查询需要获取手机状态权限</string>
-    <string name="read_phone_state_permission_denie">权限获取失败，你可以手机在设置中将其打开</string>
+    <string name="request_read_phone_state_permission">违章查询需要获取手机状态权限！</string>
+    <string name="request_location_permission">我们需要位置信息，来更好的服务您！</string>
+    <string name="permission_denie">权限获取失败，你可以手机在设置中将其打开</string>
 
     <!--Activity Title-->
     <string name="title_activity_city_list">城市</string>
