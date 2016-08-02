@@ -100,7 +100,7 @@
         <!--百度AppKey-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="qj2tnl1exxbYAbx5Wm0TazYbfazKmHwG" />
+            android:value="EI7e3A0Yg7LLWH3SgxHqhlcYzom6bpG2" />
 
         <!-- 百度地图定位服务 -->
         <service
