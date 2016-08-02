@@ -4,11 +4,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.main.HomeMainFragment;
-import cn.coolbhu.snailgo.main.MusicMainFragment;
-import cn.coolbhu.snailgo.main.NagMainFragment;
-import cn.coolbhu.snailgo.main.OilMainFragment;
-import cn.coolbhu.snailgo.main.VolMainFragment;
+import cn.coolbhu.snailgo.fragments.main.HomeMainFragment;
+import cn.coolbhu.snailgo.fragments.main.MusicMainFragment;
+import cn.coolbhu.snailgo.fragments.main.NagMainFragment;
+import cn.coolbhu.snailgo.fragments.main.OilMainFragment;
+import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 
 /**
  * Created by ken on 16-7-27.
