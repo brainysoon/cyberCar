@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">蜗行</string>
+
+    <!--BottomBar Title 字符串-->
+    <string name="home">首页</string>
+    <string name="nag">导航</string>
+    <string name="music">音乐</string>
+    <string name="oil">加油</string>
+    <string name="vol">违章</string>
+
+    <!--Abort Dialog-->
+    <string name="allow">允许</string>
+    <string name="cancle">取消</string>
+    <string name="request_permission">申请权限</string>
+    <string name="request_read_phone_state_permission">违章查询需要获取手机状态权限</string>
+    <string name="read_phone_state_permission_denie">权限获取失败，你可以手机在设置中将其打开</string>
+
+    <!--Activity Title-->
+    <string name="title_activity_city_list">城市</string>
+    <string name="title_activity_short_province">省份简称</string>
+    <string name="title_activity_regulation_result">违章</string>
+    <string name="title_activity_province">省份</string>
+    <string name="title_activity_custom_regulation">自定义查询</string>
+
+    <!--Regulation-->
+    <string name="no_regulation_record">恭喜, 没有查到违章记录！</string>
+    <string name="querying_and_laoding">正在查询, 请稍候 &#8230;</string>
+    <string name="csy_form_tip">目前仅支持小型汽车查询</string>
+    <string name="csy_btn_query">开始查询</string>
+    <string name="csy_cxdz_lab">查询地</string>
+    <string name="csy_cxdz_tip">请选择查询地</string>
+    <string name="csy_chepai_lab">车牌号</string>
+    <string name="csy_chepai_tip">请输入车牌号后6位</string>
+    <string name="csy_chejia_lab">车架号</string>
+    <string name="csy_engine_lab">发动机号</string>
+    <string name="csy_close">关闭</string>
+    <string name="regulation_place">违章地点</string>
+    <string name="regulation_behavior">违章行为</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
