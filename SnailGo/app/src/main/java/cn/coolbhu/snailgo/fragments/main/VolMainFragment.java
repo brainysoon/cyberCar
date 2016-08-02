@@ -1,4 +1,4 @@
-package cn.coolbhu.snailgo.main;
+package cn.coolbhu.snailgo.fragments.main;
 
 
 import android.content.Context;

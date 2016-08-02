@@ -1,5 +1,4 @@
-package cn.coolbhu.snailgo.main;
-
+package cn.coolbhu.snailgo.fragments.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +8,10 @@ import android.view.ViewGroup;
 
 import cn.coolbhu.snailgo.R;
 
-public class HomeMainFragment extends Fragment {
+public class MusicMainFragment extends Fragment {
 
-    public static HomeMainFragment newInstance() {
-        HomeMainFragment fragment = new HomeMainFragment();
+    public static MusicMainFragment newInstance() {
+        MusicMainFragment fragment = new MusicMainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -22,6 +21,7 @@ public class HomeMainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
 
@@ -29,7 +29,7 @@ public class HomeMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_main, container, false);
+        return inflater.inflate(R.layout.fragment_music_main, container, false);
     }
 
 }

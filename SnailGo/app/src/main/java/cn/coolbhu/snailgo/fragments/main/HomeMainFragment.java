@@ -1,4 +1,4 @@
-package cn.coolbhu.snailgo.main;
+package cn.coolbhu.snailgo.fragments.main;
 
 
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import cn.coolbhu.snailgo.R;
 
-public class NagMainFragment extends Fragment {
+public class HomeMainFragment extends Fragment {
 
-    public static NagMainFragment newInstance() {
-        NagMainFragment fragment = new NagMainFragment();
+    public static HomeMainFragment newInstance() {
+        HomeMainFragment fragment = new HomeMainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -22,7 +22,6 @@ public class NagMainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
 
@@ -30,7 +29,7 @@ public class NagMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nag_main, container, false);
+        return inflater.inflate(R.layout.fragment_home_main, container, false);
     }
 
 }
