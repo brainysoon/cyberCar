@@ -21,7 +21,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.main.VolMainFragment;
+import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 import cn.coolbhu.snailgo.utils.BottomBarFrgmentUtils;
 
 public class MainActivity extends AppCompatActivity implements OnMenuTabClickListener
