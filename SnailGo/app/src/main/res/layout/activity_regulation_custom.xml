@@ -28,7 +28,8 @@
                 android:id="@+id/button_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="现在取去设置权限" />
+                android:layout_centerInParent="true"
+                android:text="@string/now_to_setting_permission" />
         </RelativeLayout>
 
         <RelativeLayout

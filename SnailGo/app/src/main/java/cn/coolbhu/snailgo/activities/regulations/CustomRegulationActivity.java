@@ -40,7 +40,6 @@ import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.utils.IntentUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
 import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
@@ -113,6 +112,14 @@ public class CustomRegulationActivity extends AppCompatActivity {
 
         btn_cpsz = (View) findViewById(R.id.btn_cpsz);
         btn_query = (Button) findViewById(R.id.btn_query);
+
+        buSetting.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                IntentUtils.toSnailGoSettings(CustomRegulationActivity.this);
+            }
+        });
 
         btn_cpsz.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -633,7 +640,7 @@ public class CustomRegulationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        IntentUtils.toCStartSettings(CustomRegulationActivity.this);
+                        IntentUtils.toSnailGoSettings(CustomRegulationActivity.this);
                     }
                 })
                 .show();
