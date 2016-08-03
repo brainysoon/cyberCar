@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cheshouye.api.client.WeizhangClient;
 import com.cheshouye.api.client.json.CityInfoJson;
@@ -91,21 +92,30 @@ public class CityListActivity extends AppCompatActivity {
     private List<ListModel> getData(String provinceId) {
         List<ListModel> list = new ArrayList<ListModel>();
 
-        List<CityInfoJson> cityList = WeizhangClient.getCitys(Integer
-                .parseInt(provinceId));
+        //处理一下异常
+        try {
 
-        //开通数量提示
-        TextView txtListTip = (TextView) findViewById(R.id.activity_city_list_textview_list_tip);
-        txtListTip.setText(provinceName + "已开通" + cityList.size() + "个城市, 其它城市将陆续开放");
+            List<CityInfoJson> cityList = WeizhangClient.getCitys(Integer
+                    .parseInt(provinceId));
 
-        for (CityInfoJson cityInfoJson : cityList) {
-            String cityName = cityInfoJson.getCity_name();
-            int cityId = cityInfoJson.getCity_id();
+            //开通数量提示
+            TextView txtListTip = (TextView) findViewById(R.id.activity_city_list_textview_list_tip);
+            txtListTip.setText(provinceName + "已开通" + cityList.size() + "个城市, 其它城市将陆续开放");
 
-            ListModel model = new ListModel();
-            model.setNameId(cityId);
-            model.setTextName(cityName);
-            list.add(model);
+            for (CityInfoJson cityInfoJson : cityList) {
+                String cityName = cityInfoJson.getCity_name();
+                int cityId = cityInfoJson.getCity_id();
+
+                ListModel model = new ListModel();
+                model.setNameId(cityId);
+                model.setTextName(cityName);
+                list.add(model);
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
+            Toast.makeText(this, R.string.cxy_error, Toast.LENGTH_SHORT).show();
         }
 
         return list;

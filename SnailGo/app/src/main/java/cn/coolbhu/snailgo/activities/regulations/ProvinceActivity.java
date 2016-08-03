@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cheshouye.api.client.WeizhangClient;
 import com.cheshouye.api.client.json.ProvinceInfoJson;
@@ -80,20 +81,28 @@ public class ProvinceActivity extends AppCompatActivity {
     private List<ListModel> getData2() {
 
         List<ListModel> list = new ArrayList<ListModel>();
-        List<ProvinceInfoJson> provinceList = WeizhangClient.getAllProvince();
 
-        //开通数量提示
-        TextView txtListTip = (TextView) findViewById(R.id.list_tip);
-        txtListTip.setText("全国已开通" + provinceList.size() + "个省份, 其它省将陆续开放");
+        //在没有 违章Service的情况下  会出错
+        try {
+            List<ProvinceInfoJson> provinceList = WeizhangClient.getAllProvince();
 
-        for (ProvinceInfoJson provinceInfoJson : provinceList) {
-            String provinceName = provinceInfoJson.getProvinceName();
-            int provinceId = provinceInfoJson.getProvinceId();
+            //开通数量提示
+            TextView txtListTip = (TextView) findViewById(R.id.list_tip);
+            txtListTip.setText("全国已开通" + provinceList.size() + "个省份, 其它省将陆续开放");
 
-            ListModel model = new ListModel();
-            model.setTextName(provinceName);
-            model.setNameId(provinceId);
-            list.add(model);
+            for (ProvinceInfoJson provinceInfoJson : provinceList) {
+                String provinceName = provinceInfoJson.getProvinceName();
+                int provinceId = provinceInfoJson.getProvinceId();
+
+                ListModel model = new ListModel();
+                model.setTextName(provinceName);
+                model.setNameId(provinceId);
+                list.add(model);
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            Toast.makeText(this, R.string.cxy_error, Toast.LENGTH_SHORT).show();
         }
         return list;
     }
