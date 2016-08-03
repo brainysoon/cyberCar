@@ -14,7 +14,7 @@ public class IntentUtils {
     public static final String PACKAGE_LABLE = "package:";
 
     //跳转到当前App设置页面
-    public static void toCStartSettings(Context context) {
+    public static void toSnailGoSettings(Context context) {
 
         Uri packageURI = Uri.parse(PACKAGE_LABLE + context.getPackageName());
         Intent mIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
