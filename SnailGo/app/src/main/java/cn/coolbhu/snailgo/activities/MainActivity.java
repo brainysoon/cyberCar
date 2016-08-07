@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -21,10 +20,11 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.musics.BaseActivity;
 import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 import cn.coolbhu.snailgo.utils.BottomBarFrgmentUtils;
 
-public class MainActivity extends AppCompatActivity implements OnMenuTabClickListener
+public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         , VolMainFragment.VolMainFragmentCallback {
 
     //BottomBar
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
     private Toolbar mToolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
