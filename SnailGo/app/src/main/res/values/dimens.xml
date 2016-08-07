@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="appBarTopMargin">0dp</dimen>
+
     <!--有关违章s信息的尺寸-->
     <dimen name="csy_pd">10.0dp</dimen>
     <dimen name="csy_mg">15.0dp</dimen>
@@ -25,4 +27,7 @@
     <dimen name="music_list_action">30dp</dimen>
     <dimen name="music_list_duration">50dp</dimen>
     <dimen name="music_list_margin">10dp</dimen>
+
+    <dimen name="spacing_card">10dp</dimen>
+    <dimen name="spacing_card_album_grid">3dp</dimen>
 </resources>

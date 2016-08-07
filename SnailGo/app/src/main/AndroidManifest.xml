@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cn.coolbhu.snailgo">
+
+    <uses-sdk tools:overrideLibrary="de.Maxr1998.trackselectorlib" />
 
     <!--车首页接口所需要的权限-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -107,6 +110,12 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <!--音乐播放服务-->
+        <service
+            android:name=".services.MusicService"
+            android:label="@string/app_name"
+            android:process=":main" />
     </application>
 
 </manifest>
