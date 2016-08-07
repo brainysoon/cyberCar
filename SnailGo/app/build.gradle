@@ -45,7 +45,6 @@ dependencies {
     compile files('libs/httpmime-4.1.2.jar')
     compile files('libs/BaiduLBS_Android.jar')
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-    compile 'com.github.iammert:ProgressLayout:a2ac196500'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.Maxr1998:track-selector-lib:1.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
