@@ -59,21 +59,21 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/popup_menu"
+            android:layout_toLeftOf="@+id/playPause"
             android:visibility="gone" />
 
 
         <ImageView
-            android:id="@+id/popup_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/playPause"
+            android:layout_width="@dimen/music_list_play_pause"
+            android:layout_height="@dimen/music_list_play_pause"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foregroundTint="#434343"
             android:padding="5dp"
-            android:src="@android:drawable/ic_menu_more" />
+            android:src="@drawable/ic_musicplay" />
 
 
     </RelativeLayout>

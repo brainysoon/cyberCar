@@ -27,7 +27,7 @@
     <dimen name="music_list_action">30dp</dimen>
     <dimen name="music_list_duration">50dp</dimen>
     <dimen name="music_list_margin">10dp</dimen>
-    <dimen name="music_list_play_pause">25dp</dimen>
+    <dimen name="music_list_play_pause">50dp</dimen>
 
     <dimen name="spacing_card">10dp</dimen>
     <dimen name="spacing_card_album_grid">3dp</dimen>

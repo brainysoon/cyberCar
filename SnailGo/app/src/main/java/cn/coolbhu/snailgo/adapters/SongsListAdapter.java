@@ -23,6 +23,7 @@ import java.util.List;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.Song;
 import cn.coolbhu.snailgo.dialogs.AddPlaylistDialog;
+import cn.coolbhu.snailgo.helpers.MusicPlaybackTrack;
 import cn.coolbhu.snailgo.helpers.MusicPlayer;
 import cn.coolbhu.snailgo.interfaces.BubbleTextGetter;
 import cn.coolbhu.snailgo.utils.Helpers;
@@ -63,8 +64,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
     }
 
     @Override
-    public void onBindViewHolder(ItemHolder itemHolder, int i) {
-        Song localItem = arraylist.get(i);
+    public void onBindViewHolder(final ItemHolder itemHolder, final int i) {
+        final Song localItem = arraylist.get(i);
 
         itemHolder.title.setText(localItem.title);
         itemHolder.artist.setText(localItem.artistName);
@@ -75,6 +76,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             if (MusicPlayer.isPlaying()) {
                 itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
+
+                //playPause
+                itemHolder.playPause.setImageResource(R.drawable.ic_musicing);
             }
         } else {
             if (isPlaylist)
@@ -82,6 +86,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
             else
                 itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             itemHolder.visualizer.setVisibility(View.GONE);
+
+            //playPause
+            itemHolder.playPause.setImageResource(R.drawable.ic_musicplay);
         }
 
 
@@ -104,11 +111,11 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
 
-        itemHolder.popupMenu.setOnClickListener(new View.OnClickListener() {
+        itemHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View view) {
 
-                final PopupMenu menu = new PopupMenu(mContext, v);
+                final PopupMenu menu = new PopupMenu(mContext, view);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -141,6 +148,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 });
                 menu.inflate(R.menu.popup_song);
                 menu.show();
+
+                return true;
             }
         });
     }
@@ -181,21 +190,45 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, artist;
-        protected ImageView albumArt, popupMenu;
+        protected ImageView albumArt, playPause;
         private MusicVisualizer visualizer;
+        protected View view;
 
         public ItemHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.song_title);
             this.artist = (TextView) view.findViewById(R.id.song_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
-            this.popupMenu = (ImageView) view.findViewById(R.id.popup_menu);
+            this.playPause = (ImageView) view.findViewById(R.id.playPause);
             visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
-            view.setOnClickListener(this);
+            this.view = view;
+
+            this.playPause.setOnClickListener(this);
+
+            this.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    NavigationUtils.navigateToNowplaying(mContext, false);
+                }
+            });
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
+
+            MusicPlaybackTrack track = MusicPlayer.getCurrentTrack();
+
+            if (track != null) {
+
+                if (track.mId == arraylist.get(getAdapterPosition()).id && MusicPlayer.isPlaying()) {
+
+                    MusicPlayer.playOrPause();
+
+                    return;
+                }
+            }
+
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -211,10 +244,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                     }, 50);
                 }
             }, 100);
-
-
         }
-
     }
 }
 
