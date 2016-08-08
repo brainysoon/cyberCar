@@ -94,7 +94,12 @@
 
         <activity android:name=".activities.musics.SearchActivity" />
 
-        <activity android:name=".activities.musics.NowPlayingActivity" />
+        <!--正在播放音乐-->
+        <activity android:name=".activities.musics.NowPlayingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
 
         <activity android:name=".activities.LoginActivity">
             <meta-data
