@@ -44,6 +44,12 @@
     <!--Music-->
     <string name="action_settings">设置</string>
 
+    <string name="add_to_next">添加到下一曲播放</string>
+    <string name="add_to_queue">添加到播放列表</string>
+    <string name="add_to_palylist">添加到列表</string>
+    <string name="to_ablum">转到专辑</string>
+    <string name="to_artist">转到艺术家</string>
+
     <string name="accessibility_play">播放</string>
     <string name="accessibility_pause">暂停</string>
     <string name="accessibility_next">下一首</string>
