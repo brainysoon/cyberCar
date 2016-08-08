@@ -209,6 +209,22 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
                 @Override
                 public void onClick(View view) {
 
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MusicPlayer.playAll(mContext, songIDs, getAdapterPosition(), -1, MusicUtils.IdType.NA, false);
+                            Handler handler1 = new Handler();
+                            handler1.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    notifyItemChanged(currentlyPlayingPosition);
+                                    notifyItemChanged(getAdapterPosition());
+                                }
+                            }, 50);
+                        }
+                    }, 100);
+
                     NavigationUtils.navigateToNowplaying(mContext, false);
                 }
             });
