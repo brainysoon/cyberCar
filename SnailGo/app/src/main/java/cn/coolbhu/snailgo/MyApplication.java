@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.utils.L;
 
 import cn.coolbhu.snailgo.permissions.Nammu;
 
@@ -28,12 +29,21 @@ public class MyApplication extends Application {
 
         mInstance = this;
 
+        initMusic();
+
         //初始化百度地图API
 //        SDKInitializer.initialize(this);
+    }
+
+    private void initMusic() {
 
         //ImageLoader Configuration
         ImageLoaderConfiguration localImageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(localImageLoaderConfiguration);
+
+        L.writeLogs(false);
+        L.disableLogging();
+        L.writeDebugLogs(false);
 
         //检查权限
         Nammu.init(this);
