@@ -18,6 +18,7 @@
     <string name="permission_denie">权限获取失败，你可以手机在设置中将其打开</string>
     <string name="cxy_error">网络导致车首页服务加载错误，请稍候再试！</string>
     <string name="now_to_setting_permission">现在取设置权限</string>
+    <string name="request_music_permission">音乐需要读取存储歌曲的权限！</string>
 
     <!--Activity Title-->
     <string name="title_activity_city_list">城市</string>

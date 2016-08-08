@@ -683,8 +683,6 @@ public class CustomRegulationActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         CustomRegulationActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-
-        Toast.makeText(this, requestCode + "", Toast.LENGTH_SHORT).show();
     }
 
     //显示button

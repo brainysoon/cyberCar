@@ -1,8 +1,13 @@
 package cn.coolbhu.snailgo.activities.musics;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -12,6 +17,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +33,15 @@ import cn.coolbhu.snailgo.dataloaders.AlbumLoader;
 import cn.coolbhu.snailgo.dataloaders.ArtistLoader;
 import cn.coolbhu.snailgo.dataloaders.SongLoader;
 import cn.coolbhu.snailgo.providers.SearchHistory;
+import cn.coolbhu.snailgo.utils.IntentUtils;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class SearchActivity extends BaseThemedActivity implements SearchView.OnQueryTextListener, View.OnTouchListener {
 
     private SearchView mSearchView;
@@ -53,10 +67,72 @@ public class SearchActivity extends BaseThemedActivity implements SearchView.OnQ
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        SearchActivityPermissionsDispatcher.initSearchAdapterWithCheck(this);
     }
 
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void initSearchAdapter() {
+
+
+    }
+
+    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicShowRationale(final PermissionRequest request) {
+
+        new AlertDialog.Builder(SearchActivity.this)
+                .setTitle(R.string.request_permission)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(R.string.request_music_permission)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicPermissionDenied() {
+
+        Toast.makeText(this, R.string.permission_denie, Toast.LENGTH_SHORT).show();
+
+        this.finish();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicPermissionNerver() {
+
+        Snackbar.make(recyclerView, R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        IntentUtils.toSnailGoSettings(SearchActivity.this);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        SearchActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {

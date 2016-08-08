@@ -1,10 +1,13 @@
 package cn.coolbhu.snailgo.fragments.main;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -86,7 +89,26 @@ public class MusicMainFragment extends Fragment implements MusicStateListener {
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE})
     public void onMusicShowRationale(final PermissionRequest request) {
 
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.request_permission)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(R.string.request_music_permission)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
@@ -209,5 +231,12 @@ public class MusicMainFragment extends Fragment implements MusicStateListener {
         @Override
         protected void onPreExecute() {
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        MusicMainFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }
