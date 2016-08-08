@@ -1,7 +1,9 @@
 package cn.coolbhu.snailgo.fragments.main;
 
+import android.Manifest;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,20 +23,41 @@ import cn.coolbhu.snailgo.adapters.SongsListAdapter;
 import cn.coolbhu.snailgo.beans.Song;
 import cn.coolbhu.snailgo.dataloaders.SongLoader;
 import cn.coolbhu.snailgo.listeners.MusicStateListener;
+import cn.coolbhu.snailgo.utils.IntentUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
 import cn.coolbhu.snailgo.utils.SortOrder;
 import cn.coolbhu.snailgo.views.DividerItemDecoration;
 import cn.coolbhu.snailgo.views.FastScroller;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MusicMainFragment extends Fragment implements MusicStateListener {
 
     private SongsListAdapter mAdapter;
     private RecyclerView recyclerView;
     private PreferencesUtils mPreferences;
 
+
+    public static MusicMainFragment newInstance() {
+        MusicMainFragment fragment = new MusicMainFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+
+        }
+
         mPreferences = PreferencesUtils.getInstance(getActivity());
     }
 
@@ -48,10 +71,50 @@ public class MusicMainFragment extends Fragment implements MusicStateListener {
         FastScroller fastScroller = (FastScroller) rootView.findViewById(R.id.fastscroller);
         fastScroller.setRecyclerView(recyclerView);
 
-        new loadSongs().execute("");
+        MusicMainFragmentPermissionsDispatcher.toLoadSongsWithCheck(this);
         ((BaseActivity) getActivity()).setMusicStateListenerListener(this);
 
         return rootView;
+    }
+
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void toLoadSongs() {
+
+        new loadSongs().execute("");
+    }
+
+    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicShowRationale(final PermissionRequest request) {
+
+
+    }
+
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicPermissionDenied() {
+
+        Snackbar.make(recyclerView, R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        IntentUtils.toSnailGoSettings(getContext());
+                    }
+                })
+                .show();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE})
+    public void onMusicPermissionNerver() {
+
+        Snackbar.make(recyclerView, R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        IntentUtils.toSnailGoSettings(getContext());
+                    }
+                })
+                .show();
     }
 
     public void restartLoader() {
