@@ -141,11 +141,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
     private void setOnPopupMenuListener(ItemHolder itemHolder, final int position) {
 
-        itemHolder.menu.setOnClickListener(new View.OnClickListener() {
+        itemHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View view) {
 
-                final PopupMenu menu = new PopupMenu(mContext, v);
+                final PopupMenu menu = new PopupMenu(mContext, view);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -176,6 +176,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                 });
                 menu.inflate(R.menu.popup_song);
                 menu.show();
+
+                return true;
             }
         });
     }
@@ -199,7 +201,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView title, songartist, albumtitle, artisttitle, albumartist, albumsongcount, sectionHeader;
-        protected ImageView albumArt, artistImage, menu;
+        protected ImageView albumArt, artistImage, playPause;
+        protected View view;
 
         public ItemHolder(View view) {
             super(view);
@@ -212,12 +215,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
             this.albumartist = (TextView) view.findViewById(R.id.album_artist);
             this.albumArt = (ImageView) view.findViewById(R.id.albumArt);
             this.artistImage = (ImageView) view.findViewById(R.id.artistImage);
-            this.menu = (ImageView) view.findViewById(R.id.popup_menu);
+            this.playPause = (ImageView) view.findViewById(R.id.playPause);
 
             this.sectionHeader = (TextView) view.findViewById(R.id.section_header);
 
+            this.view = view;
 
             view.setOnClickListener(this);
+
+            if (playPause!=null){
+
+                this.playPause.setOnClickListener(this);
+            }
         }
 
         @Override
@@ -233,6 +242,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
                             MusicPlayer.playAll(mContext, ret, 0, -1, MusicUtils.IdType.NA, false);
                         }
                     }, 100);
+
+                    NavigationUtils.navigateToNowplaying(mContext, false);
 
                     break;
                 case 1:
