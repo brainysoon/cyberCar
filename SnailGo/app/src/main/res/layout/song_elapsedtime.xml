@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:orientation="horizontal">
 
-    <com.naman14.timber.timely.TimelyView
+    <cn.coolbhu.snailgo.views.TimelyView
         android:id="@+id/timelyView11"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -21,14 +21,14 @@
         android:textColor="@android:color/white"
         android:textSize="24sp" />
 
-    <com.naman14.timber.timely.TimelyView
+    <cn.coolbhu.snailgo.views.TimelyView
         android:id="@+id/timelyView12"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:textSize="17sp"
         app:text_color="#ffffff" />
 
-    <com.naman14.timber.timely.TimelyView
+    <cn.coolbhu.snailgo.views.TimelyView
         android:id="@+id/timelyView13"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -42,14 +42,14 @@
         android:textColor="@android:color/white"
         android:textSize="24sp" />
 
-    <com.naman14.timber.timely.TimelyView
+    <cn.coolbhu.snailgo.views.TimelyView
         android:id="@+id/timelyView14"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:textSize="17sp"
         app:text_color="#ffffff" />
 
-    <com.naman14.timber.timely.TimelyView
+    <cn.coolbhu.snailgo.views.TimelyView
         android:id="@+id/timelyView15"
         android:layout_width="40dp"
         android:layout_height="40dp"
