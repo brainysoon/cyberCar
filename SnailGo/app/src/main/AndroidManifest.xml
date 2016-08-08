@@ -48,6 +48,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:launchMode="singleInstance">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,6 +93,8 @@
         </activity>
 
         <activity android:name=".activities.musics.SearchActivity" />
+
+        <activity android:name=".activities.musics.NowPlayingActivity" />
 
         <activity android:name=".activities.LoginActivity">
             <meta-data
