@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -270,30 +268,4 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
             }
         }
     }
-    public class initQuickControls extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            QuickControlsFragment fragment1 = new QuickControlsFragment();
-            FragmentManager fragmentManager1 = getSupportFragmentManager();
-            fragmentManager1.beginTransaction()
-                    .replace(R.id.quickcontrols_container, fragment1).commitAllowingStateLoss();
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            QuickControlsFragment.topContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavigationUtils.navigateToNowplaying(BaseActivity.this, false);
-                }
-            });
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-    }
-
 }
