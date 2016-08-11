@@ -42,6 +42,22 @@
     <string name="regulation_place">违章地点</string>
     <string name="regulation_behavior">违章行为</string>
 
+    <!--导航-->
+    <string name="navigate_tts_type">语音播报模式</string>
+    <string name="navigate_tts_type_newman">新手</string>
+    <string name="navigate_tts_type_professor">专家</string>
+    <string name="navigate_tts_type_none">静音</string>
+    <string name="navigate_tts_mode">语音播报内容</string>
+    <string name="navigate_tts_mode_eye">电子眼</string>
+    <string name="navigate_tts_mode_speed">限速提醒</string>
+    <string name="navigate_tts_mode_safe">安全驾驶</string>
+    <string name="navigate_tts_mode_condition">前方路况</string>
+    <string name="navigate_tts_mode_straght">直行顺行提醒</string>
+    <string name="navigate_condition">实时路况</string>
+    <string name="navigate_full_condition">全程路况条</string>
+    <string name="navigate_day_or_night">夜晚模式</string>
+    <string name="navigate_power">省电模式</string>
+
     <!--Music-->
     <string name="action_settings">设置</string>
 

@@ -31,4 +31,8 @@
 
     <dimen name="spacing_card">10dp</dimen>
     <dimen name="spacing_card_album_grid">3dp</dimen>
+
+    <!--导航-->
+    <dimen name="progress_bar_size">60dp</dimen>
+    <dimen name="button_text_size">18sp</dimen>
 </resources>
