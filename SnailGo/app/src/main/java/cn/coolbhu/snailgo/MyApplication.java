@@ -2,7 +2,6 @@ package cn.coolbhu.snailgo;
 
 import android.app.Application;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
@@ -33,9 +32,6 @@ public class MyApplication extends Application {
         mInstance = this;
 
         initMusic();
-
-        //初始化百度地图API
-        SDKInitializer.initialize(this);
     }
 
     private void initMusic() {

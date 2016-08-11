@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -21,10 +23,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.cheshouye.api.client.WeizhangClient;
 import com.cheshouye.api.client.WeizhangIntentService;
 import com.cheshouye.api.client.json.CarInfo;
@@ -38,6 +40,7 @@ import java.util.Map;
 
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.utils.IntentUtils;
+import cn.coolbhu.snailgo.utils.LocationUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
@@ -46,7 +49,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class CustomRegulationActivity extends AppCompatActivity {
+public class CustomRegulationActivity extends AppCompatActivity implements AMapLocationListener {
 
 
     private String defaultChepai = "苏"; // 粤=广东
@@ -60,12 +63,6 @@ public class CustomRegulationActivity extends AppCompatActivity {
     private EditText chejia_number;
     private EditText engine_number;
 
-    //定位
-    LocationClient mLocationClient;
-
-    //只需要一次定位成功就行
-    public int isFirstSucceed = 0;
-
     // 行驶证图示
     private View popXSZ;
 
@@ -76,6 +73,64 @@ public class CustomRegulationActivity extends AppCompatActivity {
     private View reNoPermission;
     private View rePermission;
     private Button buSetting;
+
+    //定位
+    private AMapLocationClient locationClient = null;
+    private AMapLocationClientOption locationClientOption = null;
+
+    //Handler
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+
+                case LocationUtils.LOCATION_FINISH:
+
+                    handResult((AMapLocation) msg.obj);
+                    break;
+            }
+        }
+
+        //处理结果
+        public void handResult(AMapLocation aMapLocation) {
+
+            try {
+                String province = aMapLocation.getProvince();
+
+                String city = aMapLocation.getCity();
+
+                province = province.substring(0, 2);
+
+                city = city.substring(0, 2);
+
+
+                Log.e("here_>>>>", city + province);
+
+                Log.e("city_code", aMapLocation.getCityCode());
+                Log.e("city_code", aMapLocation.getProvince());
+                Log.e("city_code", aMapLocation.getCity());
+
+                int cityId = getCityId(province, city);
+
+                if (cityId < 0) return;
+
+                setQueryItem(cityId);
+
+                //改变UI
+                short_name.setText(getShortProvince(province));
+
+                query_city.setText(city);
+
+                //完成停止定位
+                locationClient.stopLocation();
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -536,72 +591,50 @@ public class CustomRegulationActivity extends AppCompatActivity {
         hideBut();
     }
 
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+
+        if (aMapLocation != null) {
+
+            if (aMapLocation.getErrorCode() == 0) {
+
+                Message msg = mHandler.obtainMessage();
+
+                msg.what = LocationUtils.LOCATION_FINISH;
+
+                msg.obj = aMapLocation;
+
+                mHandler.sendMessage(msg);
+
+            }
+        }
+    }
+
     //开始定位
     @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void initLoacation() {
 
         //初始化
-        mLocationClient = new LocationClient(this);
+        locationClient = new AMapLocationClient(this.getApplicationContext());
 
-        //注册监听事件
-        mLocationClient.registerLocationListener(new BDLocationListener() {
-            @Override
-            public void onReceiveLocation(BDLocation bdLocation) {
-
-                //最多定位10次，放弃定位
-                if (isFirstSucceed > 10) {
-
-                    mLocationClient.stop();
-                } else {
-
-                    isFirstSucceed++;
-
-                    String province = bdLocation.getProvince();
-
-                    String city = bdLocation.getCity();
-
-                    province = province.substring(0, 2);
-
-                    city = city.substring(0, 2);
+        locationClientOption = new AMapLocationClientOption();
 
 
-                    Log.e("here_>>>>", city + province);
+        // 设置定位模式为低功耗模式
+        locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
 
-                    Log.e("city_code", bdLocation.getCityCode());
+        //设置只定位一次
+//        locationClientOption.setOnceLocation(true);
 
-                    int cityId = getCityId(province, city);
+        locationClientOption.setInterval(1000);
 
-                    if (cityId < 0) return;
-
-                    setQueryItem(cityId);
-
-                    //改变UI
-                    short_name.setText(getShortProvince(province));
-
-                    query_city.setText(city);
-
-                    //成功就停止定位
-                    mLocationClient.stop();
-                }
-            }
-        });
-
-        //设置
-        LocationClientOption option = new LocationClientOption();
-
-        option.setOpenGps(true); //打开GPS
-
-        option.setCoorType("gcj02"); //设置坐标类型
-        option.setScanSpan(1000);   //定位间隙
-
-        option.setIsNeedAddress(true);
-
-        //绑定设置
-        mLocationClient.setLocOption(option);
+        // 设置定位监听
+        locationClient.setLocationListener(this);
 
         //开始定位
-        mLocationClient.start();
+        locationClient.startLocation();
+
 
         hideBut();
     }
@@ -697,5 +730,14 @@ public class CustomRegulationActivity extends AppCompatActivity {
 
         reNoPermission.setVisibility(View.VISIBLE);
         rePermission.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        locationClient.onDestroy();
+        locationClient = null;
+        locationClientOption = null;
     }
 }
