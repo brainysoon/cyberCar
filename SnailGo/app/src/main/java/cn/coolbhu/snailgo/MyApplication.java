@@ -25,6 +25,8 @@ public class MyApplication extends Application {
         super();
     }
 
+    public static boolean isLoginSucceed = true;
+
     @Override
     public void onCreate() {
         super.onCreate();

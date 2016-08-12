@@ -143,6 +143,9 @@ public class CustomRegulationActivity extends AppCompatActivity implements AMapL
 
         initView();
 
+        //初始化车首页服务
+        CustomRegulationActivityPermissionsDispatcher.initCheShouYeWithCheck(this);
+
         //判断是否需要定位
         if (PreferencesUtils.getInstance(this).isSettingsRegulationLocation()) {
 
@@ -736,8 +739,11 @@ public class CustomRegulationActivity extends AppCompatActivity implements AMapL
     protected void onDestroy() {
         super.onDestroy();
 
-        locationClient.onDestroy();
-        locationClient = null;
+       if (locationClient!=null){
+           locationClient.onDestroy();
+           locationClient = null;
+       }
+
         locationClientOption = null;
     }
 }

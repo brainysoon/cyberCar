@@ -21,10 +21,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/weizhang_sdk.jar')
+    compile files('libs/juhe_sdk_v_2_7.jar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
@@ -40,7 +60,6 @@ dependencies {
     compile 'com.mikepenz:itemanimators:0.2.4@aar'
     compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
-    compile files('libs/weizhang_sdk.jar')
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'de.Maxr1998:track-selector-lib:1.1'
@@ -59,4 +78,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile files('libs/AMap3DMap_3.4.0_AMapNavi_1.9.1_AMapSearch_3.3.0_AMapLocation_2.7.0_20160809.jar')
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    compile 'cn.bmob.android:bmob-sdk:3.4.6'
+
+    //扫描二维码
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
 }

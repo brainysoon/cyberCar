@@ -43,9 +43,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--高德地图API key-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="bcdd310ad325e50625a662e665dae2e8" />
+
+        <!--聚合数据API key-->
+        <meta-data
+            android:name="com.thinkland.juheapi.openid"
+            android:value="JH822ec387c13830fac27e9505ce23575b" />
 
         <activity
             android:name=".activities.MainActivity"
@@ -125,6 +131,21 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.regulations.CustomRegulationActivity" />
+        </activity>
+
+        <!--预约加油-->
+        <activity android:name=".activities.moregas.MoreGasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!-- 预约加油相关Activity -->
+        <activity android:name=".activities.moregas.BookGasActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
         </activity>
 
         <!-- 违章信息查询结果相关 Activity -->

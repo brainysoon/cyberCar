@@ -19,6 +19,9 @@ allprojects {
 
         //progress layout
         maven { url "https://jitpack.io" }
+
+        //bmob仓库
+        maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
     }
 }
 
