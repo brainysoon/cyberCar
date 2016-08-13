@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
@@ -21,7 +23,9 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.musics.BaseActivity;
+import cn.coolbhu.snailgo.fragments.main.HomeMainFragment;
 import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
+import cn.coolbhu.snailgo.helpers.MusicPlayer;
 import cn.coolbhu.snailgo.utils.BottomBarFrgmentUtils;
 
 public class MainActivity extends BaseActivity implements OnMenuTabClickListener
@@ -36,6 +40,9 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
     //Toolbar
     private Toolbar mToolbar;
+
+    //上一次摁退出建的时间
+    private long exitTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,15 +154,65 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     @Override
     public void onBackPressed() {
 
+        if (mDrawer.isDrawerOpen()) {
+
+            mDrawer.closeDrawer();
+
+            return;
+        }
+
         switch (mBottomBar.getCurrentTabPosition()) {
 
             case 0:
-                break;
+
+                WebView webView = ((HomeMainFragment) BottomBarFrgmentUtils.mFragments[0]).mWebView;
+
+                if (webView != null && webView.canGoBack()) {
+
+                    webView.goBack();
+                } else {
+
+                    if (!shouldShowToast()) {
+
+                        super.onBackPressed();
+                    }
+                }
+                return;
 
             default:
-
-                super.onBackPressed();
                 break;
+        }
+
+        //显示提示页面
+        if (!shouldShowToast()) {
+
+            super.onBackPressed();
+        }
+    }
+
+    //提示
+    private boolean shouldShowToast() {
+
+        //是否退出
+        if (System.currentTimeMillis() - exitTime > 3000) {
+
+            Toast.makeText(this, "再按一次，就走！", Toast.LENGTH_SHORT).show();
+
+            exitTime = System.currentTimeMillis();
+
+            return true;
+        } else {
+
+            //是否继续播放音乐
+            if (false) {
+
+                if (MusicPlayer.isPlaying()) {
+
+                    MusicPlayer.playOrPause();
+                }
+            }
+
+            return false;
         }
     }
 }

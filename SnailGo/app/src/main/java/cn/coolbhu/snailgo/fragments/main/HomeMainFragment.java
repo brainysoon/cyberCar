@@ -18,7 +18,7 @@ public class HomeMainFragment extends Fragment {
     private static final String SERVER_URL = "http://www.coolbhu.cn";
 
     //view
-    private WebView mWebView = null;
+    public WebView mWebView = null;
 
     public static HomeMainFragment newInstance() {
         HomeMainFragment fragment = new HomeMainFragment();

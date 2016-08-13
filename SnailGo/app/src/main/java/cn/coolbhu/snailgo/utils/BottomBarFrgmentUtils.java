@@ -16,7 +16,7 @@ import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 public class BottomBarFrgmentUtils {
 
     //Fragments
-    private static Fragment[] mFragments = new Fragment[5];
+    public static Fragment[] mFragments = new Fragment[5];
 
     @Nullable
     public static Fragment getFragmentByMenuItemId(int menuItemId) {
