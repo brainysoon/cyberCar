@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import cn.coolbhu.snailgo.R;
 
@@ -19,6 +21,7 @@ public class HomeMainFragment extends Fragment {
 
     //view
     public WebView mWebView = null;
+    public ProgressBar mProgressBar = null;
 
     public static HomeMainFragment newInstance() {
         HomeMainFragment fragment = new HomeMainFragment();
@@ -46,6 +49,8 @@ public class HomeMainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mWebView = (WebView) view.findViewById(R.id.home_web_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+
 
         mWebView.loadUrl(SERVER_URL);
 
@@ -57,6 +62,27 @@ public class HomeMainFragment extends Fragment {
                 view.loadUrl(url);
                 return true;
             }
+
+
+        });
+
+        //设置进度条
+        mWebView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+
+                if (newProgress == 100) {
+
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                } else {
+
+                    mProgressBar.setVisibility(View.VISIBLE);
+
+                    mProgressBar.setProgress(newProgress);
+                }
+                super.onProgressChanged(view, newProgress);
+            }
         });
 
         //支持js
@@ -65,7 +91,6 @@ public class HomeMainFragment extends Fragment {
 
         //优先用缓存
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
     }
 
 

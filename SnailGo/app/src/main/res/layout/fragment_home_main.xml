@@ -4,9 +4,21 @@
     android:layout_height="match_parent"
     tools:context=".fragments.main.HomeMainFragment">
 
-    <WebView
-        android:id="@+id/home_web_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/progress_bar_height" />
+
+        <WebView
+            android:id="@+id/home_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </FrameLayout>
