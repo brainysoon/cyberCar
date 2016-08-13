@@ -62,12 +62,6 @@
                             android:layout_weight="1"
                             android:hint="起始位置" />
 
-                        <ImageView
-                            android:id="@+id/fragment_init_navigate_img_ref"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_refresh_2x" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -88,28 +82,46 @@
                             android:layout_weight="1"
                             android:hint="终点位置" />
 
-                        <ImageView
-                            android:id="@+id/fragment_init_navigate_img_swap"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_swap" />
-
                     </LinearLayout>
-
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/fragment_init_navigate_img_swap"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_swap" />
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/fragment_init_navigate_list_advice"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:text="偏好设置" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/fragment_init_navigate_button_nav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:background="?attr/colorPrimary"
                 android:text="开始导航"
                 android:textColor="@android:color/white"

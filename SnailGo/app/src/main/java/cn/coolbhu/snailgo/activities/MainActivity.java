@@ -143,4 +143,19 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     public void onMenuTabReSelected(@IdRes int menuItemId) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+        switch (mBottomBar.getCurrentTabPosition()) {
+
+            case 0:
+                break;
+
+            default:
+
+                super.onBackPressed();
+                break;
+        }
+    }
 }

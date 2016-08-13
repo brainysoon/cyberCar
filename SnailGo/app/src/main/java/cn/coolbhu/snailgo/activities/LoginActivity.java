@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.amap.api.navi.AMapNavi;
+
 import cn.coolbhu.snailgo.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -15,6 +17,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initToolbar();
+
+        AMapNavi mapNavi = AMapNavi.getInstance(getApplicationContext());
+
+        int x = 6;
     }
 
     //initToolbar

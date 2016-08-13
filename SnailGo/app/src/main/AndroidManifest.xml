@@ -1,39 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.coolbhu.snailgo">
 
     <uses-sdk tools:overrideLibrary="de.Maxr1998.trackselectorlib" />
 
-    <!--车首页接口所需要的权限-->
+    <!-- 车首页接口所需要的权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--音乐权限-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!-- 音乐权限 -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 
-    <!--高德地图相应权限-->
-    <!--用于进行网络定位-->
+    <!-- 高德地图相应权限 -->
+    <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--用于访问GPS定位-->
+    <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!--用于访问网络，网络定位需要上网-->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--用于读取手机当前的状态-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- 用于读取手机当前的状态 -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
         android:name=".MyApplication"
@@ -43,12 +46,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--高德地图API key-->
+        <!-- 高德地图API key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="bcdd310ad325e50625a662e665dae2e8" />
 
-        <!--聚合数据API key-->
+        <!-- 聚合数据API key -->
         <meta-data
             android:name="com.thinkland.juheapi.openid"
             android:value="JH822ec387c13830fac27e9505ce23575b" />
@@ -66,6 +69,7 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="file" />
@@ -99,16 +103,14 @@
                 <data android:mimeType="application/itunes" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.musics.SearchActivity" />
 
-        <!--正在播放音乐-->
+        <!-- 正在播放音乐 -->
         <activity android:name=".activities.musics.NowPlayingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-
         <activity android:name=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -133,7 +135,7 @@
                 android:value=".activities.regulations.CustomRegulationActivity" />
         </activity>
 
-        <!--预约加油-->
+        <!-- 预约加油 -->
         <activity android:name=".activities.moregas.MoreGasActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -142,6 +144,15 @@
 
         <!-- 预约加油相关Activity -->
         <activity android:name=".activities.moregas.BookGasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--搞得地图-->
+        <activity
+            android:name=".activities.navigates.NagBaseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -156,7 +167,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".activities.regulations.RegulationResultActivity"
             android:label="@string/title_activity_regulation_result">
@@ -174,19 +184,19 @@
                 android:value=".activities.regulations.CustomRegulationActivity" />
         </activity>
 
-        <!--车首页的service-->
+        <!-- 车首页的service -->
         <service android:name="com.cheshouye.api.client.WeizhangIntentService" />
 
-        <!--高德地图定位服务-->
+        <!-- 高德地图定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <!--音乐播放服务-->
+        <!-- 音乐播放服务 -->
         <service
             android:name=".services.MusicService"
             android:label="@string/app_name"
             android:process=":main" />
 
-        <!--MediaButtonIntentReceiver -->
+        <!-- MediaButtonIntentReceiver -->
         <receiver android:name=".helpers.MediaButtonIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
@@ -194,6 +204,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".activities.navigates.NagActivity"></activity>
     </application>
 
 </manifest>

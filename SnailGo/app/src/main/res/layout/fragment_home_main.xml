@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.main.HomeMainFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <WebView
+        android:id="@+id/home_web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

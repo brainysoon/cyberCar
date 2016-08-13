@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.fragments.main.HomeMainFragment;
 import cn.coolbhu.snailgo.fragments.main.MusicMainFragment;
+import cn.coolbhu.snailgo.fragments.main.NagMainFragment;
 import cn.coolbhu.snailgo.fragments.main.OilMainFragment;
 import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 
@@ -57,7 +58,7 @@ public class BottomBarFrgmentUtils {
                     break;
 
                 case 1:
-                    mFragments[index] = HomeMainFragment.newInstance();
+                    mFragments[index] = NagMainFragment.newInstance();
                     break;
 
                 case 2:
