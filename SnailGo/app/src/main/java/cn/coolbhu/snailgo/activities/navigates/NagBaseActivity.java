@@ -43,10 +43,10 @@ public class NagBaseActivity extends Activity implements AMapNaviListener, AMapN
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-//        //实例化语音引擎
-//        mTtsManager = TTSController.getInstance(getApplicationContext());
-//        mTtsManager.init();
-//        mTtsManager.startSpeaking();
+        //实例化语音引擎
+        mTtsManager = TTSController.getInstance(getApplicationContext());
+        mTtsManager.init();
+        mTtsManager.startSpeaking();
 
         int x = 6;
         //

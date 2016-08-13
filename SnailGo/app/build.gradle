@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "cn.coolbhu.snailgo"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 22
         versionName "2.0.3"
 
