@@ -12,8 +12,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import cn.coolbhu.snailgo.R;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 public class HomeMainFragment extends Fragment {
 
@@ -22,6 +27,8 @@ public class HomeMainFragment extends Fragment {
     //view
     public WebView mWebView = null;
     public ProgressBar mProgressBar = null;
+    private PtrClassicFrameLayout mPtrLayout = null;
+    private ScrollView mScrollView = null;
 
     public static HomeMainFragment newInstance() {
         HomeMainFragment fragment = new HomeMainFragment();
@@ -50,6 +57,8 @@ public class HomeMainFragment extends Fragment {
 
         mWebView = (WebView) view.findViewById(R.id.home_web_view);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+        mPtrLayout = (PtrClassicFrameLayout) view.findViewById(R.id.ptr_classic_layout);
+        mScrollView = (ScrollView) view.findViewById(R.id.scroll_layout);
 
 
         mWebView.loadUrl(SERVER_URL);
@@ -74,7 +83,12 @@ public class HomeMainFragment extends Fragment {
 
                 if (newProgress == 100) {
 
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+
+                    if (mPtrLayout != null) {
+
+                        mPtrLayout.refreshComplete();
+                    }
                 } else {
 
                     mProgressBar.setVisibility(View.VISIBLE);
@@ -91,7 +105,32 @@ public class HomeMainFragment extends Fragment {
 
         //优先用缓存
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        //下拉刷新
+        initPtr();
     }
 
+    //initPtr
+    private void initPtr() {
 
+        mPtrLayout.setLastUpdateTimeRelateObject(this);
+
+        mPtrLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+
+                //开始刷新
+                if (mWebView != null) {
+
+                    mWebView.reload();
+                }
+            }
+        });
+    }
 }
