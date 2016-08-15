@@ -9,8 +9,8 @@ android {
         applicationId "cn.coolbhu.snailgo"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 23
-        versionName "2.0.4"
+        versionCode 24
+        versionName "2.0.5"
 
         //这两句话就是哥罪魁祸首，导致高德地图不能用
 //        renderscriptTargetApi 20
