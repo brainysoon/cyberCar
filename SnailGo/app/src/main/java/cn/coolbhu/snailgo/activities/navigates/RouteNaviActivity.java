@@ -8,6 +8,7 @@ import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.AMapNaviView;
 import com.amap.api.navi.AMapNaviViewListener;
+import com.amap.api.navi.AMapNaviViewOptions;
 import com.amap.api.navi.model.AMapLaneInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
@@ -40,6 +41,11 @@ public class RouteNaviActivity extends Activity implements AMapNaviListener, AMa
         mAMapNaviView.onCreate(savedInstanceState);
         mAMapNaviView.setAMapNaviViewListener(this);
 
+        AMapNaviViewOptions viewOptions = new AMapNaviViewOptions();
+        viewOptions.setNaviViewTopic(AMapNaviViewOptions.BLUE_COLOR_TOPIC);
+
+        mAMapNaviView.setViewOptions(viewOptions);
+
         mAMapNavi = AMapNavi.getInstance(getApplicationContext());
         mAMapNavi.addAMapNaviListener(this);
         mAMapNavi.addAMapNaviListener(mTtsManager);
@@ -66,7 +72,7 @@ public class RouteNaviActivity extends Activity implements AMapNaviListener, AMa
         super.onPause();
         mAMapNaviView.onPause();
         //        仅仅是停止你当前在说的这句话，一会到新的路口还是会再说的
-        mTtsManager.stopSpeaking();
+//        mTtsManager.stopSpeaking();
         //
         //        停止导航之后，会触及底层stop，然后就不会再有回调了，但是讯飞当前还是没有说完的半句话还是会说完
         //        mAMapNavi.stopNavi();
@@ -157,7 +163,7 @@ public class RouteNaviActivity extends Activity implements AMapNaviListener, AMa
     @Override
     public void onNaviCancel() {
 
-        mAMapNaviView.onDestroy();
+////        mAMapNaviView.onDestroy();
         mAMapNavi.stopNavi();
         mAMapNavi.destroy();
         mTtsManager.destroy();
@@ -253,4 +259,13 @@ public class RouteNaviActivity extends Activity implements AMapNaviListener, AMa
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+
+        mAMapNavi.stopNavi();
+        mAMapNavi.destroy();
+        mTtsManager.destroy();
+
+        super.onBackPressed();
+    }
 }

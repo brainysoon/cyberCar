@@ -197,6 +197,8 @@ public class RoutePlanActivity extends AppCompatActivity implements AMapNaviList
 
                     startActivity(intent);
 
+                    finish();
+
                 } else {
 
                     Toast.makeText(RoutePlanActivity.this, "必须路经规划成功过后才能导航！", Toast.LENGTH_SHORT).show();
