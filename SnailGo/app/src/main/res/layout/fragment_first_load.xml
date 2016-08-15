@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fragment_first_load_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
+
+        <github.chenupt.springindicator.SpringIndicator
+            android:id="@+id/fragment_first_load_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="12dp"
+            app:siIndicatorColor="@color/colorPrimary"
+            app:siIndicatorColors="@array/indicator_colors"
+            app:siSelectedTextColor="@android:color/white"
+            app:siTextColor="@color/colorPrimaryDark"
+            app:siTextSize="18sp" />
+
+        <Button
+            android:id="@+id/fragment_first_load_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:background="@color/colorPrimary"
+            android:padding="6dp"
+            android:text="开始体验路比"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</LinearLayout>

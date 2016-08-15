@@ -84,4 +84,8 @@ dependencies {
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile files('libs/Msc.jar')
     compile files('libs/AMap3DMap_3.4.0_AMapNavi_1.9.1_AMapSearch_3.3.0_AMapLocation_2.7.0_20160809.jar')
+    compile 'com.isseiaoki:simplecropview:1.1.4'
+    //boomenu 菜单依赖
+    compile 'com.nightonke:boommenu:1.0.9'
+    compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
 }

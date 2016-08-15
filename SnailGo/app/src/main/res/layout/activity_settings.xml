@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.SettingsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -16,7 +16,8 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <FrameLayout
-        android:id="@+id/activity_login_framelayout"
+        android:id="@+id/activity_settings_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

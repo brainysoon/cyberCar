@@ -1,11 +1,16 @@
 package cn.coolbhu.snailgo;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.os.Environment;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
 
+import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.permissions.Nammu;
 
 /**
@@ -27,11 +32,33 @@ public class MyApplication extends Application {
 
     public static boolean isLoginSucceed = true;
 
+    //保存头像的位置
+    public static String USER_AVATOR_DIRCTORY;
+
+    //全局User
+    public static User mUser;
+    public static Bitmap mAvator;
+
+    //全局请求队列
+    private static RequestQueue mRequestQueue;
+
+    //保存文件的位置
+    public static String SAVE_PATH;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         mInstance = this;
+
+        //获得保存头像的位置
+        MyApplication.USER_AVATOR_DIRCTORY = this.getExternalCacheDir().getAbsolutePath();
+
+        //初始化请求队列
+        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        //初始化更新Apk放的位置
+        MyApplication.SAVE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
         initMusic();
     }
@@ -48,5 +75,11 @@ public class MyApplication extends Application {
 
         //检查权限
         Nammu.init(this);
+    }
+
+    //获取队列
+    public static RequestQueue getRequestQueue() {
+
+        return MyApplication.mRequestQueue;
     }
 }

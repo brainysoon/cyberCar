@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.LoginFragment">
+
+    <!-- TODO: Show Progress Bar -->
+    <ProgressBar
+        android:id="@+id/fragment_login_progressbar_loading"
+        android:layout_width="@dimen/fragment_login_progressbar_size"
+        android:layout_height="@dimen/fragment_login_progressbar_size"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+
+    <!-- TODO: Show Login-->
+    <ScrollView
+        android:id="@+id/fragment_login_scrollview_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.fat246.cybercar.openwidgets.CircleImageView
+                style="@style/login_style"
+                android:layout_width="@dimen/fragment_login_imageview_size"
+                android:layout_height="@dimen/fragment_login_imageview_size"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher" />
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/fragment_login_autocompletetextview_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fragment_login_autocompletetextview_user_name"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/fragment_login_edittext_user_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fragment_login_edittext_user_password"
+                    android:inputType="textPassword" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/fragment_login_checkbox_save_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_login_checkbox_save_password" />
+
+                <CheckBox
+                    android:id="@+id/fragment_login_checkbox_auto_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:text="@string/fragment_login_checkbox_auto_login" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fragment_login_button_login_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="?attr/colorPrimary"
+                android:text="@string/fragment_login_button_login"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/button_text_size" />
+
+            <RelativeLayout
+                style="@style/login_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/fragment_login_textview_forgot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_login_textview_forgot_password" />
+
+                <TextView
+                    android:id="@+id/fragment_login_textview_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/fragment_login_textview_register" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

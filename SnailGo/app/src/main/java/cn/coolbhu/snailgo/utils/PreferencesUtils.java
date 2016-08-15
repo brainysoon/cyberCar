@@ -4,6 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import java.io.File;
+
+import cn.bmob.v3.datatype.BmobFile;
+import cn.coolbhu.snailgo.MyApplication;
+import cn.coolbhu.snailgo.beans.User;
 
 /**
  * Created by ken on 16-7-29.
@@ -23,6 +30,27 @@ public class PreferencesUtils {
     public static final String ALBUM_SONG_SORT_ORDER = "album_song_sort_order";
     private static final String TOGGLE_ARTIST_GRID = "toggle_artist_grid";
     public static final String ARTIST_SONG_SORT_ORDER = "artist_song_sort_order";
+
+    private static final String SETTINGS_KEY_USER_STRAIGHT = "settings_key_user_straight";
+    private static final String SETTINGS_KEY_MUSIC_AUTO = "settings_key_music_auto";
+    private static final String SETTINGS_KEY_MUSIC_CONTINUE = "settings_key_music_continue";
+    private static final String SETTINGS_KEY_CAR_PUSH = "settings_key_car_push";
+
+    /**
+     * 有关用户信息的缓存
+     */
+    public static final String USER_TEL = "User_Tel";
+    public static final String USER_PASSWORD = "User_Password";
+    public static final String USER_NICKNAME = "User_NickName";
+    public static final String USER_SEX = "User_Sex";
+    public static final String USER_BIRTHDAY = "User_Birthday";
+    public static final String USER_AVATOR_PATH = "User_Avator";
+
+    //是否是第一次登录
+    public static final String IS_FIRST_LOAD = "is_first_load";
+
+    //跳过的版本号
+    public static final String JUMP_VERSION_CODE = "jump_version_code";
 
     //Instance
     private static PreferencesUtils mInstance;
@@ -117,6 +145,16 @@ public class PreferencesUtils {
         return mPreferences.getBoolean(NOW_PLAYNG_THEME_VALUE, false);
     }
 
+    //设置跳过当前最新的版本号
+    public void setJumpVersionCode(int code) {
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putInt(JUMP_VERSION_CODE, code);
+
+        editor.apply();
+    }
+
     public void setNowPlayingThemeChanged(final boolean value) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putBoolean(NOW_PLAYNG_THEME_VALUE, value);
@@ -156,5 +194,94 @@ public class PreferencesUtils {
 
     public void setArtistSongSortOrder(final String value) {
         setSortOrder(ARTIST_SONG_SORT_ORDER, value);
+    }
+
+    //从配置文件里面的到用户信息
+    public User getUserInfo() {
+
+
+        String User_Tel = mPreferences.getString(USER_TEL, "");
+        String User_Password = mPreferences.getString(USER_PASSWORD, "");
+        String User_NickName = mPreferences.getString(USER_NICKNAME, "");
+        Boolean User_Sex = mPreferences.getBoolean(USER_SEX, true);
+        String User_Birthday = mPreferences.getString(USER_BIRTHDAY, "");
+        String User_Avator_Path = mPreferences.getString(USER_AVATOR_PATH, "");
+
+        File Avator_File = new File(User_Avator_Path);
+
+        BmobFile User_Avator;
+        if (!Avator_File.exists()) {
+
+            User_Avator = BmobFile.createEmptyFile();
+        } else {
+
+            User_Avator = new BmobFile(Avator_File);
+        }
+
+
+        return new User(User_Tel, User_Password, User_NickName,
+                User_Sex, User_Birthday, User_Avator);
+    }
+
+    //是否保存密码
+    public boolean isSavePassword(String User_Tel) {
+
+        return mPreferences.getBoolean(User_Tel + "isSavePassowrd", false);
+    }
+
+    //是否需要自动登陆
+    public boolean isAutoLogin(String User_Tel) {
+
+        return mPreferences.getBoolean(User_Tel + "isAutoLogin", false);
+    }
+
+
+    //将用户信息保存到配置里面去
+    public void saveUserInfo(User mUser) {
+
+        SharedPreferences.Editor mEditor = mPreferences.edit();
+
+        mEditor.putString(USER_TEL, mUser.getUser_Tel());
+        mEditor.putString(USER_PASSWORD, mUser.getUser_Password());
+        mEditor.putString(USER_NICKNAME, mUser.getUser_NickName());
+        mEditor.putBoolean(USER_SEX, mUser.getUser_Sex());
+        mEditor.putString(USER_BIRTHDAY, mUser.getUser_Birthday());
+        mEditor.putString(USER_AVATOR_PATH, MyApplication.USER_AVATOR_DIRCTORY +
+                mUser.getUser_Avator().getFilename());
+
+        mEditor.apply();
+
+    }
+
+    //保存
+    public void saveIsSavePassAndAutoLogin(String tel, boolean isSavePass, boolean isAutoLogin) {
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putBoolean(tel + "isSavePassowrd", isSavePass);
+
+        editor.putBoolean(tel + "isAutoLogin", isAutoLogin);
+
+        editor.apply();
+    }
+
+    public boolean setIsFirstLoad() {
+
+        return mPreferences.getBoolean(IS_FIRST_LOAD, true);
+    }
+
+    //启动过后去哪个界面
+    public boolean isSettingsUserStraight() throws Exception {
+
+        Log.e("getPre", mPreferences.getBoolean(SETTINGS_KEY_USER_STRAIGHT, false) + "");
+
+        return mPreferences.getBoolean(SETTINGS_KEY_USER_STRAIGHT, true);
+    }
+
+    //获得跳过的版本号
+    public int getJumpVersionCode() {
+
+        //如果没有设置跳过的版本号的话，就返回一个比较小的版本号，方便比较
+        return mPreferences.getInt(JUMP_VERSION_CODE, -1);
     }
 }
