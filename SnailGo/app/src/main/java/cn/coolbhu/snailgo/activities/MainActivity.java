@@ -27,6 +27,7 @@ import cn.coolbhu.snailgo.fragments.main.HomeMainFragment;
 import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
 import cn.coolbhu.snailgo.helpers.MusicPlayer;
 import cn.coolbhu.snailgo.utils.BottomBarFrgmentUtils;
+import cn.coolbhu.snailgo.utils.PreferencesUtils;
 
 public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         , VolMainFragment.VolMainFragmentCallback {
@@ -55,6 +56,20 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
         initMaterialDrawer(savedInstanceState);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //设置不是第一次启动App
+        if (PreferencesUtils.getInstance(this).setIsFirstLoad()) {
+
+//            showcaseView();
+            //setNot
+            PreferencesUtils.getInstance(this).setNotFirstLoad();
+        }
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -174,7 +189,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
                     if (!shouldShowToast()) {
 
-                        super.onBackPressed();
+                        //退到后台
+                        moveTaskToBack(true);
                     }
                 }
                 return;
@@ -186,7 +202,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         //显示提示页面
         if (!shouldShowToast()) {
 
-            super.onBackPressed();
+            //退到后台
+            moveTaskToBack(true);
         }
     }
 

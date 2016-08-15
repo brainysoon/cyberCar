@@ -55,14 +55,22 @@
             android:name="com.thinkland.juheapi.openid"
             android:value="JH822ec387c13830fac27e9505ce23575b" />
 
+        <!--Logo界面-->
         <activity
-            android:name=".activities.MainActivity"
-            android:launchMode="singleInstance">
+            android:name=".activities.LogoActivity"
+            android:theme="@style/LogoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.CATEGORY_APP_MUSIC" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.CATEGORY_APP_MUSIC" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -76,7 +84,7 @@
                 <data android:mimeType="application/itunes" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.aZAaction.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

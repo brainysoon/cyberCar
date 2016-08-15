@@ -15,6 +15,14 @@
         <item name="android:paddingLeft">@dimen/csy_pd</item>
     </style>
 
+    <!-- LogoActivity 的主题-->
+    <style name="LogoTheme" parent="@style/AppTheme">
+        <!--NOTitle FullScreen-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="csy_row_label">
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_width">@dimen/csy_label_w</item>

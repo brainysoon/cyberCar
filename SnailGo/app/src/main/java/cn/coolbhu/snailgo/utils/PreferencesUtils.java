@@ -284,4 +284,14 @@ public class PreferencesUtils {
         //如果没有设置跳过的版本号的话，就返回一个比较小的版本号，方便比较
         return mPreferences.getInt(JUMP_VERSION_CODE, -1);
     }
+
+    public void setNotFirstLoad() {
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putBoolean(IS_FIRST_LOAD, false);
+
+        editor.apply();
+    }
+
 }
