@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         //是否退出
         if (System.currentTimeMillis() - exitTime > 3000) {
 
-            Toast.makeText(this, "再按一次，就走！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次，退出！", Toast.LENGTH_SHORT).show();
 
             exitTime = System.currentTimeMillis();
 
