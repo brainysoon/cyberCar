@@ -35,7 +35,6 @@
     <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
@@ -59,14 +58,12 @@
         <activity
             android:name=".activities.MainActivity"
             android:launchMode="singleInstance">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.CATEGORY_APP_MUSIC" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -149,15 +146,7 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--搞得地图-->
-        <activity
-            android:name=".activities.navigates.NagBaseActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
+        <!-- 搞得地图 -->
 
         <!-- 违章信息查询结果相关 Activity -->
         <activity
@@ -204,7 +193,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.navigates.NagActivity"></activity>
+        <activity android:name=".activities.navigates.PoiSearchActivity" />
+        <activity android:name=".activities.navigates.RoutePlanActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".activities.navigates.RouteNaviActivity" />
     </application>
 
 </manifest>

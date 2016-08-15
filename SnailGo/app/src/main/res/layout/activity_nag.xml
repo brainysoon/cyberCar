@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.coolbhu.snailgo.activities.navigates.NagActivity">
+    tools:context="cn.coolbhu.snailgo.activities.navigates.RouteNaviActivity">
 
     <com.amap.api.navi.AMapNaviView
         android:id="@+id/navi_view"

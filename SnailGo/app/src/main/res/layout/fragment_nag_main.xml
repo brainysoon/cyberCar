@@ -55,14 +55,23 @@
                             android:layout_height="30dp"
                             android:src="@drawable/icon_st" />
 
-                        <EditText
-                            android:id="@+id/fragment_init_navigate_auto_start"
+                        <TextView
+                            android:id="@+id/start_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="起始位置" />
+                            android:text="@string/mine_position" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="?attr/colorPrimary" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -75,12 +84,12 @@
                             android:layout_height="30dp"
                             android:src="@drawable/icon_en" />
 
-                        <EditText
-                            android:id="@+id/fragment_init_navigate_auto_end"
+                        <TextView
+                            android:id="@+id/end_view"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="终点位置" />
+                            android:text="@string/end_position" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -101,20 +110,38 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_launcher" />
+                <CheckBox
+                    android:id="@+id/box_avoid_jam"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/perference_avoid_jam" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:gravity="center_vertical"
-                    android:text="偏好设置" />
+                <CheckBox
+                    android:id="@+id/box_not_speedway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/perference_not_speedway" />
+
+                <CheckBox
+                    android:id="@+id/box_avoid_charge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/perference_avoid_charge" />
+
+                <CheckBox
+                    android:id="@+id/box_speedway_first"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="@string/perference_speedway_first" />
             </LinearLayout>
 
             <Button

@@ -128,6 +128,7 @@ public class HomeMainFragment extends Fragment {
                 //开始刷新
                 if (mWebView != null) {
 
+                    mWebView.clearCache(true);
                     mWebView.reload();
                 }
             }
