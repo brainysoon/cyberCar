@@ -5,6 +5,12 @@
         android:key="preference_user"
         android:title="@string/settings_head_user">
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_key_user_birthday"
+            android:summary="@string/settings_user_birthday_info"
+            android:title="@string/settings_user_birthday" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

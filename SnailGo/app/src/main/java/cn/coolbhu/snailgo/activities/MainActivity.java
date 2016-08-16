@@ -635,9 +635,16 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
             ProfileDrawerItem proAccount = new ProfileDrawerItem();
             proAccount.withIdentifier(PROFILE_ITEM_USER)
                     .withName(MyApplication.mUser.getUser_NickName())
-                    .withEmail(MyApplication.mUser.getUser_Birthday())
                     .withIcon(MyApplication.mUser.getUser_Avator().getUrl())
                     .withNameShown(true);
+
+            if (PreferencesUtils.getInstance(this).shouldShowBirthday()) {
+
+                proAccount.withEmail(MyApplication.mUser.getUser_Birthday());
+            } else {
+
+                proAccount.withEmail("****-**-**");
+            }
 
             mAccountHeader.addProfile(proAccount, PROFILE_ITEM_DEFAULT_POSITION);
         }

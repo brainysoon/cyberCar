@@ -30,9 +30,10 @@ public class PreferencesUtils {
     private static final String TOGGLE_ARTIST_GRID = "toggle_artist_grid";
     public static final String ARTIST_SONG_SORT_ORDER = "artist_song_sort_order";
 
-    private static final String SETTINGS_KEY_MUSIC_AUTO = "settings_key_music_auto";
-    private static final String SETTINGS_KEY_MUSIC_CONTINUE = "settings_key_music_continue";
-    private static final String SETTINGS_KEY_CAR_PUSH = "settings_key_car_push";
+    public static final String SETTINGS_KEY_MUSIC_AUTO = "settings_key_music_auto";
+    public static final String SETTINGS_KEY_MUSIC_CONTINUE = "settings_key_music_continue";
+    public static final String SETTINGS_KEY_CAR_PUSH = "settings_key_car_push";
+    public static final String SETTINGS_KEY_USER_BIRTHDAY = "settings_key_user_birthday";
 
     /**
      * 有关用户信息的缓存
@@ -294,5 +295,11 @@ public class PreferencesUtils {
     public boolean isSettingsMusicAuto() {
 
         return mPreferences.getBoolean(SETTINGS_KEY_MUSIC_AUTO, false);
+    }
+
+    //是否应该显示用户的生日
+    public boolean shouldShowBirthday() {
+
+        return mPreferences.getBoolean(SETTINGS_KEY_USER_BIRTHDAY, true);
     }
 }

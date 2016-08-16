@@ -59,6 +59,10 @@
     <string name="settings_music_auto">自动播放音乐</string>
     <string name="settings_music_auto_info">进入App后是否自动播放音乐？</string>
 
+    <!--是否显示用户的生日-->
+    <string name="settings_user_birthday">显示生日</string>
+    <string name="settings_user_birthday_info">在菜单显示自己的生日</string>
+
     <!--是否启动推送消息-->
     <string name="settings_car_push">推送消息</string>
     <string name="settings_car_auto_push">是否自动推送消息？</string>
