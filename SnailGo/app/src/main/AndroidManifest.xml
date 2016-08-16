@@ -131,10 +131,24 @@
         </activity>
 
         <!--二维码-->
-        <activity android:name=".activities.qrcode.QRCodeActivity" />
+        <activity
+            android:name=".activities.qrcode.QRCodeActivity"
+            android:label="@string/title_activity_qrcode">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.moregas.MyOrdersActivity" />
+        </activity>
+
+        <!--扫描二维码-->
         <activity
             android:name=".activities.qrcode.DecodeActivity"
-            android:label="@string/title_activity_decode" />
+            android:label="@string/title_activity_decode">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.cars.MyCarsActivity" />
+        </activity>
 
         <!--我的订单-->
         <activity
@@ -143,7 +157,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.moregas.MyOrdersActivity" />
         </activity>
 
         <!--订单详细信息-->
@@ -164,6 +178,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--汽车详细信息-->
+        <activity
+            android:name=".activities.cars.CarsInfoActivity"
+            android:label="@string/title_activity_car_info">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.cars.MyCarsActivity" />
         </activity>
 
         <!--我的信息-->

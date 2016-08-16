@@ -15,7 +15,11 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
+import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.cars.MyCarsActivity;
 import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.utils.QRCodeUtil;
 
@@ -27,8 +31,6 @@ public class QRCodeActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private static final int Xlenght = 1000;
-
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +59,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
             case 0:
 
-                toolbar.setTitle("订单二维码");
-
                 new QRCodeAsync(BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_launcher)).execute(mBundel);
 
@@ -66,15 +66,14 @@ public class QRCodeActivity extends AppCompatActivity {
 
             case 1:
 
-//                toolbar.setTitle("汽车二维码");
-//                String str = mBundel.getString("car_info", "");
-//
-//                if (MyCarsActivity.mCarClick != null) {
-//
-//                    new QRCodeStrAsync(BitmapFactory.decodeResource(getResources(),
-//                            R.mipmap.ic_launcher)).execute(MyCarsActivity.mCarClick);
-//
-//                }
+                String str = mBundel.getString("car_info", "");
+
+                if (MyCarsActivity.mCarClick != null) {
+
+                    new QRCodeStrAsync(BitmapFactory.decodeResource(getResources(),
+                            R.mipmap.ic_launcher)).execute(MyCarsActivity.mCarClick);
+
+                }
 
                 break;
         }
@@ -91,9 +90,9 @@ public class QRCodeActivity extends AppCompatActivity {
     private void initToolbar() {
 
 
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         ActionBar mActionBar = getSupportActionBar();
 
@@ -158,9 +157,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 return "null";
             }
 
-//            String name = MyApplication.USER_AVATOR_DIRCTORY + Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
-
-            String name = null;
+            String name = MyApplication.USER_AVATOR_DIRCTORY + Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
 
             boolean isSucceed = QRCodeUtil.createQRImage(content, Xlenght, Xlenght,
                     logo, name);
@@ -221,8 +218,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
             String str = jsonObject.toString();
 
-//            String name = MyApplication.USER_AVATOR_DIRCTORY + Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
-            String name = null;
+            String name = MyApplication.USER_AVATOR_DIRCTORY + Calendar.getInstance().getTimeInMillis() + ((int) (Math.random() * 1000)) + ".png";
 
             boolean isSucceed = QRCodeUtil.createQRImage(str, Xlenght, Xlenght,
                     logo, name);

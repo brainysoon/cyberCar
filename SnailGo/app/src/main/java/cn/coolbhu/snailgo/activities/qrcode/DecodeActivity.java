@@ -20,6 +20,7 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import org.json.JSONObject;
 
 import cn.bmob.v3.listener.SaveListener;
+import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.Car;
 
@@ -125,7 +126,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                 Double speed = Double.parseDouble(j);
                 Double light = Double.parseDouble(k);
 
-                Car mCar = new Car(a, c, d, mileage, f, g, "MyApplication.mUser.getUser_Tel()", gas, engine, speed, light);
+                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
 
                 mCar.save(DecodeActivity.this, new SaveListener() {
                     @Override
