@@ -32,6 +32,7 @@
     <string name="title_activity_book_gas">生成订单</string>
     <string name="title_activity_route_plan">路经规划</string>
     <string name="title_activity_nav">导航</string>
+    <string name="title_activity_order_detail">详细信息</string>
 
     <!--DrawerItem-->
     <string name="drawer_item_my_regulation">我的违章</string>

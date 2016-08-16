@@ -146,6 +146,16 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
+        <!--订单详细信息-->
+        <activity
+            android:name=".activities.moregas.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.moregas.MyOrdersActivity" />
+        </activity>
+
         <!--我的汽车-->
         <activity
             android:name=".activities.cars.MyCarsActivity"

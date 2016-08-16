@@ -91,9 +91,9 @@ public class QRCodeActivity extends AppCompatActivity {
     private void initToolbar() {
 
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
 
         ActionBar mActionBar = getSupportActionBar();
 
