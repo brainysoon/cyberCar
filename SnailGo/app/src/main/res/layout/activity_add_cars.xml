@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -42,7 +43,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.fat246.cybercar.openwidgets.CircleImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/activity_add_cars_image"
                         android:layout_width="60dp"
                         android:layout_height="60dp"

@@ -19,9 +19,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.permissions.Nammu;
+import cn.coolbhu.snailgo.utils.PreferencesUtils;
 
 /**
  * Created by ken on 16-7-25.
@@ -32,6 +35,9 @@ public class MyApplication extends Application {
 
     //Bmob 密钥
     private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
+
+    //汽车维护信息推送订阅
+    public static final String MAINTAINCE_CAR = "Maintain";
 
     private static MyApplication mInstance;
 
@@ -79,6 +85,8 @@ public class MyApplication extends Application {
         initMusic();
 
         initDrawerUri();
+
+        initPush();
     }
 
     //
@@ -129,6 +137,26 @@ public class MyApplication extends Application {
 
         //检查权限
         Nammu.init(this);
+    }
+
+    //initPush
+    private void initPush() {
+
+        //是否需要启动推送服务
+        if (PreferencesUtils.getInstance(this).isSettingsCarPush()) {
+
+            // 使用推送服务时的初始化操作
+            BmobInstallation.getCurrentInstallation(this).save();
+
+            BmobInstallation installation = BmobInstallation.getCurrentInstallation(this);
+
+            //订阅维护信息
+            installation.subscribe(MAINTAINCE_CAR);
+            installation.save();
+
+            // 启动推送服务
+            BmobPush.startWork(this);
+        }
     }
 
     //获取队列

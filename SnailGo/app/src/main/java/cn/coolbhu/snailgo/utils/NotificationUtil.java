@@ -66,6 +66,15 @@ public class NotificationUtil {
         // 需要注意build()是在API level
         // 16及之后增加的，在API11中可以使用getNotificatin()来代替
         notify2.flags |= Notification.FLAG_AUTO_CANCEL;
+
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+//                .setTicker("通知:" + str)
+//                .setContentTitle("新的汽车维护信息")
+//                .setContentText(str)
+//                .setSmallIcon(R.mipmap.ic_launcher);
+//        Notification notification = builder.build();
+
         mNotificationManager.notify(NOTIFICATION_FLAG++, notify2);
     }
 }

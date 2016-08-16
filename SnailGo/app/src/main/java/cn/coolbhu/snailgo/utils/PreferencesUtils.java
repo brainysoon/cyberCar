@@ -302,4 +302,10 @@ public class PreferencesUtils {
 
         return mPreferences.getBoolean(SETTINGS_KEY_USER_BIRTHDAY, true);
     }
+
+    //是否推送消息
+    public boolean isSettingsCarPush() {
+
+        return mPreferences.getBoolean(SETTINGS_KEY_CAR_PUSH, true);
+    }
 }
