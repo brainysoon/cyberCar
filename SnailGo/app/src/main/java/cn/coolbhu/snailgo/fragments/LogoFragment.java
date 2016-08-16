@@ -153,7 +153,7 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
     //设置图片动画
     private void setImageAnimate() {
 
-        mImageView.animate().setDuration(1000).setListener(new AnimatorListenerAdapter() {
+        mImageView.animate().setDuration(500).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
