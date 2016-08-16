@@ -110,6 +110,29 @@
         </activity>
         <activity android:name=".activities.musics.SearchActivity" />
 
+        <activity android:name=".activities.regulations.MyRegulationsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--设置-->
+        <activity android:name=".activities.SettingsActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--关于-->
+        <activity android:name=".activities.AboutActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+
         <!-- 正在播放音乐 -->
         <activity android:name=".activities.musics.NowPlayingActivity">
             <meta-data

@@ -8,6 +8,13 @@
     <string name="oil">加油</string>
     <string name="vol">违章</string>
 
+    <!--DrawerItem-->
+    <string name="drawer_item_my_regulation">我的违章</string>
+    <string name="drawer_item_setting">设置</string>
+    <string name="drawer_item_about">关于</string>
+    <string name="drawer_item_update">检查更新</string>
+    <string name="drawer_item_feedback">用户反馈</string>
+
     <!--Titile-->
     <string name="settings_head_user">用户</string>
     <string name="settings_head_car">车辆</string>

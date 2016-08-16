@@ -237,11 +237,17 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.Item
 
             if (track != null) {
 
-                if (track.mId == arraylist.get(getAdapterPosition()).id && MusicPlayer.isPlaying()) {
+                try {
 
-                    MusicPlayer.playOrPause();
+                    if (track.mId == arraylist.get(getAdapterPosition()).id && MusicPlayer.isPlaying()) {
 
-                    return;
+                        MusicPlayer.playOrPause();
+
+                        return;
+                    }
+                } catch (Exception e) {
+
+                    e.printStackTrace();
                 }
             }
 

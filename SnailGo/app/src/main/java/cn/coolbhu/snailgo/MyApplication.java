@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.L;
 
+import cn.bmob.v3.Bmob;
 import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.permissions.Nammu;
 
@@ -19,6 +20,9 @@ import cn.coolbhu.snailgo.permissions.Nammu;
 public class MyApplication extends Application {
 
     public static final String APP_NAME = "snailgo";
+
+    //Bmob 密钥
+    private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
 
     private static MyApplication mInstance;
 
@@ -59,6 +63,9 @@ public class MyApplication extends Application {
 
         //初始化更新Apk放的位置
         MyApplication.SAVE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        //初始化Bmob
+        Bmob.initialize(this, BOMB_APPKEY);
 
         initMusic();
     }

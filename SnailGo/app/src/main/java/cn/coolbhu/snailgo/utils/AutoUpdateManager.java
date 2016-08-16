@@ -152,11 +152,15 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
                 showUpdateDialog();
             } else {
 
+                afterUpdate.toShowNoNeedUpdate();
+
                 afterUpdate.toDoAfterUpdate();
             }
         } catch (Exception e) {
 
             e.printStackTrace();
+
+            afterUpdate.toShowError(0);
 
             afterUpdate.toDoAfterUpdate();
         }
@@ -236,6 +240,10 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
     public interface AfterUpdate {
 
         void toDoAfterUpdate();
+
+        void toShowNoNeedUpdate();
+
+        void toShowError(int error);
     }
 
     //Dialog的点击事件

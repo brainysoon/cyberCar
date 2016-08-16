@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.fat246.cybercar.openwidgets.CircleImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 style="@style/login_style"
                 android:layout_width="@dimen/fragment_login_imageview_size"
                 android:layout_height="@dimen/fragment_login_imageview_size"

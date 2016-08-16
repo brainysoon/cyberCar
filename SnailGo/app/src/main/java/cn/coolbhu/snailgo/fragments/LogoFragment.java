@@ -190,4 +190,14 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
             }
         }).start();
     }
+
+    @Override
+    public void toShowNoNeedUpdate() {
+
+    }
+
+    @Override
+    public void toShowError(int error) {
+
+    }
 }
