@@ -19,7 +19,6 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.activities.LoginActivity;
 import cn.coolbhu.snailgo.activities.MainActivity;
 import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.utils.AutoUpdateManager;
@@ -39,21 +38,12 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
         super.onCreate(savedInstanceState);
 
         //判断跳转到哪儿去
-        try {
+        mIntent = new Intent(getContext(), MainActivity.class);
 
-            if (PreferencesUtils.getInstance(getContext()).isSettingsUserStraight()) {
+        //检测版本信息 //onstart会执行两次 不能放到拿去
+        AutoUpdateManager autoUpdateManager = new AutoUpdateManager(getContext());
 
-                mIntent = new Intent(getContext(), MainActivity.class);
-
-            } else {
-
-                mIntent = new Intent(getContext(), LoginActivity.class);
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        autoUpdateManager.beginUpdate(this);
     }
 
     @Nullable
@@ -144,17 +134,6 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
             ex.printStackTrace();
 
         }
-    }
-
-    //管理生命周期
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //检测版本信息
-        AutoUpdateManager autoUpdateManager = new AutoUpdateManager(getContext());
-
-        autoUpdateManager.beginUpdate(this);
     }
 
     @Override

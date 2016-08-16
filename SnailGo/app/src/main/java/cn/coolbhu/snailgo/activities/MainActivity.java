@@ -378,7 +378,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         proAccount.withIdentifier(PROFILE_ITEM_NO_USER)
                 .withName("未登录")
                 .withEmail("点击登录或者注册")
-                .withIcon(R.drawable.profile);
+                .withIcon(R.drawable.profile)
+                .withNameShown(true);
 
 
         // Create the AccountHeader
@@ -635,7 +636,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
             proAccount.withIdentifier(PROFILE_ITEM_USER)
                     .withName(MyApplication.mUser.getUser_NickName())
                     .withEmail(MyApplication.mUser.getUser_Birthday())
-                    .withIcon(MyApplication.mUser.getUser_Avator().getUrl());
+                    .withIcon(MyApplication.mUser.getUser_Avator().getUrl())
+                    .withNameShown(true);
 
             mAccountHeader.addProfile(proAccount, PROFILE_ITEM_DEFAULT_POSITION);
         }
@@ -653,7 +655,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
             proAccount.withIdentifier(PROFILE_ITEM_NO_USER)
                     .withName("未登录")
                     .withEmail("点击登录或者注册")
-                    .withIcon(R.drawable.profile);
+                    .withIcon(R.drawable.profile)
+                    .withNameShown(true);
 
             mAccountHeader.addProfile(proAccount, PROFILE_ITEM_DEFAULT_POSITION);
         }

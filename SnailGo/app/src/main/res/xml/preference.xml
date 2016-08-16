@@ -5,12 +5,6 @@
         android:key="preference_user"
         android:title="@string/settings_head_user">
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="settings_key_user_straight"
-            android:summary="@string/settings_user_straight_info"
-            android:title="@string/settings_user_straight" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

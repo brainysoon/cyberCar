@@ -51,10 +51,6 @@
     <string name="custom_regulations">自定义查询</string>
     <string name="notice">友情提示</string>
 
-    <!--是否直接进入主界面-->
-    <string name="settings_user_straight">直接进入</string>
-    <string name="settings_user_straight_info">是否直接进入主界面？</string>
-
     <!--自定义违章信息是否通过定位来自动添加位置-->
     <string name="settings_regulation_location">进入后定位</string>
     <string name="settings_regulation_location_info">是否通过定位来自动添加位置？</string>
