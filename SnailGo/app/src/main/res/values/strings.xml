@@ -8,6 +8,31 @@
     <string name="oil">加油</string>
     <string name="vol">违章</string>
 
+    <!--Activity Title-->
+    <string name="title_activity_my_info">我的信息</string>
+    <string name="title_activity_my_car">我的汽车</string>
+    <string name="title_activity_my_order">我的订单</string>
+    <string name="title_activity_my_regulation">我的违章</string>
+    <string name="title_activity_now_playing">正在播放</string>
+    <string name="title_activity_about">关于</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_city_list">城市</string>
+    <string name="title_activity_short_province">省份简称</string>
+    <string name="title_activity_regulation_result">违章</string>
+    <string name="title_activity_province">省份</string>
+    <string name="title_activity_custom_regulation">自定义查询</string>
+    <string name="title_activity_add_car">添加汽车</string>
+    <string name="title_activity_decode">扫描汽车</string>
+    <string name="title_activity_crop_image">选择头像</string>
+    <string name="title_activity_forgot_password">忘记密码</string>
+    <string name="title_activity_edit_password">修改密码</string>
+    <string name="title_activity_register">注册用户</string>
+    <string name="title_activity_login">登录</string>
+    <string name="title_activity_more_gas">预约加油</string>
+    <string name="title_activity_book_gas">生成订单</string>
+    <string name="title_activity_route_plan">路经规划</string>
+    <string name="title_activity_nav">导航</string>
+
     <!--DrawerItem-->
     <string name="drawer_item_my_regulation">我的违章</string>
     <string name="drawer_item_setting">设置</string>
@@ -36,7 +61,6 @@
     <string name="send_vertifh_code">发送验证码</string>
 
     <!--用户登录相关-->
-    <string name="title_activity_login">登陆</string>
     <string name="fragment_login_autocompletetextview_user_name">手机号</string>
     <string name="fragment_login_edittext_user_password">密码</string>
     <string name="fragment_login_checkbox_save_password">保存密码</string>
@@ -101,13 +125,6 @@
     <string name="cxy_error">网络导致车首页服务加载错误，请稍候再试！</string>
     <string name="now_to_setting_permission">现在取设置权限</string>
     <string name="request_music_permission">音乐需要读取存储歌曲的权限！</string>
-
-    <!--Activity Title-->
-    <string name="title_activity_city_list">城市</string>
-    <string name="title_activity_short_province">省份简称</string>
-    <string name="title_activity_regulation_result">违章</string>
-    <string name="title_activity_province">省份</string>
-    <string name="title_activity_custom_regulation">自定义查询</string>
 
     <!--Regulation-->
     <string name="no_regulation_record">恭喜, 没有查到违章记录！</string>

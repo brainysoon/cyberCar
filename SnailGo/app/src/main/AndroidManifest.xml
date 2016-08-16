@@ -110,7 +110,10 @@
         </activity>
         <activity android:name=".activities.musics.SearchActivity" />
 
-        <activity android:name=".activities.regulations.MyRegulationsActivity">
+        <!--我的违章-->
+        <activity
+            android:name=".activities.regulations.MyRegulationsActivity"
+            android:label="@string/title_activity_my_regulation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
@@ -119,6 +122,7 @@
         <!--添加汽车-->
         <activity
             android:name=".activities.cars.AddCarsActivity"
+            android:label="@string/title_activity_add_car"
             android:windowSoftInputMode="stateHidden">
 
             <meta-data
@@ -127,11 +131,15 @@
         </activity>
 
         <!--二维码-->
-        <activity android:name=".activities.QRCode.QRCodeActivity" />
-        <activity android:name=".activities.QRCode.DecodeActivity" />
+        <activity android:name=".activities.qrcode.QRCodeActivity" />
+        <activity
+            android:name=".activities.qrcode.DecodeActivity"
+            android:label="@string/title_activity_decode" />
 
         <!--我的订单-->
-        <activity android:name=".activities.moregas.MyOrdersActivity">
+        <activity
+            android:name=".activities.moregas.MyOrdersActivity"
+            android:label="@string/title_activity_my_order">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -139,7 +147,9 @@
         </activity>
 
         <!--我的汽车-->
-        <activity android:name=".activities.cars.MyCarsActivity">
+        <activity
+            android:name=".activities.cars.MyCarsActivity"
+            android:label="@string/title_activity_my_car">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -149,6 +159,7 @@
         <!--我的信息-->
         <activity
             android:name=".activities.MyInfoActivity"
+            android:label="@string/title_activity_my_info"
             android:windowSoftInputMode="stateHidden">
 
             <meta-data
@@ -157,7 +168,9 @@
         </activity>
 
         <!--剪切图片-->
-        <activity android:name=".activities.CropImageActivity">
+        <activity
+            android:name=".activities.CropImageActivity"
+            android:label="@string/title_activity_crop_image">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -165,13 +178,19 @@
         </activity>
 
         <!--忘记密码-->
-        <activity android:name=".activities.forgot.TelActivity">
+        <activity
+            android:name=".activities.forgot.TelActivity"
+            android:label="@string/title_activity_forgot_password">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
         </activity>
-        <activity android:name=".activities.forgot.EditPasswordActivity">
+
+        <!--修改密码-->
+        <activity
+            android:name=".activities.forgot.EditPasswordActivity"
+            android:label="@string/title_activity_edit_password">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -181,6 +200,7 @@
         <!-- 这个是承载 注册界面的Activity -->
         <activity
             android:name=".activities.register.RegisterActivity"
+            android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
 
             <meta-data
@@ -189,7 +209,9 @@
         </activity>
 
         <!--设置-->
-        <activity android:name=".activities.SettingsActivity">
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_setting">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -197,7 +219,9 @@
         </activity>
 
         <!--关于-->
-        <activity android:name=".activities.AboutActivity">
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/title_activity_about">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -206,13 +230,18 @@
 
 
         <!-- 正在播放音乐 -->
-        <activity android:name=".activities.musics.NowPlayingActivity">
+        <activity
+            android:name=".activities.musics.NowPlayingActivity"
+            android:label="@string/title_activity_now_playing">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
+        <!--登录-->
         <activity
             android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -238,20 +267,22 @@
         </activity>
 
         <!-- 预约加油 -->
-        <activity android:name=".activities.moregas.MoreGasActivity">
+        <activity
+            android:name=".activities.moregas.MoreGasActivity"
+            android:label="@string/title_activity_more_gas">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
         <!-- 预约加油相关Activity -->
-        <activity android:name=".activities.moregas.BookGasActivity">
+        <activity
+            android:name=".activities.moregas.BookGasActivity"
+            android:label="@string/title_activity_book_gas">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-
-        <!-- 搞得地图 -->
 
         <!-- 违章信息查询结果相关 Activity -->
         <activity
@@ -299,13 +330,17 @@
         </receiver>
 
         <activity android:name=".activities.navigates.PoiSearchActivity" />
-        <activity android:name=".activities.navigates.RoutePlanActivity">
+        <activity
+            android:name=".activities.navigates.RoutePlanActivity"
+            android:label="@string/title_activity_route_plan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <activity android:name=".activities.navigates.RouteNaviActivity" />
+        <activity
+            android:name=".activities.navigates.RouteNaviActivity"
+            android:label="@string/title_activity_nav" />
     </application>
 
 </manifest>

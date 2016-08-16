@@ -34,7 +34,7 @@ import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.activities.QRCode.QRCodeActivity;
+import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
 import cn.coolbhu.snailgo.beans.Order;
 import cn.coolbhu.snailgo.utils.HelpInitBoomButton;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;

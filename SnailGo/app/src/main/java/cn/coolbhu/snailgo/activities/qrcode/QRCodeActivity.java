@@ -1,4 +1,4 @@
-package cn.coolbhu.snailgo.activities.QRCode;
+package cn.coolbhu.snailgo.activities.qrcode;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
