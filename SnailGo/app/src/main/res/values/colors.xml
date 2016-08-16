@@ -3,6 +3,7 @@
     <color name="colorPrimary">#2DA7E0</color>
     <color name="colorPrimaryDark">#1E88E5</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="textColorPrimary">#ffffff</color>
 
     <color name="window_background">#FFF5F5F5</color>
     <color name="progressBackgroundColorLight">#33000000</color>
