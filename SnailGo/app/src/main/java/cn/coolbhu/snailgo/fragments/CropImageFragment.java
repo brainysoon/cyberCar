@@ -170,8 +170,8 @@ public class CropImageFragment extends Fragment {
 
         mCropImageView.setCropMode(CropImageView.CropMode.CIRCLE);
 
-        mCropImageView.setOutputWidth(100);
-        mCropImageView.setOutputHeight(100);
+        mCropImageView.setOutputWidth(200);
+        mCropImageView.setOutputHeight(200);
     }
 
     //findView
