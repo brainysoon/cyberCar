@@ -448,27 +448,28 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         } else if (drawerItem.getIdentifier() == DRAWER_ITEM_FEEDBACK) {
 
             runnable = nagToFeedBack;
-        }
-
-        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
-
-            //用户相关
-            if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_CAR) {
-
-                runnable = nagToMyCar;
-            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_ORDER) {
-
-                runnable = nagToMyOrder;
-            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_INFO) {
-
-                runnable = nagToMyInfo;
-            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
-
-                runnable = nagToMyRegulation;
-            }
         } else {
 
-            runnable = showNoUserNotice;
+            if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+                //用户相关
+                if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_CAR) {
+
+                    runnable = nagToMyCar;
+                } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_ORDER) {
+
+                    runnable = nagToMyOrder;
+                } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_INFO) {
+
+                    runnable = nagToMyInfo;
+                } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
+
+                    runnable = nagToMyRegulation;
+                }
+            } else {
+
+                runnable = showNoUserNotice;
+            }
         }
 
         if (runnable != null) {
