@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import com.isseiaoki.simplecropview.callback.CropCallback;
 
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.activities.Register.StartRegisterActivity;
+import cn.coolbhu.snailgo.activities.register.StartRegisterActivity;
 import cn.coolbhu.snailgo.fragments.CropImageFragment;
 
 public class CropImageActivity extends AppCompatActivity {

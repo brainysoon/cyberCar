@@ -116,6 +116,66 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
+        <!--我的订单-->
+        <activity android:name=".activities.moregas.MyOrdersActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--我的汽车-->
+        <activity android:name=".activities.cars.MyCarsActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--添加汽车-->
+        <activity
+            android:name=".activities.cars.AddCarsActivity"
+            android:windowSoftInputMode="stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--我的信息-->
+        <activity
+            android:name=".activities.MyInfoActivity"
+            android:windowSoftInputMode="stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--忘记密码-->
+        <activity android:name=".activities.forgot.TelActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.LoginActivity" />
+        </activity>
+        <activity android:name=".activities.forgot.EditPasswordActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.forgot.TelActivity" />
+        </activity>
+
+        <!-- 这个是承载 注册界面的Activity -->
+        <activity
+            android:name=".activities.register.RegisterActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
         <!--设置-->
         <activity android:name=".activities.SettingsActivity">
 
@@ -139,7 +199,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.LoginActivity">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />

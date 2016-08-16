@@ -42,7 +42,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <com.fat246.cybercar.openwidgets.CircleImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/activity_my_info_image_avator"
                         android:layout_width="80dp"
                         android:layout_height="80dp"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".activities.Register.RegisterActivity">
+    tools:context=".activities.register.RegisterActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

@@ -1,4 +1,4 @@
-package cn.coolbhu.snailgo.activities.Register;
+package cn.coolbhu.snailgo.activities.register;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

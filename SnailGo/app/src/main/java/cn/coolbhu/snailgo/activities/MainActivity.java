@@ -9,7 +9,6 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -30,7 +30,11 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.cars.MyCarsActivity;
+import cn.coolbhu.snailgo.activities.moregas.MyOrdersActivity;
 import cn.coolbhu.snailgo.activities.musics.BaseActivity;
+import cn.coolbhu.snailgo.activities.musics.NowPlayingActivity;
+import cn.coolbhu.snailgo.activities.register.RegisterActivity;
 import cn.coolbhu.snailgo.activities.regulations.MyRegulationsActivity;
 import cn.coolbhu.snailgo.fragments.main.HomeMainFragment;
 import cn.coolbhu.snailgo.fragments.main.VolMainFragment;
@@ -41,16 +45,23 @@ import cn.coolbhu.snailgo.utils.PreferencesUtils;
 
 public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         , VolMainFragment.VolMainFragmentCallback, Drawer.OnDrawerItemClickListener
-        , AutoUpdateManager.AfterUpdate {
+        , AutoUpdateManager.AfterUpdate, AccountHeader.OnAccountHeaderListener {
 
     //DrawerItem
+    public static final int DRAWER_ITEM_MY_CAR = 3;
+    public static final int DRAWER_ITEM_MY_ORDER = 4;
+    public static final int DRAWER_ITEM_MY_INFO = 5;
     public static final int DRAWER_ITEM_MY_REGULATION = 6;
     public static final int DRAWER_ITEM_ABOUT = 7;
     public static final int DRAWER_ITEM_FEEDBACK = 8;
     public static final int DRAWER_ITEM_SETTING = 9;
     public static final int DRAWER_ITME_UPDATE = 10;
 
+    public static final int DRAWER_ITEM_NOW_PLAYING = 11;
+
     public static final int PROFILE_ITEM_NO_USER = 21;
+    public static final int PROFILE_ITEM_REGISTER = 22;
+    public static final int PROFILE_ITEM_USER = 23;
 
     //BottomBar
     private BottomBar mBottomBar;
@@ -69,6 +80,39 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     private Handler mHandler = new Handler();
 
     //Drawer跳转
+
+    //我的信息
+    Runnable nagToMyInfo = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, MyInfoActivity.class);
+
+            startActivity(intent);
+        }
+    };
+
+    //立即注册
+    Runnable nagToRegister = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+
+            startActivity(intent);
+        }
+    };
+
+    //登录
+    Runnable nagToLogIn = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+    };
+
     //我的违章
     Runnable nagToMyRegulation = new Runnable() {
         @Override
@@ -137,6 +181,39 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         }
     };
 
+    //我的汽车
+    Runnable nagToMyCar = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, MyCarsActivity.class);
+
+            startActivity(intent);
+        }
+    };
+
+    //我的订单
+    Runnable nagToMyOrder = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, MyOrdersActivity.class);
+
+            startActivity(intent);
+        }
+    };
+
+    //正在播放
+    Runnable nagToNowPlaying = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, NowPlayingActivity.class);
+
+            startActivity(intent);
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,11 +224,11 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         initBottomBar(savedInstanceState);
 
         initMaterialDrawer(savedInstanceState);
+
+        toDoBeforeCreated();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void toDoBeforeCreated() {
 
         //设置不是第一次启动App
         if (PreferencesUtils.getInstance(this).setIsFirstLoad()) {
@@ -159,6 +236,26 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 //            showcaseView();
             //setNot
             PreferencesUtils.getInstance(this).setNotFirstLoad();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        toDoBeforeIn();
+    }
+
+    //启动之前应该做的
+    private void toDoBeforeIn() {
+
+        //判断是自动播放音乐
+        if (PreferencesUtils.getInstance(this).isSettingsMusicAuto()) {
+
+            if (!MusicPlayer.isPlaying()) {
+
+                MusicPlayer.playOrPause();
+            }
         }
     }
 
@@ -197,33 +294,62 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     private void initMaterialDrawer(Bundle savedInstanceState) {
 
         //DrawerItem
+        PrimaryDrawerItem itemMyOrder = new PrimaryDrawerItem();
+        itemMyOrder.withIdentifier(DRAWER_ITEM_MY_ORDER)
+                .withName(R.string.drawer_item_my_order)
+                .withIcon(GoogleMaterial.Icon.gmd_assignment);
+
+        PrimaryDrawerItem itemMyCar = new PrimaryDrawerItem();
+        itemMyCar.withIdentifier(DRAWER_ITEM_MY_CAR)
+                .withName(R.string.drawer_item_my_car)
+                .withIcon(GoogleMaterial.Icon.gmd_car);
+
+        PrimaryDrawerItem itemMyInfo = new PrimaryDrawerItem();
+        itemMyInfo.withIdentifier(DRAWER_ITEM_MY_INFO)
+                .withName(R.string.drawer_item_my_info)
+                .withIcon(GoogleMaterial.Icon.gmd_account);
+
         PrimaryDrawerItem itemMyRegulation = new PrimaryDrawerItem();
-        itemMyRegulation.withIdentifier(DRAWER_ITEM_MY_REGULATION);
-        itemMyRegulation.withName(R.string.drawer_item_my_regulation);
-        itemMyRegulation.withIcon(GoogleMaterial.Icon.gmd_account_box);
+        itemMyRegulation.withIdentifier(DRAWER_ITEM_MY_REGULATION)
+                .withName(R.string.drawer_item_my_regulation)
+                .withIcon(GoogleMaterial.Icon.gmd_star);
+
+        PrimaryDrawerItem itemNowPlaying = new PrimaryDrawerItem();
+        itemNowPlaying.withIdentifier(DRAWER_ITEM_NOW_PLAYING)
+                .withName(R.string.drawer_item_now_playing)
+                .withIcon(GoogleMaterial.Icon.gmd_equalizer);
 
         SecondaryDrawerItem itemSetting = new SecondaryDrawerItem();
-        itemSetting.withIdentifier(DRAWER_ITEM_SETTING);
-        itemSetting.withName(R.string.drawer_item_setting);
-        itemSetting.withIcon(GoogleMaterial.Icon.gmd_settings);
+        itemSetting.withIdentifier(DRAWER_ITEM_SETTING)
+                .withName(R.string.drawer_item_setting)
+                .withIcon(GoogleMaterial.Icon.gmd_settings);
 
         SecondaryDrawerItem itemAbout = new SecondaryDrawerItem();
-        itemAbout.withIdentifier(DRAWER_ITEM_ABOUT);
-        itemAbout.withName(R.string.drawer_item_about);
-        itemAbout.withIcon(GoogleMaterial.Icon.gmd_info);
+        itemAbout.withIdentifier(DRAWER_ITEM_ABOUT)
+                .withName(R.string.drawer_item_about)
+                .withIcon(GoogleMaterial.Icon.gmd_info);
 
         SecondaryDrawerItem itemFeedBack = new SecondaryDrawerItem();
-        itemFeedBack.withIdentifier(DRAWER_ITEM_FEEDBACK);
-        itemFeedBack.withName(R.string.drawer_item_feedback);
-        itemFeedBack.withIcon(GoogleMaterial.Icon.gmd_adb);
+        itemFeedBack.withIdentifier(DRAWER_ITEM_FEEDBACK)
+                .withName(R.string.drawer_item_feedback)
+                .withIcon(GoogleMaterial.Icon.gmd_adb);
 
         SecondaryDrawerItem itemUpdate = new SecondaryDrawerItem();
-        itemUpdate.withIdentifier(DRAWER_ITME_UPDATE);
-        itemUpdate.withName(R.string.drawer_item_update);
-        itemUpdate.withIcon(GoogleMaterial.Icon.gmd_refresh);
+        itemUpdate.withIdentifier(DRAWER_ITME_UPDATE)
+                .withName(R.string.drawer_item_update)
+                .withIcon(GoogleMaterial.Icon.gmd_refresh);
 
-        //Profile
-        
+        ProfileDrawerItem proNoUser = new ProfileDrawerItem();
+        proNoUser.withIdentifier(PROFILE_ITEM_NO_USER)
+                .withName("未登录")
+                .withEmail("点击登录或者注册")
+                .withIcon(R.drawable.profile);
+
+        ProfileSettingDrawerItem proRegister = new ProfileSettingDrawerItem();
+        proRegister.withIdentifier(PROFILE_ITEM_REGISTER)
+                .withName("立即注册")
+                .withIcon(GoogleMaterial.Icon.gmd_account_add);
+
 
         // Create the AccountHeader
         mAccountHeader = new AccountHeaderBuilder()
@@ -231,18 +357,10 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withIdentifier(PROFILE_ITEM_NO_USER).withName("未登录")
-                                .withEmail("请点击登录或注册").withIcon(R.drawable.profile)
+                        proNoUser,
+                        proRegister
                 )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-
-                        Log.e("this-L>>>>>>>", current + "lll");
-
-                        return false;
-                    }
-                })
+                .withOnAccountHeaderListener(this)
                 .withSavedInstance(savedInstanceState)
                 .build();
 
@@ -254,8 +372,12 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 .withItemAnimator(new AlphaCrossFadeAnimator())
                 .withAccountHeader(mAccountHeader) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("我的信息").withIcon(GoogleMaterial.Icon.gmd_account).withIdentifier(1),
+                        itemMyInfo,
+                        itemMyCar,
+                        itemMyOrder,
                         itemMyRegulation,
+                        new DividerDrawerItem(),
+                        itemNowPlaying,
                         new DividerDrawerItem(),
                         itemAbout,
                         itemSetting,
@@ -273,9 +395,22 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
         Runnable runnable = null;
-        if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
+
+        if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_CAR) {
+
+            runnable = nagToMyCar;
+        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_ORDER) {
+
+            runnable = nagToMyOrder;
+        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_INFO) {
+
+            runnable = nagToMyInfo;
+        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
 
             runnable = nagToMyRegulation;
+        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_NOW_PLAYING) {
+
+            runnable = nagToNowPlaying;
         } else if (drawerItem.getIdentifier() == DRAWER_ITEM_SETTING) {
 
             runnable = nagToSetting;
@@ -293,7 +428,31 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         if (runnable != null) {
 
             mHandler.postDelayed(runnable, 300);
+
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+
+        Runnable runnable = null;
+
+        //处理点击事件
+        if (profile.getIdentifier() == PROFILE_ITEM_NO_USER) {
+
+            runnable = nagToLogIn;
+        } else if (profile.getIdentifier() == PROFILE_ITEM_REGISTER) {
+
+            runnable = nagToRegister;
+        }
+
+        if (runnable != null) {
+
+            mHandler.postDelayed(runnable, 300);
+        }
+
 
         return false;
     }
@@ -335,6 +494,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
                     if (!shouldShowToast()) {
 
+                        toDoBeforeOut();
+
                         //退到后台
                         moveTaskToBack(true);
                     }
@@ -348,8 +509,23 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         //显示提示页面
         if (!shouldShowToast()) {
 
+            toDoBeforeOut();
+
             //退到后台
             moveTaskToBack(true);
+        }
+    }
+
+    //在退出之前需要做的
+    private void toDoBeforeOut() {
+
+        //是否继续播放音乐
+        if (!PreferencesUtils.getInstance(this).isSettingsMusicContinue()) {
+
+            if (MusicPlayer.isPlaying()) {
+
+                MusicPlayer.playOrPause();
+            }
         }
     }
 

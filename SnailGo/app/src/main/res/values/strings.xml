@@ -14,6 +14,10 @@
     <string name="drawer_item_about">关于</string>
     <string name="drawer_item_update">检查更新</string>
     <string name="drawer_item_feedback">用户反馈</string>
+    <string name="drawer_item_my_info">我的信息</string>
+    <string name="drawer_item_my_order">我的订单</string>
+    <string name="drawer_item_my_car">我的汽车</string>
+    <string name="drawer_item_now_playing">正在播放</string>
 
     <!--Titile-->
     <string name="settings_head_user">用户</string>

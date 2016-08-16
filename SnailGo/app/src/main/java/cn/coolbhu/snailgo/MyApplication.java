@@ -34,7 +34,7 @@ public class MyApplication extends Application {
         super();
     }
 
-    public static boolean isLoginSucceed = true;
+    public static boolean isLoginSucceed = false;
 
     //保存头像的位置
     public static String USER_AVATOR_DIRCTORY;

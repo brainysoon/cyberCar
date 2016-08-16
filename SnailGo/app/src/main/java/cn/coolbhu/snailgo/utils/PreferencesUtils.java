@@ -294,4 +294,15 @@ public class PreferencesUtils {
         editor.apply();
     }
 
+    //退出App是否继续播放音乐
+    public boolean isSettingsMusicContinue() {
+
+        return mPreferences.getBoolean(SETTINGS_KEY_MUSIC_CONTINUE, false);
+    }
+
+    //进入App是否需要自动播放音乐
+    public boolean isSettingsMusicAuto() {
+
+        return mPreferences.getBoolean(SETTINGS_KEY_MUSIC_AUTO, false);
+    }
 }

@@ -10,7 +10,7 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:orientation="horizontal">
 
-        <com.fat246.cybercar.openwidgets.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/activity_my_cars_item_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
