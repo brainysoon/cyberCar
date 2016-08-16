@@ -49,6 +49,7 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
     private TextView mDateView;
     private Button mSubmitView;
     private PtrClassicFrameLayout mPtrFrame;
+    private Button mCancleLogin;
 
     public static Bitmap mAvator;
 
@@ -88,6 +89,7 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
         mWomanView = (RadioButton) findViewById(R.id.activity_my_info_radiobutton_sexwoman);
         mDateView = (TextView) findViewById(R.id.activity_my_info_textview_birthday);
         mSubmitView = (Button) findViewById(R.id.activity_my_info_button_register);
+        mCancleLogin = (Button) findViewById(R.id.cancle_login);
 
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.activity_my_info_ptr);
 
@@ -116,6 +118,28 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                     isEdit = true;
                     mSubmitView.setText("提交修改");
                 }
+            }
+        });
+
+        //退出登录
+        mCancleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //更新信息
+                MyApplication.isLoginSucceed = false;
+                MyApplication.mUser = null;
+
+                if (MainActivity.mInstance != null) {
+
+                    MainActivity.mInstance.updateAfterLogOut();
+                }
+
+                Intent intent = new Intent(MyInfoActivity.this, LoginActivity.class);
+
+                startActivity(intent);
+
+                MyInfoActivity.this.finish();
             }
         });
 
@@ -330,6 +354,12 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
                                     //一定要更新信息
                                     MyApplication.mUser = mUser;
+
+                                    //更新用户信息
+                                    if (MainActivity.mInstance != null) {
+
+                                        MainActivity.mInstance.updateUserInfo();
+                                    }
                                 }
 
                                 @Override
@@ -363,6 +393,12 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
                     //一定要更新信息，不然就会多一个接口
                     MyApplication.mUser = mUser;
+
+                    //更新用户信息
+                    if (MainActivity.mInstance != null) {
+
+                        MainActivity.mInstance.updateUserInfo();
+                    }
                 }
 
                 @Override

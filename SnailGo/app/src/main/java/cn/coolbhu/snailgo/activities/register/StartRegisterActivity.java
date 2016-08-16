@@ -162,10 +162,16 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
                                                 @Override
                                                 public void onSuccess() {
 
-//                                        Toast.makeText(StartRegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
+//                                              Toast.makeText(StartRegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
 
                                                     MyApplication.mUser = mUser;
                                                     MyApplication.mAvator = avator;
+
+                                                    //更新用户信息
+                                                    if (MainActivity.mInstance != null) {
+
+                                                        MainActivity.mInstance.updateUserInfo();
+                                                    }
 
                                                     showDialog();
                                                     showLayout();

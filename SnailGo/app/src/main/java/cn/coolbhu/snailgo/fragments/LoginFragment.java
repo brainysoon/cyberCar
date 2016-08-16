@@ -237,6 +237,12 @@ public class LoginFragment extends Fragment {
                                 MyApplication.mUser = list.get(0);
                                 MyApplication.isLoginSucceed = true;
 
+                                //更新用户信息
+                                if (MainActivity.mInstance != null) {
+
+                                    MainActivity.mInstance.updateUserInfo();
+                                }
+
                                 Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
 
                                 //保存一些东西

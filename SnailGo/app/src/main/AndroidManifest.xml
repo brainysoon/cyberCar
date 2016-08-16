@@ -116,6 +116,20 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
+        <!--添加汽车-->
+        <activity
+            android:name=".activities.cars.AddCarsActivity"
+            android:windowSoftInputMode="stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.cars.MyCarsActivity" />
+        </activity>
+
+        <!--二维码-->
+        <activity android:name=".activities.QRCode.QRCodeActivity" />
+        <activity android:name=".activities.QRCode.DecodeActivity" />
+
         <!--我的订单-->
         <activity android:name=".activities.moregas.MyOrdersActivity">
 
@@ -132,16 +146,6 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--添加汽车-->
-        <activity
-            android:name=".activities.cars.AddCarsActivity"
-            android:windowSoftInputMode="stateHidden">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-
         <!--我的信息-->
         <activity
             android:name=".activities.MyInfoActivity"
@@ -150,6 +154,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--剪切图片-->
+        <activity android:name=".activities.CropImageActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MyInfoActivity" />
         </activity>
 
         <!--忘记密码-->

@@ -88,4 +88,5 @@ dependencies {
     //boomenu 菜单依赖
     compile 'com.nightonke:boommenu:1.0.9'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

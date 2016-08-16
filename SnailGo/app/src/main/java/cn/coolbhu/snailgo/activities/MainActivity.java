@@ -29,6 +29,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
+import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.cars.MyCarsActivity;
 import cn.coolbhu.snailgo.activities.moregas.MyOrdersActivity;
@@ -62,6 +63,11 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     public static final int PROFILE_ITEM_NO_USER = 21;
     public static final int PROFILE_ITEM_REGISTER = 22;
     public static final int PROFILE_ITEM_USER = 23;
+
+    public static final int PROFILE_ITEM_DEFAULT_POSITION = 0;
+
+    //MainActivity的实例
+    public static MainActivity mInstance = null;
 
     //BottomBar
     private BottomBar mBottomBar;
@@ -214,10 +220,34 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         }
     };
 
+    //未登录提示
+    Runnable showNoUserNotice = new Runnable() {
+        @Override
+        public void run() {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            builder.setIcon(R.mipmap.ic_launcher)
+                    .setTitle(R.string.notice)
+                    .setMessage("亲，你还没有登录，请登录后再试！")
+                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+            builder.create().show();
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInstance = this;
 
         initToolbar();
 
@@ -339,16 +369,16 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 .withName(R.string.drawer_item_update)
                 .withIcon(GoogleMaterial.Icon.gmd_refresh);
 
-        ProfileDrawerItem proNoUser = new ProfileDrawerItem();
-        proNoUser.withIdentifier(PROFILE_ITEM_NO_USER)
-                .withName("未登录")
-                .withEmail("点击登录或者注册")
-                .withIcon(R.drawable.profile);
-
         ProfileSettingDrawerItem proRegister = new ProfileSettingDrawerItem();
         proRegister.withIdentifier(PROFILE_ITEM_REGISTER)
                 .withName("立即注册")
                 .withIcon(GoogleMaterial.Icon.gmd_account_add);
+
+        ProfileDrawerItem proAccount = new ProfileDrawerItem();
+        proAccount.withIdentifier(PROFILE_ITEM_NO_USER)
+                .withName("未登录")
+                .withEmail("点击登录或者注册")
+                .withIcon(R.drawable.profile);
 
 
         // Create the AccountHeader
@@ -357,12 +387,18 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        proNoUser,
+                        proAccount,
                         proRegister
                 )
                 .withOnAccountHeaderListener(this)
                 .withSavedInstance(savedInstanceState)
                 .build();
+
+        //
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+            updateUserInfo();
+        }
 
         //Create the drawer
         mDrawer = new DrawerBuilder()
@@ -396,19 +432,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
         Runnable runnable = null;
 
-        if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_CAR) {
-
-            runnable = nagToMyCar;
-        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_ORDER) {
-
-            runnable = nagToMyOrder;
-        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_INFO) {
-
-            runnable = nagToMyInfo;
-        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
-
-            runnable = nagToMyRegulation;
-        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_NOW_PLAYING) {
+        //非用户相关
+        if (drawerItem.getIdentifier() == DRAWER_ITEM_NOW_PLAYING) {
 
             runnable = nagToNowPlaying;
         } else if (drawerItem.getIdentifier() == DRAWER_ITEM_SETTING) {
@@ -423,6 +448,27 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         } else if (drawerItem.getIdentifier() == DRAWER_ITEM_FEEDBACK) {
 
             runnable = nagToFeedBack;
+        }
+
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+            //用户相关
+            if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_CAR) {
+
+                runnable = nagToMyCar;
+            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_ORDER) {
+
+                runnable = nagToMyOrder;
+            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_INFO) {
+
+                runnable = nagToMyInfo;
+            } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
+
+                runnable = nagToMyRegulation;
+            }
+        } else {
+
+            runnable = showNoUserNotice;
         }
 
         if (runnable != null) {
@@ -440,7 +486,11 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         Runnable runnable = null;
 
         //处理点击事件
-        if (profile.getIdentifier() == PROFILE_ITEM_NO_USER) {
+        if (profile.getIdentifier() == PROFILE_ITEM_USER) {
+
+            runnable = nagToMyInfo;
+
+        } else if (profile.getIdentifier() == PROFILE_ITEM_NO_USER) {
 
             runnable = nagToLogIn;
         } else if (profile.getIdentifier() == PROFILE_ITEM_REGISTER) {
@@ -570,5 +620,41 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     public void toShowError(int error) {
 
         Toast.makeText(this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+    }
+
+    //登录成功过后
+    public void updateUserInfo() {
+
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+            //首先移除原来的
+            mAccountHeader.removeProfile(PROFILE_ITEM_DEFAULT_POSITION);
+
+            ProfileDrawerItem proAccount = new ProfileDrawerItem();
+            proAccount.withIdentifier(PROFILE_ITEM_USER)
+                    .withName(MyApplication.mUser.getUser_NickName())
+                    .withEmail(MyApplication.mUser.getUser_Birthday())
+                    .withIcon(MyApplication.mUser.getUser_Avator().getUrl());
+
+            mAccountHeader.addProfile(proAccount, PROFILE_ITEM_DEFAULT_POSITION);
+        }
+    }
+
+    //退出登录
+    public void updateAfterLogOut() {
+
+        if (!MyApplication.isLoginSucceed && MyApplication.mUser == null) {
+
+            //移除原来的Accout
+            mAccountHeader.removeProfile(PROFILE_ITEM_DEFAULT_POSITION);
+
+            ProfileDrawerItem proAccount = new ProfileDrawerItem();
+            proAccount.withIdentifier(PROFILE_ITEM_NO_USER)
+                    .withName("未登录")
+                    .withEmail("点击登录或者注册")
+                    .withIcon(R.drawable.profile);
+
+            mAccountHeader.addProfile(proAccount, PROFILE_ITEM_DEFAULT_POSITION);
+        }
     }
 }

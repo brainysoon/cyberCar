@@ -45,9 +45,11 @@
     <string name="fragment_login_textview_forgot_password">忘记密码？</string>
     <string name="fragment_login_textview_register">立即注册？</string>
     <string name="edit_info">修改信息</string>
+    <string name="cancle_login">退出登录</string>
     <string name="submit_edit">提交修改</string>
 
     <string name="custom_regulations">自定义查询</string>
+    <string name="notice">友情提示</string>
 
     <!--是否直接进入主界面-->
     <string name="settings_user_straight">直接进入</string>

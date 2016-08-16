@@ -116,6 +116,17 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/button_text_size" />
 
+                    <Button
+                        android:id="@+id/cancle_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:background="@android:color/holo_red_light"
+                        android:text="@string/cancle_login"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/button_text_size" />
+
                 </LinearLayout>
             </ScrollView>
 
