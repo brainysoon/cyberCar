@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -36,7 +37,9 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.navigates.RoutePlanActivity;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
+import cn.coolbhu.snailgo.fragments.main.NagMainFragment;
 import cn.coolbhu.snailgo.helpers.StationDialogHolder;
 import cn.coolbhu.snailgo.utils.ConnectivityUtils;
 import cn.coolbhu.snailgo.utils.IntentUtils;
@@ -180,22 +183,20 @@ public class MoreGasActivity extends AppCompatActivity implements
                 LatLng mStationLatLng = new LatLng(nowDialogStation.getGas_station_lat()
                         , nowDialogStation.getGas_station_lon());
 
-//                if (mStationLatLng != null && mLatLng != null) {
-//
-//                    Intent mIntent = new Intent(MoreGasActivity.this, OpenActivity.class);
-//
-//                    Bundle mBundle = new Bundle();
-//
-////                    mBundle.putDouble(OpenActivity.sLat, mLatLng.latitude);
-////                    mBundle.putDouble(OpenActivity.sLng, mLatLng.longitude);
-////                    mBundle.putDouble(OpenActivity.eLat, mStationLatLng.latitude);
-////                    mBundle.putDouble(OpenActivity.eLng, mStationLatLng.longitude);
-//
-//                    mIntent.putExtras(mBundle);
-//
-//                    startActivity(mIntent);
-//
-//                }
+                if (mStationLatLng != null && nowLoc != null) {
+
+                    Intent intent = new Intent(MoreGasActivity.this, RoutePlanActivity.class);
+
+                    intent.putExtra(NagMainFragment.POSITION_X, mStationLatLng.latitude);
+                    intent.putExtra(NagMainFragment.POSITION_Y, mStationLatLng.longitude);
+                    intent.putExtra(NagMainFragment.POSITION_X_S, nowLoc.latitude);
+                    intent.putExtra(NagMainFragment.POSITION_Y_S, nowLoc.longitude);
+
+                    startActivity(intent);
+                } else {
+
+                    Toast.makeText(MoreGasActivity.this, "起点和终点不能为空！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -317,6 +318,8 @@ public class MoreGasActivity extends AppCompatActivity implements
                         aMapLocation.getLatitude(), 5000, 1, 1), MoreGasActivity.this);
 
                 locationClient.stopLocation();
+
+                nowLoc = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
             }
         }
     }

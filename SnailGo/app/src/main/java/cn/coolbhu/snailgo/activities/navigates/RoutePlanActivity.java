@@ -174,8 +174,8 @@ public class RoutePlanActivity extends AppCompatActivity implements AMapNaviList
             startLL = new LatLng(startX, startY);
             endLL = new LatLng(endX, endY);
 
-            jam = intent.getBooleanExtra(NagMainFragment.STATUS_JAM, false);
-            charge = intent.getBooleanExtra(NagMainFragment.STATUS_CHARGE, false);
+            jam = intent.getBooleanExtra(NagMainFragment.STATUS_JAM, true);
+            charge = intent.getBooleanExtra(NagMainFragment.STATUS_CHARGE, true);
             speed = intent.getBooleanExtra(NagMainFragment.STATUS_SPEED, false);
             notSpeed = intent.getBooleanExtra(NagMainFragment.STATUS_NOT_SPEED, false);
         }
