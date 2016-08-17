@@ -92,15 +92,24 @@ public class SongLoader {
 
 
     public static Cursor makeSongCursor(Context context, String selection, String[] paramArrayOfString) {
-        String selectionStatement = "is_music=1 AND title != ''";
-        final String songSortOrder = PreferencesUtils.getInstance(context).getSongSortOrder();
 
-        if (!TextUtils.isEmpty(selection)) {
-            selectionStatement = selectionStatement + " AND " + selection;
+        try {
+
+            String selectionStatement = "is_music=1 AND title != ''";
+            final String songSortOrder = PreferencesUtils.getInstance(context).getSongSortOrder();
+
+            if (!TextUtils.isEmpty(selection)) {
+                selectionStatement = selectionStatement + " AND " + selection;
+            }
+            Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
+
+            return cursor;
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
+            return null;
         }
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id"}, selectionStatement, paramArrayOfString, songSortOrder);
-
-        return cursor;
     }
 
 }
