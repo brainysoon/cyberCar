@@ -165,6 +165,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 //                                              Toast.makeText(StartRegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
 
                                                     MyApplication.mUser = mUser;
+                                                    MyApplication.isLoginSucceed = true;
                                                     MyApplication.mAvator = avator;
 
                                                     //更新用户信息
@@ -459,7 +460,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 
         if (!FormatUtils.isNick(nick)) {
 
-            mNickNameView.setError("昵称为3-8位字母数字则下划线或者中文");
+            mNickNameView.setError("昵称为2-8位字母数字则下划线或者中文");
 
             return false;
         }

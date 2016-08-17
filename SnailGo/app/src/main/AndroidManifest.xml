@@ -257,6 +257,16 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
+        <!--注册-->
+        <activity
+            android:name=".activities.register.StartRegisterActivity"
+            android:windowSoftInputMode="stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.register.RegisterActivity" />
+        </activity>
+
         <!--设置-->
         <activity
             android:name=".activities.SettingsActivity"

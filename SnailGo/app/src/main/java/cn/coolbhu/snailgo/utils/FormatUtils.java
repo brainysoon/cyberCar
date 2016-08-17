@@ -41,7 +41,7 @@ public class FormatUtils {
     public static boolean isNick(String nick) {
 
         //昵称必须为三到八位
-        if (!(nick.length() >= 3 && nick.length() <= 8)) {
+        if (!(nick.length() >= 2 && nick.length() <= 8)) {
 
             return false;
         }
