@@ -195,45 +195,38 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
     }
 
     //显示更新提示
-    private void showUpdateDialog() {
+    private void showUpdateDialog() throws Exception {
 
-        try {
 
-            //builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            //设置标题
-            builder.setTitle("版本更新");
+        //设置标题
+        builder.setTitle("版本更新");
 
-            //更新内容
-            builder.setMessage(Version_Upadte_Content);
+        //更新内容
+        builder.setMessage(Version_Upadte_Content);
 
-            //设置图标
-            builder.setIcon(R.mipmap.ic_launcher);
+        //设置图标
+        builder.setIcon(R.mipmap.ic_launcher);
 
-            //设置以后更新
-            builder.setPositiveButton("以后更新", this);
+        //设置以后更新
+        builder.setPositiveButton("以后更新", this);
 
-            //设置立即更新
-            builder.setNegativeButton("立即更新", this);
+        //设置立即更新
+        builder.setNegativeButton("立即更新", this);
 
-            //设置跳过当前版本
-            builder.setNeutralButton("跳过版本", this);
+        //设置跳过当前版本
+        builder.setNeutralButton("跳过版本", this);
 
-            //创建Dialog 并展示
-            AlertDialog dialog = builder.create();
+        //创建Dialog 并展示
+        AlertDialog dialog = builder.create();
 
-            //设置点击外面不消失
-            dialog.setCanceledOnTouchOutside(false);
+        //设置点击外面不消失
+        dialog.setCanceledOnTouchOutside(false);
 
-            dialog.show();
+        dialog.show();
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            afterUpdate.toDoAfterUpdate();
-        }
     }
 
     //当更新完成后要做的事情
