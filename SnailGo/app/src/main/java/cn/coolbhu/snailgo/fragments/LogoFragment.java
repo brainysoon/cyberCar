@@ -39,6 +39,11 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
 
         //判断跳转到哪儿去
         mIntent = new Intent(getContext(), MainActivity.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         //检测版本信息 //onstart会执行两次 不能放到拿去
         AutoUpdateManager autoUpdateManager = new AutoUpdateManager(getContext());
