@@ -283,7 +283,6 @@
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> songs added to playlist.</string>
 
     <!--高德地图-->
-    <string name="xf_appid">57ad83b5</string>
     <string name="preference_default_tts_role">xiaoyan</string>
     <string name="preference_key_tts_speed">tts_speed</string>
     <string name="preference_title_tts_speed">语速</string>

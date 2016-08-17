@@ -283,13 +283,18 @@ public class RoutePlanActivity extends AppCompatActivity implements AMapNaviList
 
     //显示进度条
     private void showProgressDialog() {
-        if (progDialog == null)
-            progDialog = new ProgressDialog(this);
-        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDialog.setIndeterminate(false);
-        progDialog.setCancelable(true);
-        progDialog.setMessage("正在路经规划!\n");
-        progDialog.show();
+        try {
+            if (progDialog == null)
+                progDialog = new ProgressDialog(this);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setCancelable(true);
+            progDialog.setMessage("正在路经规划!\n");
+            progDialog.show();
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
     }
 
     //关闭进度条

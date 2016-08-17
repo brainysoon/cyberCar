@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/fragment_logo_imageview_contentDescription"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile5" />
+            android:src="@drawable/snailmain" />
     </RelativeLayout>
 
     <LinearLayout

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.iflytek.cloud.SpeechUtility;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
@@ -35,6 +36,9 @@ public class MyApplication extends Application {
 
     //Bmob 密钥
     private static final String BOMB_APPKEY = "20d6303487c60c4c630c3e6a7b4615d3";
+
+    //讯飞的密钥
+    private static final String SPEECH_APPKEY = "57ad83b5";
 
     //汽车维护信息推送订阅
     public static final String MAINTAINCE_CAR = "Maintain";
@@ -87,6 +91,15 @@ public class MyApplication extends Application {
         initDrawerUri();
 
         initPush();
+
+        //初始化讯飞
+        initSpeech();
+    }
+
+    //初始化讯飞
+    private void initSpeech() {
+
+        SpeechUtility.createUtility(MyApplication.this, "appid=" + SPEECH_APPKEY);
     }
 
     //

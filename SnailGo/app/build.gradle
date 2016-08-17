@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "cn.coolbhu.snailgo"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 26
         versionName "2.0.7"
 
@@ -82,7 +82,6 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.4.6'
     //扫描二维码
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
-    compile files('libs/Msc.jar')
     compile files('libs/AMap3DMap_3.4.0_AMapNavi_1.9.1_AMapSearch_3.3.0_AMapLocation_2.7.0_20160809.jar')
     compile 'com.isseiaoki:simplecropview:1.1.4'
     //boomenu 菜单依赖
@@ -93,4 +92,5 @@ dependencies {
     compile 'cn.bmob.android:bmob-sms:1.0.1'
     //推送消息的jar包
     compile 'cn.bmob.android:bmob-push:1.0.0'
+    compile files('libs/Msc.jar')
 }
