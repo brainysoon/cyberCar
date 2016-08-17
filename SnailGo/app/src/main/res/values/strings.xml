@@ -129,6 +129,7 @@
     <string name="cxy_error">网络导致车首页服务加载错误，请稍候再试！</string>
     <string name="now_to_setting_permission">现在取设置权限</string>
     <string name="request_music_permission">音乐需要读取存储歌曲的权限！</string>
+    <string name="request_camera_permission">二维码扫描需要打开相机权限，来更好的服务您！</string>
 
     <!--Regulation-->
     <string name="no_regulation_record">恭喜, 没有查到违章记录！</string>

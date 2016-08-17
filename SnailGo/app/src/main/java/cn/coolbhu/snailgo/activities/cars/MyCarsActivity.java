@@ -1,6 +1,8 @@
 package cn.coolbhu.snailgo.activities.cars;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,9 +11,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,12 +55,19 @@ import cn.coolbhu.snailgo.beans.Brand;
 import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.beans.Model;
 import cn.coolbhu.snailgo.utils.HelpInitBoomButton;
+import cn.coolbhu.snailgo.utils.IntentUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity.succeedAdd, BoomMenuButton.OnSubButtonClickListener {
 
     private PtrClassicFrameLayout mPtrFrame;
@@ -176,9 +188,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             @Override
             public void onClick(View v) {
 
-                Intent mIntnet = new Intent(MyCarsActivity.this, DecodeActivity.class);
-
-                startActivity(mIntnet);
+                MyCarsActivityPermissionsDispatcher.initWithCheck(MyCarsActivity.this);
             }
         });
 
@@ -192,6 +202,62 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 return true;
             }
         });
+    }
+
+    //初始化二维码扫描按钮
+    @NeedsPermission({Manifest.permission.CAMERA})
+    public void init() {
+
+        Intent mIntnet = new Intent(MyCarsActivity.this, DecodeActivity.class);
+
+        startActivity(mIntnet);
+    }
+
+    @OnShowRationale({Manifest.permission.CAMERA})
+    public void showLoacationRationale(final PermissionRequest request) {
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.request_permission)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(R.string.request_camera_permission)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.cancel();
+                    }
+                })
+
+                .setCancelable(false)
+                .show();
+    }
+
+    @OnPermissionDenied({Manifest.permission.CAMERA})
+    public void showLoacationDenied() {
+
+        Snackbar.make(this.findViewById(R.id.rootView), R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        IntentUtils.toSnailGoSettings(MyCarsActivity.this);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        MyCarsActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     private void deleteCar() {

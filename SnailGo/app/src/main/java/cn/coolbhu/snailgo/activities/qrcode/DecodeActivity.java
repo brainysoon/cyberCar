@@ -1,8 +1,13 @@
 package cn.coolbhu.snailgo.activities.qrcode;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,7 +28,14 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.Car;
+import cn.coolbhu.snailgo.utils.IntentUtils;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class DecodeActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
     private QRCodeReaderView mQRCdoeReaderView;
@@ -41,13 +53,13 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
         initToolbar();
 
-        findView();
-
-        init();
+        DecodeActivityPermissionsDispatcher.initWithCheck(this);
     }
 
-    //init
-    private void init() {
+    @NeedsPermission({Manifest.permission.CAMERA})
+    public void init() {
+
+        findView();
 
         mQRCdoeReaderView.setOnQRCodeReadListener(this);
 
@@ -63,6 +75,53 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
         mAnimation.setInterpolator(new LinearInterpolator());
 
         mImageView.setAnimation(mAnimation);
+    }
+
+    @OnShowRationale({Manifest.permission.CAMERA})
+    public void showLoacationRationale(final PermissionRequest request) {
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.request_permission)
+                .setIcon(R.mipmap.ic_launcher)
+                .setMessage(R.string.request_camera_permission)
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        request.cancel();
+                    }
+                })
+
+                .setCancelable(false)
+                .show();
+    }
+
+    @OnPermissionDenied({Manifest.permission.CAMERA})
+    public void showLoacationDenied() {
+
+        Snackbar.make(this.findViewById(R.id.rootView), R.string.permission_denie, Snackbar.LENGTH_LONG)
+                .setAction(R.string.setting, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        IntentUtils.toSnailGoSettings(DecodeActivity.this);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        DecodeActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     //findView
@@ -171,13 +230,27 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     @Override
     protected void onResume() {
         super.onResume();
+
+        DecodeActivityPermissionsDispatcher.startQRCodeWithCheck(this);
+    }
+
+    @NeedsPermission({Manifest.permission.CAMERA})
+    public void startQRCode() {
+
         mQRCdoeReaderView.getCameraManager().startPreview();
+    }
+
+    @NeedsPermission({Manifest.permission.CAMERA})
+    public void stopQRCode() {
+
+        mQRCdoeReaderView.getCameraManager().stopPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mQRCdoeReaderView.getCameraManager().stopPreview();
+
+        DecodeActivityPermissionsDispatcher.stopQRCodeWithCheck(this);
     }
 
     //showbar
