@@ -8,9 +8,13 @@ import android.preference.PreferenceScreen;
 
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.MainActivity;
+import cn.coolbhu.snailgo.utils.MusicUtils;
+import cn.coolbhu.snailgo.utils.NavigationUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
 
 public class SettingsFragment extends PreferenceFragment {
+
+    public static final String ACTION_EQUALIZER = "settings_key_music_action_equalizer";
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -42,6 +46,12 @@ public class SettingsFragment extends PreferenceFragment {
             if (MainActivity.mInstance != null) {
 
                 MainActivity.mInstance.updateUserInfo();
+            }
+        } else if (preference.getKey().equals(ACTION_EQUALIZER)) {
+
+            if (MusicUtils.hasEffectsPanel(getActivity())) {
+
+                NavigationUtils.navigateToEqualizer(getActivity());
             }
         }
 

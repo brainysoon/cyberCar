@@ -29,6 +29,10 @@
         android:key="preference_music"
         android:title="@string/settings_head_music">
 
+        <Preference
+            android:key="settings_key_music_action_equalizer"
+            android:title="@string/action_equalizer" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="settings_key_music_auto"
