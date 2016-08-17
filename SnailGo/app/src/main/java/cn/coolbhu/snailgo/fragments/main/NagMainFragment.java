@@ -27,6 +27,7 @@ import com.amap.api.location.AMapLocationListener;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.navigates.PoiSearchActivity;
 import cn.coolbhu.snailgo.activities.navigates.RoutePlanActivity;
+import cn.coolbhu.snailgo.utils.ConnectivityUtils;
 import cn.coolbhu.snailgo.utils.IntentUtils;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
@@ -152,6 +153,9 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
         boxSpeedWayFirst.setOnCheckedChangeListener(this);
 
         NagMainFragmentPermissionsDispatcher.initLoacationWithCheck(this);
+
+        //检查是联网
+        ConnectivityUtils.shouldShowNotConnectdNotic(getContext());
     }
 
     @Override

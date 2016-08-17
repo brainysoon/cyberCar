@@ -1,8 +1,12 @@
 package cn.coolbhu.snailgo.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import cn.coolbhu.snailgo.R;
 
 /**
  * Created by ken on 16-7-15.
@@ -59,6 +63,27 @@ public class ConnectivityUtils {
         } catch (Exception e) {
 
             return false;
+        }
+    }
+
+    public static void shouldShowNotConnectdNotic(Context context) {
+
+        if (!isConnected(context)) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            builder.setIcon(R.mipmap.ic_launcher)
+                    .setTitle(R.string.notice)
+                    .setMessage(R.string.location_must_need_connected)
+                    .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+            builder.create().show();
         }
     }
 }

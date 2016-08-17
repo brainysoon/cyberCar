@@ -309,6 +309,7 @@
     <string name="perference_avoid_charge">躲避收费</string>
     <string name="perference_speedway_first">高速优先</string>
     <string name="location_not_succeed">定位未成功</string>
+    <string name="location_must_need_connected">亲，定位必须要联网！</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

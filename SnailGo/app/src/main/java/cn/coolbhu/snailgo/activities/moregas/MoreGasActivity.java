@@ -38,6 +38,7 @@ import java.util.Map;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.helpers.StationDialogHolder;
+import cn.coolbhu.snailgo.utils.ConnectivityUtils;
 import cn.coolbhu.snailgo.utils.IntentUtils;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
@@ -106,6 +107,8 @@ public class MoreGasActivity extends AppCompatActivity implements
 
         setListener();
 
+        //检查联网
+        ConnectivityUtils.shouldShowNotConnectdNotic(this);
     }
 
     //initToolbar
