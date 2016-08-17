@@ -110,7 +110,7 @@ public class MusicMainFragment extends Fragment implements MusicStateListener {
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE})
     public void onMusicPermissionDenied() {
 
-        Snackbar.make(recyclerView, R.string.permission_denie, Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, R.string.permission_denie, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.setting, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

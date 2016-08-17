@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
@@ -21,8 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
 
 import cn.coolbhu.snailgo.BuildConfig;
 import cn.coolbhu.snailgo.MyApplication;
@@ -49,6 +51,9 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
     private String Version_Upadte_Content;
     private String Version_Update_Address;
 
+    //
+    private boolean shouldDoAfterPressBack = true;
+
     //上下文
     private Context context;
 
@@ -60,6 +65,7 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
     private boolean mInteruptFlag;
     private static final int DOWN_UPDATE = 0;
     private static final int DOWN_OVER = 1;
+    private static final int DOWN_ERROR = 2;
     private Handler mHandler = new Handler() {
 
         @Override
@@ -71,6 +77,11 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
                     break;
                 case DOWN_OVER:
                     installApk();
+                    break;
+
+                case DOWN_ERROR:
+
+                    afterUpdate.toDoAfterUpdate();
                     break;
             }
         }
@@ -84,6 +95,8 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
 
     //开始更新
     public void beginUpdate(AfterUpdate afterUpdate) {
+
+        shouldDoAfterPressBack = true;
 
         this.afterUpdate = afterUpdate;
 
@@ -220,7 +233,20 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
         builder.setNeutralButton("跳过版本", this);
 
         //创建Dialog 并展示
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+                if (afterUpdate != null && shouldDoAfterPressBack) {
+
+                    afterUpdate.toDoAfterUpdate();
+                }
+
+                Log.e("Dialog___L>>>>>>>", "dismiss");
+            }
+        });
 
         //设置点击外面不消失
         dialog.setCanceledOnTouchOutside(false);
@@ -246,19 +272,20 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
         switch (which) {
 
             case AlertDialog.BUTTON_POSITIVE:
-                afterUpdate.toDoAfterUpdate();
+//                afterUpdate.toDoAfterUpdate();
                 break;
 
             case AlertDialog.BUTTON_NEGATIVE:
 
                 toUpdateUtils();
+                shouldDoAfterPressBack = false;
                 break;
 
             case AlertDialog.BUTTON_NEUTRAL:
 
                 //设置跳过版本
                 PreferencesUtils.getInstance(context).setJumpVersionCode(Version_Code);
-                afterUpdate.toDoAfterUpdate();
+//                afterUpdate.toDoAfterUpdate();
                 break;
         }
     }
@@ -318,6 +345,30 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
         showDownlaodProgressBar();
 
         update.start();
+
+//        try {
+//
+//            //判空
+//            DownloadManager.Request request = new DownloadManager
+//                    .Request(Uri.parse("http://bmob-cdn-1370.b0.upaiyun.com/2016/08/17/90278fe613384af69f9bd1d549a8e23d.png"));
+//            //设置在什么网络情况下进行下载
+//            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+//            //设置通知栏标题
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+//            request.setTitle(Version_Name);
+//            request.setDescription(Version_Upadte_Content);
+//            request.setAllowedOverRoaming(false);
+//            //设置文件存放目录
+//            request.setDestinationInExternalFilesDir(context.getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, Version_Name+".apk");
+//
+//            DownloadManager downManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+//            long id = downManager.enqueue(request);
+//
+//            afterUpdate.toDoAfterUpdate();
+//        } catch (Exception ex) {
+//
+//            afterUpdate.toDoAfterUpdate();
+//        }
     }
 
     //显示下载ProgressBar
@@ -360,18 +411,25 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
         InputStream is = null;
         try {
             URL url = new URL(Version_Update_Address);
+            url.setURLStreamHandlerFactory(new URLStreamHandlerFactory() {
+                @Override
+                public URLStreamHandler createURLStreamHandler(String s) {
+                    return null;
+                }
+            });
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//             conn.setRequestProperty("Accept-Encoding", "identity");
             conn.connect();
             int length = conn.getContentLength();
             is = conn.getInputStream();
 
             //保存到的文件夹
-            File file = new File(MyApplication.SAVE_PATH + "/Apk/");
+            File file = new File(MyApplication.SAVE_PATH);
             if (!file.exists()) {
                 file.mkdir();
             }
 
-            File apkFile = new File(MyApplication.SAVE_PATH + "/Apk/" + Version_Name + ".apk");
+            File apkFile = new File(MyApplication.SAVE_PATH + "/" + Version_Name + ".apk");
             fos = new FileOutputStream(apkFile);
             int count = 0;
             byte buf[] = new byte[1024];
@@ -387,10 +445,11 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
                 }
                 fos.write(buf, 0, len);
             } while (!mInteruptFlag);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+
+            mHandler.sendEmptyMessage(DOWN_ERROR);
         } finally {
             mProgressDialog.dismiss();
             if (null != is) {
@@ -407,12 +466,13 @@ public class AutoUpdateManager implements DialogInterface.OnClickListener, Runna
                     e.printStackTrace();
                 }
             }
+
         }
     }
 
     //安装下载好的版本
     private void installApk() {
-        File apkFile = new File(MyApplication.SAVE_PATH + "/Apk/" + Version_Name + ".apk");
+        File apkFile = new File(MyApplication.SAVE_PATH + "/" + Version_Name + ".apk");
         if (!apkFile.exists()) {
             return;
         }

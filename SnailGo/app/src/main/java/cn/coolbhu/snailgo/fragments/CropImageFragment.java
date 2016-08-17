@@ -182,7 +182,7 @@ public class CropImageFragment extends Fragment {
         new AlertDialog.Builder(getContext())
                 .setTitle(R.string.request_permission)
                 .setIcon(R.mipmap.ic_launcher)
-                .setMessage(R.string.request_location_permission)
+                .setMessage(R.string.request_camera_file_permission)
                 .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -304,7 +304,7 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void showLoacationDenied() {
 
-        Snackbar.make(rootView, R.string.permission_denie, Snackbar.LENGTH_LONG)
+        Snackbar.make(rootView, R.string.permission_denie, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.setting, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

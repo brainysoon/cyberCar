@@ -130,6 +130,8 @@
     <string name="now_to_setting_permission">现在取设置权限</string>
     <string name="request_music_permission">音乐需要读取存储歌曲的权限！</string>
     <string name="request_camera_permission">二维码扫描需要打开相机权限，来更好的服务您！</string>
+    <string name="request_camera_file_permission">剪切图片需要相机和照片读出，来更好的服务您！</string>
+    <string name="request_write_file_permission">检查更新需要下载apk到本地的权限，来更好的服务您！</string>
 
     <!--Regulation-->
     <string name="no_regulation_record">恭喜, 没有查到违章记录！</string>
@@ -310,6 +312,9 @@
     <string name="perference_speedway_first">高速优先</string>
     <string name="location_not_succeed">定位未成功</string>
     <string name="location_must_need_connected">亲，定位必须要联网！</string>
+
+    <!--更新-->
+    <string name="update_version">蜗行版本更新</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

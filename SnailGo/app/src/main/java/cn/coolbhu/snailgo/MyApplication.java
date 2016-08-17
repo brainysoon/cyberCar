@@ -81,7 +81,8 @@ public class MyApplication extends Application {
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
 
         //初始化更新Apk放的位置
-        MyApplication.SAVE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+        MyApplication.SAVE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                .getAbsolutePath();
 
         //初始化Bmob
         Bmob.initialize(this, BOMB_APPKEY);
