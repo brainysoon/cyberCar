@@ -12,9 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,7 +25,6 @@ import cn.coolbhu.snailgo.dataloaders.SongLoader;
 import cn.coolbhu.snailgo.listeners.MusicStateListener;
 import cn.coolbhu.snailgo.utils.IntentUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
-import cn.coolbhu.snailgo.utils.SortOrder;
 import cn.coolbhu.snailgo.views.DividerItemDecoration;
 import cn.coolbhu.snailgo.views.FastScroller;
 import permissions.dispatcher.NeedsPermission;
@@ -167,49 +163,49 @@ public class MusicMainFragment extends Fragment implements MusicStateListener {
             }
         }.execute();
     }
+//修复家宝冲突bug
+//    @Override
+//    public void onActivityCreated(final Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        setHasOptionsMenu(true);
+//    }
+//
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.song_sort_by, menu);
+//    }
 
-    @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.song_sort_by, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_sort_by_az:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_A_Z);
-                reloadAdapter();
-                return true;
-            case R.id.menu_sort_by_za:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_Z_A);
-                reloadAdapter();
-                return true;
-            case R.id.menu_sort_by_artist:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_ARTIST);
-                reloadAdapter();
-                return true;
-            case R.id.menu_sort_by_album:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_ALBUM);
-                reloadAdapter();
-                return true;
-            case R.id.menu_sort_by_year:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_YEAR);
-                reloadAdapter();
-                return true;
-            case R.id.menu_sort_by_duration:
-                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_DURATION);
-                reloadAdapter();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.menu_sort_by_az:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_A_Z);
+//                reloadAdapter();
+//                return true;
+//            case R.id.menu_sort_by_za:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_Z_A);
+//                reloadAdapter();
+//                return true;
+//            case R.id.menu_sort_by_artist:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_ARTIST);
+//                reloadAdapter();
+//                return true;
+//            case R.id.menu_sort_by_album:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_ALBUM);
+//                reloadAdapter();
+//                return true;
+//            case R.id.menu_sort_by_year:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_YEAR);
+//                reloadAdapter();
+//                return true;
+//            case R.id.menu_sort_by_duration:
+//                mPreferences.setSongSortOrder(SortOrder.SongSortOrder.SONG_DURATION);
+//                reloadAdapter();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private class loadSongs extends AsyncTask<String, Void, String> {
 
