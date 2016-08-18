@@ -5,6 +5,9 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
+    //** 兼容Android6.0 系统所需 ， 如果这句话报错 ， 可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         applicationId "cn.coolbhu.snailgo"
         minSdkVersion 14
@@ -78,8 +81,6 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-    compile 'cn.bmob.android:bmob-sdk:3.4.7'
     //扫描二维码
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile files('libs/AMap3DMap_3.4.0_AMapNavi_1.9.1_AMapSearch_3.3.0_AMapLocation_2.7.0_20160809.jar')
@@ -88,9 +89,12 @@ dependencies {
     compile 'com.nightonke:boommenu:1.0.9'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    //bmob-sms ：Bmob单独为短信服务提供的包
-    compile 'cn.bmob.android:bmob-sms:1.0.1'
     //推送消息的jar包
     compile 'cn.bmob.android:bmob-push:1.0.0'
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    compile 'cn.bmob.android:bmob-sdk:3.5.1'
+    //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+    compile 'cn.bmob.android:http-legacy:1.0'
     compile files('libs/Msc.jar')
+    compile 'com.android.volley:volley:1.0.0'
 }

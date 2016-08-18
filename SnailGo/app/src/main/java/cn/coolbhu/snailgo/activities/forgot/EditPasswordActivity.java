@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.VerifySMSCodeListener;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.utils.FormatUtils;
@@ -77,7 +75,7 @@ public class EditPasswordActivity extends AppCompatActivity {
 
                         showProgressBar();
 
-                        BmobSMS.verifySmsCode(EditPasswordActivity.this, mTel, code, new VerifySMSCodeListener() {
+                        BmobSMS.verifySmsCode(mTel, code, new UpdateListener() {
                             @Override
                             public void done(BmobException e) {
 
@@ -86,50 +84,48 @@ public class EditPasswordActivity extends AppCompatActivity {
 
                                 query.addWhereMatches("User_Tel", mTel);
 
-                                query.findObjects(EditPasswordActivity.this, new FindListener<User>() {
+                                query.findObjects(new FindListener<User>() {
                                     @Override
-                                    public void onSuccess(List<User> list) {
+                                    public void done(List<User> list, BmobException e) {
 
-                                        if (list.size() > 0) {
+                                        if (e == null) {
 
-                                            User mUser = list.get(0);
+                                            if (list.size() > 0) {
 
-                                            mUser.setUser_Password(pass);
+                                                User mUser = list.get(0);
 
-                                            mUser.setTableName("User");
+                                                mUser.setUser_Password(pass);
 
-                                            mUser.update(EditPasswordActivity.this, mUser.getObjectId(), new UpdateListener() {
-                                                @Override
-                                                public void onSuccess() {
+                                                mUser.setTableName("User");
 
-                                                    showLayout();
-                                                    Toast.makeText(EditPasswordActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                                                mUser.update(mUser.getObjectId(), new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
 
-                                                    EditPasswordActivity.this.finish();
-                                                }
+                                                        if (e == null) {
 
-                                                @Override
-                                                public void onFailure(int i, String s) {
-                                                    Log.e("here2", i + ">>>>" + s);
+                                                            showLayout();
+                                                            Toast.makeText(EditPasswordActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
 
-                                                    Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
-                                                    showLayout();
-                                                }
-                                            });
+                                                            EditPasswordActivity.this.finish();
+                                                        } else {
+
+                                                            Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
+                                                            showLayout();
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                showLayout();
+
+                                                Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
-                                            showLayout();
+
 
                                             Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
+                                            showLayout();
                                         }
-                                    }
-
-                                    @Override
-                                    public void onError(int i, String s) {
-
-                                        Log.e("here1", i + ">>>>" + s);
-
-                                        Toast.makeText(EditPasswordActivity.this, "出错啦！", Toast.LENGTH_SHORT).show();
-                                        showLayout();
                                     }
                                 });
                             }

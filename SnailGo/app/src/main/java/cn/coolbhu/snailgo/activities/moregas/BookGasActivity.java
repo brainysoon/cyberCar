@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
@@ -141,33 +142,34 @@ public class BookGasActivity extends AppCompatActivity {
                             final Order order = new Order(MyApplication.mUser.getUser_Tel(), id,
                                     Order_Station, 1, new BmobDate(date), Order_GasClass, price, i);
 
-                            order.save(BookGasActivity.this, new SaveListener() {
+                            order.save(new SaveListener<String>() {
                                 @Override
-                                public void onSuccess() {
+                                public void done(String s, BmobException e) {
 
-                                    Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
+                                    if (e == null) {
 
-                                    Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
 
-                                    Bundle mBundle = new Bundle();
+                                        Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
 
-                                    mBundle.putString("Order_ID", order.getOrder_ID());
-                                    mBundle.putString("User_Tel", order.getUser_Tel());
-                                    mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
-                                    mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
+                                        Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
 
-                                    mIntent.putExtras(mBundle);
+                                        Bundle mBundle = new Bundle();
 
-                                    startActivity(mIntent);
+                                        mBundle.putString("Order_ID", order.getOrder_ID());
+                                        mBundle.putString("User_Tel", order.getUser_Tel());
+                                        mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
+                                        mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
 
-                                    BookGasActivity.this.finish();
-                                }
+                                        mIntent.putExtras(mBundle);
 
-                                @Override
-                                public void onFailure(int i, String s) {
+                                        startActivity(mIntent);
 
-                                    Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-                                    hideBar();
+                                        BookGasActivity.this.finish();
+                                    } else {
+
+                                        Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                        hideBar();
+                                    }
                                 }
                             });
 

@@ -18,7 +18,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.RequestSMSCodeListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.User;
 import cn.coolbhu.snailgo.utils.FormatUtils;
@@ -97,51 +97,51 @@ public class TelActivity extends AppCompatActivity {
 
         query.addWhereMatches("User_Tel", tel);
 
-        query.findObjects(this, new FindListener<User>() {
+        query.findObjects(new FindListener<User>() {
             @Override
-            public void onSuccess(List<User> list) {
+            public void done(List<User> list, BmobException e) {
 
-                if (list.size() == 0) {
+                if (e == null) {
 
-                    showLinearLayout();
+                    if (list.size() == 0) {
 
-                    Toast.makeText(TelActivity.this, "这个手机号没有注册！", Toast.LENGTH_SHORT).show();
+                        showLinearLayout();
+
+                        Toast.makeText(TelActivity.this, "这个手机号没有注册！", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        //发送短信
+                        BmobSMS.requestSMSCode(tel, "cybercar", new QueryListener<Integer>() {
+                            @Override
+                            public void done(Integer integer, BmobException e) {
+
+                                //总共就三十条短信，不能随便测试了
+                                if (e == null) {
+
+                                    //跳转
+                                    Intent mIntent = new Intent(TelActivity.this, EditPasswordActivity.class);
+
+                                    mIntent.putExtra("Tel", tel);
+
+                                    startActivity(mIntent);
+
+                                    TelActivity.this.finish();
+                                } else {
+
+                                    e.printStackTrace();
+                                    Toast.makeText(TelActivity.this, "服务器遛弯去了,请稍后再试！", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                showLinearLayout();
+                            }
+                        });
+                    }
                 } else {
 
-                    //发送短信
-                    BmobSMS.requestSMSCode(TelActivity.this, tel, "cybercar", new RequestSMSCodeListener() {
-                        @Override
-                        public void done(Integer integer, BmobException e) {
-
-                            //总共就三十条短信，不能随便测试了
-                            if (e == null) {
-
-                                //跳转
-                                Intent mIntent = new Intent(TelActivity.this, EditPasswordActivity.class);
-
-                                mIntent.putExtra("Tel", tel);
-
-                                startActivity(mIntent);
-
-                                TelActivity.this.finish();
-                            } else {
-
-                                e.printStackTrace();
-                                Toast.makeText(TelActivity.this, "服务器遛弯去了,请稍后再试！", Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            showLinearLayout();
-                        }
-                    });
+                    showLinearLayout();
+                    Toast.makeText(TelActivity.this, "服务器遛弯去了,请稍后再试！", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-                showLinearLayout();
-                Toast.makeText(TelActivity.this, "服务器遛弯去了,请稍后再试！", Toast.LENGTH_SHORT).show();
             }
         });
     }

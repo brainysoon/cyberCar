@@ -27,6 +27,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -235,59 +236,65 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
             query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-            query.findObjects(MyInfoActivity.this, new FindListener<User>() {
+            query.findObjects(new FindListener<User>() {
+
                 @Override
-                public void onSuccess(List<User> list) {
+                public void done(List<User> list, BmobException e) {
 
-                    if (list.size() > 0) {
+                    if (e == null) {
 
-                        mUser = list.get(0);
+                        if (list.size() > 0) {
 
-                        mUser.setTableName("User");
+                            mUser = list.get(0);
 
-                        //加载头像
-                        mUser.getUser_Avator().download(MyInfoActivity.this, new DownloadFileListener() {
-                            @Override
-                            public void onSuccess(String s) {
+                            mUser.setTableName("User");
 
+                            //加载头像
+                            mUser.getUser_Avator().download(new DownloadFileListener() {
 
-                                mAvator = BitmapFactory.decodeFile(s);//图片地址
+                                @Override
+                                public void done(String s, BmobException e) {
 
-                                mAvatorView.setImageBitmap(mAvator);
+                                    if (e == null) {
+
+                                        mAvator = BitmapFactory.decodeFile(s);//图片地址
+
+                                        mAvatorView.setImageBitmap(mAvator);
+                                    } else {
+
+                                        Toast.makeText(MyInfoActivity.this, "加载头像失败！", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onProgress(Integer integer, long l) {
+
+                                }
+                            });
+
+                            //设置昵称
+                            mNickView.setText(mUser.getUser_NickName());
+
+                            //设置性别
+                            if (mUser.getUser_Sex()) {
+
+                                mManView.setChecked(true);
+                            } else {
+
+                                mWomanView.setChecked(true);
                             }
 
-                            @Override
-                            public void onFailure(int i, String s) {
+                            //设置生日
+                            mDateView.setText(mUser.getUser_Birthday());
 
-                                Toast.makeText(MyInfoActivity.this, "加载头像失败！", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        //设置昵称
-                        mNickView.setText(mUser.getUser_NickName());
-
-                        //设置性别
-                        if (mUser.getUser_Sex()) {
-
-                            mManView.setChecked(true);
                         } else {
 
-                            mWomanView.setChecked(true);
+                            Toast.makeText(MyInfoActivity.this, "加载信息失败，稍后再试！", Toast.LENGTH_SHORT).show();
                         }
-
-                        //设置生日
-                        mDateView.setText(mUser.getUser_Birthday());
-
                     } else {
 
                         Toast.makeText(MyInfoActivity.this, "加载信息失败，稍后再试！", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onError(int i, String s) {
-
-                    Toast.makeText(MyInfoActivity.this, "加载信息失败，稍后再试！", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -335,78 +342,77 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
                     final BmobFile avator = new BmobFile(f);
 
-                    avator.upload(MyInfoActivity.this, new UploadFileListener() {
+                    avator.upload(new UploadFileListener() {
+
                         @Override
-                        public void onSuccess() {
+                        public void done(BmobException e) {
 
-                            mUser.setUser_Avator(avator);
-                            Log.e("here", ">>>>" + avator.toString());
+                            if (e == null) {
 
-                            mUser.update(MyInfoActivity.this, mUser.getObjectId(), new UpdateListener() {
-                                @Override
-                                public void onSuccess() {
+                                mUser.setUser_Avator(avator);
+                                Log.e("here", ">>>>" + avator.toString());
 
-                                    Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+                                mUser.update(mUser.getObjectId(), new UpdateListener() {
 
-                                    isEdit = false;
-                                    setUnedit();
-                                    mSubmitView.setText("修改信息");
+                                    @Override
+                                    public void done(BmobException e) {
 
-                                    //一定要更新信息
-                                    MyApplication.mUser = mUser;
+                                        if (e == null) {
 
-                                    //更新用户信息
-                                    if (MainActivity.mInstance != null) {
+                                            Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
 
-                                        MainActivity.mInstance.updateUserInfo();
+                                            isEdit = false;
+                                            setUnedit();
+                                            mSubmitView.setText("修改信息");
+
+                                            //一定要更新信息
+                                            MyApplication.mUser = mUser;
+
+                                            //更新用户信息
+                                            if (MainActivity.mInstance != null) {
+
+                                                MainActivity.mInstance.updateUserInfo();
+                                            }
+                                        } else {
+
+                                            Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
+                                });
+                            } else {
 
-                                @Override
-                                public void onFailure(int i, String s) {
-
-                                    Log.e("here", i + ">>>>" + s);
-
-                                    Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                            Toast.makeText(MyInfoActivity.this, "长传图片失败！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyInfoActivity.this, "上传图片失败！", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
             }
         } else {
-            mUser.update(MyInfoActivity.this, mUser.getObjectId(), new UpdateListener() {
+            mUser.update(mUser.getObjectId(), new UpdateListener() {
+
                 @Override
-                public void onSuccess() {
+                public void done(BmobException e) {
 
-                    Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+                    if (e == null) {
 
-                    isEdit = false;
-                    setUnedit();
-                    mSubmitView.setText("修改信息");
+                        Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
 
-                    //一定要更新信息，不然就会多一个接口
-                    MyApplication.mUser = mUser;
+                        isEdit = false;
+                        setUnedit();
+                        mSubmitView.setText("修改信息");
 
-                    //更新用户信息
-                    if (MainActivity.mInstance != null) {
+                        //一定要更新信息，不然就会多一个接口
+                        MyApplication.mUser = mUser;
 
-                        MainActivity.mInstance.updateUserInfo();
+                        //更新用户信息
+                        if (MainActivity.mInstance != null) {
+
+                            MainActivity.mInstance.updateUserInfo();
+                        }
+                    } else {
+
+                        Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onFailure(int i, String s) {
-
-                    Log.e("here", i + ">>>>" + s);
-
-                    Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
                 }
             });
         }

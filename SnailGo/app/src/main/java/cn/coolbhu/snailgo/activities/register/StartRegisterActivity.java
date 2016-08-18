@@ -38,8 +38,8 @@ import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
-import cn.bmob.v3.listener.VerifySMSCodeListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.CropImageActivity;
@@ -138,7 +138,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 
                     String tel = mCodeView.getText().toString().trim();
 
-                    BmobSMS.verifySmsCode(StartRegisterActivity.this, mTel, tel, new VerifySMSCodeListener() {
+                    BmobSMS.verifySmsCode(mTel, tel, new UpdateListener() {
 
                         @Override
                         public void done(BmobException ex) {
@@ -150,56 +150,48 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
                                 if (mUser != null) {
 
                                     //上传头像
-                                    mUser.getUser_Avator().upload(StartRegisterActivity.this, new UploadFileListener() {
+                                    mUser.getUser_Avator().upload(new UploadFileListener() {
                                         @Override
-                                        public void onSuccess() {
+                                        public void done(BmobException e) {
 
-                                            Log.e("Upload>>>", "Succeed");
+                                            if (e == null) {
 
-                                            Log.e("File>>>Name", mUser.getUser_Avator().getFilename());
+                                                Log.e("Upload>>>", "Succeed");
 
-                                            mUser.save(StartRegisterActivity.this, new SaveListener() {
-                                                @Override
-                                                public void onSuccess() {
+                                                Log.e("File>>>Name", mUser.getUser_Avator().getFilename());
 
-//                                              Toast.makeText(StartRegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
+                                                mUser.save(new SaveListener<String>() {
+                                                    @Override
+                                                    public void done(String s, BmobException e) {
 
-                                                    MyApplication.mUser = mUser;
-                                                    MyApplication.isLoginSucceed = true;
-                                                    MyApplication.mAvator = avator;
+                                                        if (e == null) {
 
-                                                    //更新用户信息
-                                                    if (MainActivity.mInstance != null) {
+                                                            MyApplication.mUser = mUser;
+                                                            MyApplication.isLoginSucceed = true;
+                                                            MyApplication.mAvator = avator;
 
-                                                        MainActivity.mInstance.updateUserInfo();
+                                                            //更新用户信息
+                                                            if (MainActivity.mInstance != null) {
+
+                                                                MainActivity.mInstance.updateUserInfo();
+                                                            }
+
+                                                            showDialog();
+                                                            showLayout();
+                                                        } else {
+
+                                                            Toast.makeText(StartRegisterActivity.this, "注册失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+
+                                                            showLayout();
+                                                        }
                                                     }
+                                                });
+                                            } else {
 
-                                                    showDialog();
-                                                    showLayout();
-                                                }
+                                                Toast.makeText(StartRegisterActivity.this, "头像上传失败！", Toast.LENGTH_SHORT).show();
 
-                                                @Override
-                                                public void onFailure(int i, String s) {
-
-                                                    Log.e("" +
-                                                            ">>>Faild", i + ">>>" + s);
-
-                                                    Toast.makeText(StartRegisterActivity.this, "注册失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-
-                                                    showLayout();
-                                                }
-                                            });
-
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(int i, String s) {
-
-
-                                            Toast.makeText(StartRegisterActivity.this, "头像上传失败！", Toast.LENGTH_SHORT).show();
-
-                                            showLayout();
+                                                showLayout();
+                                            }
                                         }
                                     });
                                 } else {

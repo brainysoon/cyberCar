@@ -30,8 +30,9 @@ import java.util.List;
 import java.util.Random;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
@@ -229,21 +230,21 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
             query.addWhereMatches("User_Tel", tel);
 
-            query.findObjects(MyOrdersActivity.this, new FindListener<Order>() {
+            query.findObjects(new FindListener<Order>() {
                 @Override
-                public void onSuccess(List<Order> list) {
+                public void done(List<Order> list, BmobException e) {
 
-                    mDataList = list;
+                    if (e == null) {
 
-                    mAdapter.notifyDataSetChanged();
+                        mDataList = list;
 
-                    Toast.makeText(MyOrdersActivity.this, "刷新成功!", Toast.LENGTH_SHORT).show();
-                }
+                        mAdapter.notifyDataSetChanged();
 
-                @Override
-                public void onError(int i, String s) {
+                        Toast.makeText(MyOrdersActivity.this, "刷新成功!", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    Toast.makeText(MyOrdersActivity.this, "刷新失败,请稍后重试!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyOrdersActivity.this, "刷新失败,请稍后重试!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -390,19 +391,19 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
         order.setTableName("Order");
 
-        order.delete(MyOrdersActivity.this, new DeleteListener() {
+        order.delete(new UpdateListener() {
             @Override
-            public void onSuccess() {
+            public void done(BmobException e) {
 
-                Toast.makeText(MyOrdersActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
-                mDataList.remove(posi);
-                mAdapter.notifyDataSetChanged();
-            }
+                if (e == null) {
 
-            @Override
-            public void onFailure(int i, String s) {
+                    Toast.makeText(MyOrdersActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
+                    mDataList.remove(posi);
+                    mAdapter.notifyDataSetChanged();
+                } else {
 
-                Toast.makeText(MyOrdersActivity.this, "删除失败！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyOrdersActivity.this, "删除失败！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

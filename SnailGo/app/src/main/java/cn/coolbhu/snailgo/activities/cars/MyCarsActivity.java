@@ -44,9 +44,10 @@ import java.util.List;
 import java.util.Random;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.qrcode.DecodeActivity;
@@ -264,23 +265,23 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
         mCarClick.setTableName("Car");
 
-        mCarClick.delete(MyCarsActivity.this, new DeleteListener() {
+        mCarClick.delete(new UpdateListener() {
             @Override
-            public void onSuccess() {
+            public void done(BmobException e) {
 
-                Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
+                //删除成功
+                if (e == null) {
 
-                mCarData.remove(poi);
+                    Toast.makeText(MyCarsActivity.this, "删除成功!", Toast.LENGTH_SHORT).show();
 
-                mAdapter.notifyDataSetChanged();
-            }
+                    mCarData.remove(poi);
 
-            @Override
-            public void onFailure(int i, String s) {
+                    mAdapter.notifyDataSetChanged();
+                } else {
 
-                Toast.makeText(MyCarsActivity.this, "删除失败!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyCarsActivity.this, "删除失败!", Toast.LENGTH_SHORT).show();
 
-                Log.e("here>>>" + i, s);
+                }
             }
         });
     }
@@ -488,17 +489,20 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
                 if (mBrand != null) {
 
-                    mBrand.getBrand_Sign().download(MyCarsActivity.this, new DownloadFileListener() {
+                    mBrand.getBrand_Sign().download(new DownloadFileListener() {
                         @Override
-                        public void onSuccess(String s) {
+                        public void done(String s, BmobException e) {
 
-                            Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+                            if (e == null) {
 
-                            mAvatorView.setImageBitmap(bt);
+                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                                mAvatorView.setImageBitmap(bt);
+                            }
                         }
 
                         @Override
-                        public void onFailure(int i, String s) {
+                        public void onProgress(Integer integer, long l) {
 
                         }
                     });
@@ -514,26 +518,25 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     class ModelFindListener extends FindListener<Model> {
 
         @Override
-        public void onSuccess(List<Model> list) {
+        public void done(List<Model> list, BmobException e) {
 
-            if (list.size() > 0) {
+            if (e == null) {
 
-                Model model = list.get(0);
-                mModelData.put(model.getModel_Name(), model);
+                if (list.size() > 0) {
 
-                if (mBrandData.get(model.getBrand_Name()) == null) {
+                    Model model = list.get(0);
+                    mModelData.put(model.getModel_Name(), model);
 
-                    BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
+                    if (mBrandData.get(model.getBrand_Name()) == null) {
 
-                    query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+                        BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
 
-                    query2.findObjects(MyCarsActivity.this, MyCarsActivity.this.mBrandListener);
+                        query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+
+                        query2.findObjects(MyCarsActivity.this.mBrandListener);
+                    }
                 }
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
 
         }
     }
@@ -541,19 +544,17 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
     class BrandFindListener extends FindListener<Brand> {
 
         @Override
-        public void onSuccess(List<Brand> list) {
+        public void done(List<Brand> list, BmobException e) {
 
-            if (list.size() > 0) {
+            if (e == null) {
 
-                Brand brand = list.get(0);
+                if (list.size() > 0) {
 
-                mBrandData.put(brand.getBrand_Name(), brand);
+                    Brand brand = list.get(0);
+
+                    mBrandData.put(brand.getBrand_Name(), brand);
+                }
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
-
         }
     }
 
@@ -573,37 +574,36 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
             query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-            query.findObjects(MyCarsActivity.this, new FindListener<Car>() {
+            query.findObjects(new FindListener<Car>() {
                 @Override
-                public void onSuccess(List<Car> list) {
+                public void done(List<Car> list, BmobException e) {
 
-                    if (list.size() > 0) {
+                    if (e == null) {
 
-                        mCarData = list;
+                        if (list.size() > 0) {
 
-                        mModelData.clear();
-                        mBrandData.clear();
+                            mCarData = list;
 
-                        for (Car i : list) {
+                            mModelData.clear();
+                            mBrandData.clear();
 
-                            //没有这个型号
-                            if (mModelData.get(i.getCar_ModelType()) == null) {
+                            for (Car i : list) {
 
-                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                                //没有这个型号
+                                if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                    BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                                query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
+                                    query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                    query1.findObjects(MyCarsActivity.this.mModelListener);
+                                }
                             }
                         }
+                    } else {
+
+                        Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
                     }
-
-
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -625,37 +625,36 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
         query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-        query.findObjects(MyCarsActivity.this, new FindListener<Car>() {
+        query.findObjects(new FindListener<Car>() {
+
             @Override
-            public void onSuccess(List<Car> list) {
+            public void done(List<Car> list, BmobException e) {
 
-                if (list.size() > 0) {
+                if (e == null) {
 
-                    mCarData = list;
+                    if (list.size() > 0) {
 
-                    mModelData.clear();
-                    mBrandData.clear();
+                        mCarData = list;
 
-                    for (Car i : list) {
+                        mModelData.clear();
+                        mBrandData.clear();
 
-                        //没有这个型号
-                        if (mModelData.get(i.getCar_ModelType()) == null) {
+                        for (Car i : list) {
 
-                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                            //没有这个型号
+                            if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                            query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
+                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                query1.findObjects(MyCarsActivity.this.mModelListener);
+                            }
                         }
                     }
+
+                    mAdapter.notifyDataSetChanged();
                 }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(MyCarsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -39,6 +39,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
@@ -134,7 +135,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         rootView = view;
 
         initView(view);
-        
+
     }
 
     private void initView(View rootView) {
@@ -298,17 +299,21 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
                     if (brandSign != null) {
 
-                        brandSign.download(getContext(), new DownloadFileListener() {
+                        brandSign.download(new DownloadFileListener() {
+
                             @Override
-                            public void onSuccess(String s) {
+                            public void done(String s, BmobException e) {
 
-                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+                                if (e == null) {
 
-                                mAvatorView.setImageBitmap(bt);
+                                    Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                                    mAvatorView.setImageBitmap(bt);
+                                }
                             }
 
                             @Override
-                            public void onFailure(int i, String s) {
+                            public void onProgress(Integer integer, long l) {
 
                             }
                         });
@@ -328,37 +333,39 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
         query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-        query.findObjects(getContext(), new FindListener<Car>() {
+        query.findObjects(new FindListener<Car>() {
+
             @Override
-            public void onSuccess(List<Car> list) {
+            public void done(List<Car> list, BmobException e) {
 
-                if (list.size() > 0) {
+                if (e == null) {
 
-                    mCarData = list;
+                    if (list.size() > 0) {
 
-                    mModelData.clear();
-                    mBrandData.clear();
+                        mCarData = list;
 
-                    for (Car i : list) {
+                        mModelData.clear();
+                        mBrandData.clear();
 
-                        //没有这个型号
-                        if (mModelData.get(i.getCar_ModelType()) == null) {
+                        for (Car i : list) {
 
-                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                            //没有这个型号
+                            if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                            query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
+                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                query1.findObjects(VolMainFragment.this.mModelListener);
+                            }
                         }
                     }
+
+                    mAdapter.notifyDataSetChanged();
+                } else {
+
+                    Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
                 }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -379,43 +386,42 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
             query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-            query.findObjects(getContext(), new FindListener<Car>() {
+            query.findObjects(new FindListener<Car>() {
+
                 @Override
-                public void onSuccess(List<Car> list) {
+                public void done(List<Car> list, BmobException e) {
 
-                    if (list.size() > 0) {
+                    if (e == null) {
 
-                        mCarData = list;
+                        if (list.size() > 0) {
 
-                        mModelData.clear();
-                        mBrandData.clear();
+                            mCarData = list;
 
-                        for (Car i : list) {
+                            mModelData.clear();
+                            mBrandData.clear();
 
-                            //没有这个型号
-                            if (mModelData.get(i.getCar_ModelType()) == null) {
+                            for (Car i : list) {
 
-                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                                //没有这个型号
+                                if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                    BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                                query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
+                                    query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                    query1.findObjects(VolMainFragment.this.mModelListener);
+                                }
                             }
                         }
-                    }
+                    } else {
 
+                        try {
 
-                }
+                            Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
+                        } catch (Exception ex) {
 
-                @Override
-                public void onError(int i, String s) {
-
-                    try {
-
-                        Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
-                    } catch (Exception ex) {
-
-                        ex.printStackTrace();
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -607,34 +613,32 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     class ModelFindListener extends FindListener<Model> {
 
         @Override
-        public void onSuccess(List<Model> list) {
+        public void done(List<Model> list, BmobException e) {
 
-            if (list.size() > 0) {
+            if (e == null) {
 
-                Model model = list.get(0);
-                mModelData.put(model.getModel_Name(), model);
+                if (list.size() > 0) {
 
-                if (mBrandData.get(model.getBrand_Name()) == null) {
+                    Model model = list.get(0);
+                    mModelData.put(model.getModel_Name(), model);
 
-                    BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
+                    if (mBrandData.get(model.getBrand_Name()) == null) {
 
-                    query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+                        BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
 
-                    query2.findObjects(getContext(), VolMainFragment.this.mBrandListener);
+                        query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+
+                        query2.findObjects(VolMainFragment.this.mBrandListener);
+                    }
                 }
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
-
         }
     }
 
     class BrandFindListener extends FindListener<Brand> {
 
         @Override
-        public void onSuccess(List<Brand> list) {
+        public void done(List<Brand> list, BmobException e) {
 
             if (list.size() > 0) {
 
@@ -642,11 +646,6 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
                 mBrandData.put(brand.getBrand_Name(), brand);
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
-
         }
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.R;
@@ -113,26 +114,27 @@ public class CarsInfoActivity extends AppCompatActivity {
 
         query.addWhereMatches("Car_Num", num);
 
-        query.findObjects(CarsInfoActivity.this, new FindListener<Car>() {
+        query.findObjects(new FindListener<Car>() {
+
             @Override
-            public void onSuccess(List<Car> list) {
+            public void done(List<Car> list, BmobException e) {
 
-                if (list.size() > 0) {
+                if (e == null) {
 
-                    mCar = list.get(0);
+                    if (list.size() > 0) {
 
-                    initViewAfterFind();
+                        mCar = list.get(0);
+
+                        initViewAfterFind();
+
+                        hideBar();
+                    }
+                } else {
+
+                    Toast.makeText(CarsInfoActivity.this, "汽车信息加载失败，请稍后再试！", Toast.LENGTH_SHORT).show();
 
                     hideBar();
                 }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-                Toast.makeText(CarsInfoActivity.this, "汽车信息加载失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-
-                hideBar();
             }
         });
     }
@@ -158,58 +160,60 @@ public class CarsInfoActivity extends AppCompatActivity {
 
             query.addWhereMatches("Model_Name", mCar.getCar_ModelType());
 
-            query.findObjects(CarsInfoActivity.this, new FindListener<Model>() {
+            query.findObjects(new FindListener<Model>() {
+
                 @Override
-                public void onSuccess(List<Model> list) {
+                public void done(List<Model> list, BmobException e) {
 
-                    if (list.size() > 0) {
+                    if (e == null) {
+
+                        if (list.size() > 0) {
 
 
-                        Model model = list.get(0);
+                            Model model = list.get(0);
 
-                        BmobQuery<Brand> query1 = new BmobQuery<Brand>("Brand");
+                            BmobQuery<Brand> query1 = new BmobQuery<Brand>("Brand");
 
-                        query1.addWhereMatches("Brand_Name", model.getBrand_Name());
+                            query1.addWhereMatches("Brand_Name", model.getBrand_Name());
 
-                        query1.findObjects(CarsInfoActivity.this, new FindListener<Brand>() {
-                            @Override
-                            public void onSuccess(List<Brand> list) {
+                            query1.findObjects(new FindListener<Brand>() {
 
-                                if (list.size() > 0) {
+                                @Override
+                                public void done(List<Brand> list, BmobException e) {
 
-                                    Brand brand = list.get(0);
+                                    if (e == null) {
 
-                                    if (brand != null) {
+                                        if (list.size() > 0) {
 
-                                        brand.getBrand_Sign().download(CarsInfoActivity.this, new DownloadFileListener() {
-                                            @Override
-                                            public void onSuccess(String s) {
+                                            Brand brand = list.get(0);
 
-                                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+                                            if (brand != null) {
 
-                                                mBrand.setImageBitmap(bt);
+                                                brand.getBrand_Sign().download(new DownloadFileListener() {
+
+                                                    @Override
+                                                    public void done(String s, BmobException e) {
+
+                                                        if (e == null) {
+
+                                                            Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                                                            mBrand.setImageBitmap(bt);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onProgress(Integer integer, long l) {
+
+                                                    }
+                                                });
                                             }
-
-                                            @Override
-                                            public void onFailure(int i, String s) {
-
-                                            }
-                                        });
+                                        }
                                     }
                                 }
-                            }
-
-                            @Override
-                            public void onError(int i, String s) {
-
-                            }
-                        });
+                            });
+                        }
                     }
-                }
-
-                @Override
-                public void onError(int i, String s) {
-
                 }
             });
         }

@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
@@ -224,58 +224,56 @@ public class LoginFragment extends Fragment {
                     query.addWhereEqualTo("User_Tel", userName);
                     query.addWhereEqualTo("User_Password", userPassword);
 
-                    query.findObjects(getContext(), new FindListener<User>() {
+                    query.findObjects(new FindListener<User>() {
+
                         @Override
-                        public void onSuccess(List<User> list) {
+                        public void done(List<User> list, BmobException e) {
 
-                            if (list.size() > 0) {
+                            if (e == null) {
 
-                                Intent mIntnet = new Intent(getContext(), MainActivity.class);
+                                if (list.size() > 0) {
 
-                                startActivity(mIntnet);
+                                    Intent mIntnet = new Intent(getContext(), MainActivity.class);
 
-                                MyApplication.mUser = list.get(0);
-                                MyApplication.isLoginSucceed = true;
+                                    startActivity(mIntnet);
 
-                                //更新用户信息
-                                if (MainActivity.mInstance != null) {
+                                    MyApplication.mUser = list.get(0);
+                                    MyApplication.isLoginSucceed = true;
 
-                                    MainActivity.mInstance.updateUserInfo();
+                                    //更新用户信息
+                                    if (MainActivity.mInstance != null) {
+
+                                        MainActivity.mInstance.updateUserInfo();
+                                    }
+
+                                    Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
+
+                                    //保存一些东西
+                                    PreferencesUtils.getInstance(getContext()).saveUserInfo(list.get(0));
+
+                                    PreferencesUtils.getInstance(getContext())
+                                            .saveIsSavePassAndAutoLogin(list.get(0).getUser_Tel(),
+                                                    mSavePassword.isChecked(), mAutoLogin.isChecked());
+
+                                    //更新设备信息
+                                    SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
+
+                                    getActivity().finish();
+                                } else {
+
+                                    Toast.makeText(getContext().getApplicationContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
+                                    reBackToLogin();
                                 }
-
-                                Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
-
-                                //保存一些东西
-                                PreferencesUtils.getInstance(getContext()).saveUserInfo(list.get(0));
-
-                                PreferencesUtils.getInstance(getContext())
-                                        .saveIsSavePassAndAutoLogin(list.get(0).getUser_Tel(),
-                                                mSavePassword.isChecked(), mAutoLogin.isChecked());
-
-                                //更新设备信息
-                                SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
-
-                                getActivity().finish();
                             } else {
 
-                                Toast.makeText(getContext().getApplicationContext(), "手机号或者密码错误，请重试！", Toast.LENGTH_SHORT).show();
-                                reBackToLogin();
-                            }
-                        }
+                                try {
+                                    Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                    reBackToLogin();
 
-                        @Override
-                        public void onError(int i, String s) {
+                                } catch (Exception ex) {
 
-                            Log.e(s, i + "----<code");
-
-                            try {
-                                Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
-                                reBackToLogin();
-
-                                Log.e("i>>" + i, s);
-                            } catch (Exception ex) {
-
-                                ex.printStackTrace();
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                     });

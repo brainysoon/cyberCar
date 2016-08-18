@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
@@ -161,47 +162,48 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
                 query.addWhereEqualTo(PreferencesUtils.USER_TEL, mUser.getUser_Tel());
                 query.addWhereEqualTo(PreferencesUtils.USER_PASSWORD, mUser.getUser_Password());
 
-                query.findObjects(getContext(), new FindListener<User>() {
+                query.findObjects(new FindListener<User>() {
+
                     @Override
-                    public void onSuccess(List<User> list) {
+                    public void done(List<User> list, BmobException e) {
 
-                        //登录成功
-                        if (list.size() > 0) {
+                        if (e == null) {
 
-                            MyApplication.isLoginSucceed = true;
-                            MyApplication.mUser = list.get(0);
+                            //登录成功
+                            if (list.size() > 0) {
 
-                            Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
+                                MyApplication.isLoginSucceed = true;
+                                MyApplication.mUser = list.get(0);
 
-                            //更新设备设备信息
-                            SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
+                                Toast.makeText(getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
 
+                                //更新设备设备信息
+                                SucceedLoginUtil.checkUid(getContext(), MyApplication.mUser);
+
+                            } else {
+
+                                Toast.makeText(getContext().getApplicationContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                            }
+
+                            startActivity(mIntent);
+
+                            getActivity().overridePendingTransition(android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right);
+
+                            getActivity().finish();
                         } else {
 
-                            Toast.makeText(getContext().getApplicationContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getInstance().getApplicationContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
+
+                            startActivity(mIntent);
+
+                            getActivity().overridePendingTransition(android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right);
+
+                            getActivity().finish();
                         }
-
-                        startActivity(mIntent);
-
-                        getActivity().overridePendingTransition(android.R.anim.slide_in_left,
-                                android.R.anim.slide_out_right);
-
-                        getActivity().finish();
-
                     }
 
-                    @Override
-                    public void onError(int i, String s) {
-
-                        Toast.makeText(MyApplication.getInstance().getApplicationContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
-
-                        startActivity(mIntent);
-
-                        getActivity().overridePendingTransition(android.R.anim.slide_in_left,
-                                android.R.anim.slide_out_right);
-
-                        getActivity().finish();
-                    }
                 });
             } else {
 

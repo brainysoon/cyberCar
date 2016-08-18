@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -116,61 +116,60 @@ public class AddCarsActivity extends AppCompatActivity {
 
         final BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-        query.findObjects(this, new FindListener<Brand>() {
+        query.findObjects(new FindListener<Brand>() {
+
             @Override
-            public void onSuccess(List<Brand> list) {
+            public void done(List<Brand> list, BmobException e) {
 
-                if (list.size() > 0) {
+                if (e == null) {
 
-                    mBrandData = list;
+                    if (list.size() > 0) {
 
-                    Brand brand = mBrandData.get(0);
+                        mBrandData = list;
 
-                    query1.addWhereMatches("Brand_Name", brand.getBrand_Name());
+                        Brand brand = mBrandData.get(0);
 
-                    query1.findObjects(AddCarsActivity.this, new FindListener<Model>() {
-                        @Override
-                        public void onSuccess(List<Model> list) {
+                        query1.addWhereMatches("Brand_Name", brand.getBrand_Name());
 
-                            if (list.size() > 0) {
+                        query1.findObjects(new FindListener<Model>() {
 
-                                mModelData = list;
+                            @Override
+                            public void done(List<Model> list, BmobException e) {
 
-                                mModelAdapter.notifyDataSetChanged();
+                                if (e == null) {
+
+                                    if (list.size() > 0) {
+
+                                        mModelData = list;
+
+                                        mModelAdapter.notifyDataSetChanged();
+                                    }
+                                }
                             }
-                        }
+                        });
 
-                        @Override
-                        public void onError(int i, String s) {
+                        brand.getBrand_Sign().download(new DownloadFileListener() {
 
-                            Log.e("here>>i", s);
-                        }
-                    });
+                            @Override
+                            public void done(String s, BmobException e) {
 
-                    brand.getBrand_Sign().download(AddCarsActivity.this, new DownloadFileListener() {
-                        @Override
-                        public void onSuccess(String s) {
+                                if (e == null) {
 
-                            Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+                                    Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
 
-                            mBrandSign.setImageBitmap(bt);
-                        }
+                                    mBrandSign.setImageBitmap(bt);
+                                }
+                            }
 
-                        @Override
-                        public void onFailure(int i, String s) {
+                            @Override
+                            public void onProgress(Integer integer, long l) {
 
-                            Toast.makeText(AddCarsActivity.this, "图片加载失败！", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            }
+                        });
 
-                    mBrandAdapter.notifyDataSetChanged();
+                        mBrandAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-                Log.e("here>>i", s);
             }
         });
     }
@@ -209,24 +208,24 @@ public class AddCarsActivity extends AppCompatActivity {
                     Car mCar = new Car(num, rack, engine, mMlieage, nick
                             , model, MyApplication.mUser.getUser_Tel(), gas, engine_status, speed, light);
 
-                    mCar.save(AddCarsActivity.this, new SaveListener() {
+                    mCar.save(new SaveListener<String>() {
                         @Override
-                        public void onSuccess() {
+                        public void done(String s, BmobException e) {
 
-                            Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                            if (e == null) {
 
-                            if (MyCarsActivity.succeed != null) {
+                                Toast.makeText(AddCarsActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
 
-                                MyCarsActivity.succeed.succeedAddCars();
+                                if (MyCarsActivity.succeed != null) {
+
+                                    MyCarsActivity.succeed.succeedAddCars();
+                                }
+
+                                AddCarsActivity.this.finish();
+                            } else {
+
+                                Toast.makeText(AddCarsActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
                             }
-
-                            AddCarsActivity.this.finish();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                            Toast.makeText(AddCarsActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (Exception e) {
@@ -243,17 +242,21 @@ public class AddCarsActivity extends AppCompatActivity {
 
                         Brand brand = mBrandData.get(position);
 
-                        brand.getBrand_Sign().download(AddCarsActivity.this, new DownloadFileListener() {
+                        brand.getBrand_Sign().download(new DownloadFileListener() {
+
                             @Override
-                            public void onSuccess(String s) {
+                            public void done(String s, BmobException e) {
 
-                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+                                if (e == null) {
 
-                                mBrandSign.setImageBitmap(bt);
+                                    Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                                    mBrandSign.setImageBitmap(bt);
+                                }
                             }
 
                             @Override
-                            public void onFailure(int i, String s) {
+                            public void onProgress(Integer integer, long l) {
 
                             }
                         });
@@ -262,21 +265,20 @@ public class AddCarsActivity extends AppCompatActivity {
 
                         query.addWhereMatches("Brand_Name", brand.getBrand_Name());
 
-                        query.findObjects(AddCarsActivity.this, new FindListener<Model>() {
+                        query.findObjects(new FindListener<Model>() {
+
                             @Override
-                            public void onSuccess(List<Model> list) {
+                            public void done(List<Model> list, BmobException e) {
 
-                                if (list.size() > 0) {
+                                if (e == null) {
 
-                                    mModelData = list;
+                                    if (list.size() > 0) {
 
-                                    mModelAdapter.notifyDataSetChanged();
+                                        mModelData = list;
+
+                                        mModelAdapter.notifyDataSetChanged();
+                                    }
                                 }
-                            }
-
-                            @Override
-                            public void onError(int i, String s) {
-
                             }
                         });
                     }

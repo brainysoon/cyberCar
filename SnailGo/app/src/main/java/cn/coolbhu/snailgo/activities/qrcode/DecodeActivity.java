@@ -24,6 +24,7 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import org.json.JSONObject;
 
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
@@ -187,24 +188,24 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
                 Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
 
-                mCar.save(DecodeActivity.this, new SaveListener() {
+                mCar.save(new SaveListener<String>() {
                     @Override
-                    public void onSuccess() {
+                    public void done(String s, BmobException e) {
 
-                        Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                        if (e == null) {
 
-                        hideBar();
+                            Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
 
-                        DecodeActivity.this.finish();
-                    }
+                            hideBar();
 
-                    @Override
-                    public void onFailure(int i, String s) {
+                            DecodeActivity.this.finish();
+                        } else {
 
-                        Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
 
-                        hideBar();
-                        flag = true;
+                            hideBar();
+                            flag = true;
+                        }
                     }
                 });
 

@@ -39,6 +39,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
@@ -247,18 +248,22 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
                 if (mBrand != null) {
 
                     BmobFile bmobFile = mBrand.getBrand_Sign();
-                    bmobFile.download(MyRegulationsActivity.this, new DownloadFileListener() {
+                    bmobFile.download(new DownloadFileListener() {
+
                         @Override
-                        public void onSuccess(String s) {
+                        public void onProgress(Integer integer, long l) {
 
-                            Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
-
-                            mAvatorView.setImageBitmap(bt);
                         }
 
                         @Override
-                        public void onFailure(int i, String s) {
+                        public void done(String s, BmobException e) {
 
+                            if (e == null) {
+
+                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
+
+                                mAvatorView.setImageBitmap(bt);
+                            }
                         }
                     });
                 }
@@ -273,46 +278,42 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
     class ModelFindListener extends FindListener<Model> {
 
         @Override
-        public void onSuccess(List<Model> list) {
+        public void done(List<Model> list, BmobException e) {
 
-            if (list.size() > 0) {
+            if (e == null) {
 
-                Model model = list.get(0);
-                mModelData.put(model.getModel_Name(), model);
+                if (list.size() > 0) {
 
-                if (mBrandData.get(model.getBrand_Name()) == null) {
+                    Model model = list.get(0);
+                    mModelData.put(model.getModel_Name(), model);
 
-                    BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
+                    if (mBrandData.get(model.getBrand_Name()) == null) {
 
-                    query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+                        BmobQuery<Brand> query2 = new BmobQuery<>("Brand");
 
-                    query2.findObjects(MyRegulationsActivity.this, MyRegulationsActivity.this.mBrandListener);
+                        query2.addWhereMatches("Brand_Name", model.getBrand_Name());
+
+                        query2.findObjects(MyRegulationsActivity.this.mBrandListener);
+                    }
                 }
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
-
         }
     }
 
     class BrandFindListener extends FindListener<Brand> {
 
         @Override
-        public void onSuccess(List<Brand> list) {
+        public void done(List<Brand> list, BmobException e) {
 
-            if (list.size() > 0) {
+            if (e == null) {
 
-                Brand brand = list.get(0);
+                if (list.size() > 0) {
 
-                mBrandData.put(brand.getBrand_Name(), brand);
+                    Brand brand = list.get(0);
+
+                    mBrandData.put(brand.getBrand_Name(), brand);
+                }
             }
-        }
-
-        @Override
-        public void onError(int i, String s) {
-
         }
     }
 
@@ -332,37 +333,37 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
             query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-            query.findObjects(MyRegulationsActivity.this, new FindListener<Car>() {
+            query.findObjects(new FindListener<Car>() {
+
                 @Override
-                public void onSuccess(List<Car> list) {
+                public void done(List<Car> list, BmobException e) {
 
-                    if (list.size() > 0) {
+                    if (e == null) {
 
-                        mCarData = list;
+                        if (list.size() > 0) {
 
-                        mModelData.clear();
-                        mBrandData.clear();
+                            mCarData = list;
 
-                        for (Car i : list) {
+                            mModelData.clear();
+                            mBrandData.clear();
 
-                            //没有这个型号
-                            if (mModelData.get(i.getCar_ModelType()) == null) {
+                            for (Car i : list) {
 
-                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                                //没有这个型号
+                                if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                    BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                                query1.findObjects(MyRegulationsActivity.this, MyRegulationsActivity.this.mModelListener);
+                                    query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                    query1.findObjects(MyRegulationsActivity.this.mModelListener);
+                                }
                             }
                         }
+                    } else {
+
+                        Toast.makeText(MyRegulationsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
                     }
-
-
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    Toast.makeText(MyRegulationsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -382,37 +383,39 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
         query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
-        query.findObjects(MyRegulationsActivity.this, new FindListener<Car>() {
+        query.findObjects(new FindListener<Car>() {
+
             @Override
-            public void onSuccess(List<Car> list) {
+            public void done(List<Car> list, BmobException e) {
 
-                if (list.size() > 0) {
+                if (e == null) {
 
-                    mCarData = list;
+                    if (list.size() > 0) {
 
-                    mModelData.clear();
-                    mBrandData.clear();
+                        mCarData = list;
 
-                    for (Car i : list) {
+                        mModelData.clear();
+                        mBrandData.clear();
 
-                        //没有这个型号
-                        if (mModelData.get(i.getCar_ModelType()) == null) {
+                        for (Car i : list) {
 
-                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
+                            //没有这个型号
+                            if (mModelData.get(i.getCar_ModelType()) == null) {
 
-                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
 
-                            query1.findObjects(MyRegulationsActivity.this, MyRegulationsActivity.this.mModelListener);
+                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                query1.findObjects(MyRegulationsActivity.this.mModelListener);
+                            }
                         }
                     }
+
+                    mAdapter.notifyDataSetChanged();
+                } else {
+
+                    Toast.makeText(MyRegulationsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
                 }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(MyRegulationsActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
             }
         });
     }
