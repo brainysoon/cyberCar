@@ -182,6 +182,10 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
                         }
 
                         startActivity(mIntent);
+
+                        getActivity().overridePendingTransition(android.R.anim.slide_in_left,
+                                android.R.anim.slide_out_right);
+
                         getActivity().finish();
 
                     }
@@ -192,6 +196,10 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
                         Toast.makeText(MyApplication.getInstance().getApplicationContext(), "网络出错，请稍后再登陆！", Toast.LENGTH_SHORT).show();
 
                         startActivity(mIntent);
+
+                        getActivity().overridePendingTransition(android.R.anim.slide_in_left,
+                                android.R.anim.slide_out_right);
+
                         getActivity().finish();
                     }
                 });
@@ -232,6 +240,10 @@ public class LogoFragment extends Fragment implements AutoUpdateManager.AfterUpd
                 if (MyApplication.isLoginSucceed) {
 
                     startActivity(mIntent);
+
+                    getActivity().overridePendingTransition(android.R.anim.slide_in_left,
+                            android.R.anim.slide_out_right);
+
                     getActivity().finish();
                 } else {
 
