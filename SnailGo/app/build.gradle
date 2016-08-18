@@ -79,7 +79,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-    compile 'cn.bmob.android:bmob-sdk:3.4.6'
+    compile 'cn.bmob.android:bmob-sdk:3.4.7'
     //扫描二维码
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile files('libs/AMap3DMap_3.4.0_AMapNavi_1.9.1_AMapSearch_3.3.0_AMapLocation_2.7.0_20160809.jar')
