@@ -38,6 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
@@ -245,7 +246,8 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
                 if (mBrand != null) {
 
-                    mBrand.getBrand_Sign().download(MyRegulationsActivity.this, new DownloadFileListener() {
+                    BmobFile bmobFile = mBrand.getBrand_Sign();
+                    bmobFile.download(MyRegulationsActivity.this, new DownloadFileListener() {
                         @Override
                         public void onSuccess(String s) {
 
