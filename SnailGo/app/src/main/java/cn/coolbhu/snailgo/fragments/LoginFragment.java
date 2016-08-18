@@ -266,10 +266,17 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onError(int i, String s) {
 
-                            Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
-                            reBackToLogin();
+                            Log.e(s, i + "----<code");
 
-                            Log.e("i>>" + i, s);
+                            try {
+                                Toast.makeText(getContext(), "服务器遛弯去了，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                reBackToLogin();
+
+                                Log.e("i>>" + i, s);
+                            } catch (Exception ex) {
+
+                                ex.printStackTrace();
+                            }
                         }
                     });
                 }
