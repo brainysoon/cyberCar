@@ -1,6 +1,8 @@
 package cn.coolbhu.snailgo.activities.moregas;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -35,11 +37,14 @@ import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.beans.Order;
+import cn.coolbhu.snailgo.fragments.main.OilMainFragment;
 
-public class BookGasActivity extends AppCompatActivity {
+public class BookGasActivity extends AppCompatActivity implements View.OnClickListener {
 
     //GasStation
     private GasStationInfo mGasStation;
+    private String carNum;
+    private Double carGas;
 
     //View
     private TextView mTitile;
@@ -111,78 +116,7 @@ public class BookGasActivity extends AppCompatActivity {
     private void setListener() {
 
         //提交
-        mSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showBar();
-
-                try {
-
-                    Float i = confirmNum();
-
-                    if (i > 0) {
-
-                        //判断是否登陆
-                        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
-
-                            Date date = new Date();
-
-                            final String id = new SimpleDateFormat("yyyyMMddHHmmss").format(date) + ((int) (Math.random() * 10000));
-
-                            String Order_Station = mGasStation.getGas_station_name();
-
-                            String Order_GasClass = mType.getSelectedItem().toString();
-
-                            String Order_GasPrice = mPrice.getText().toString().trim();
-
-                            Float price = Float.parseFloat(Order_GasPrice);
-
-                            final Order order = new Order(MyApplication.mUser.getUser_Tel(), id,
-                                    Order_Station, 1, new BmobDate(date), Order_GasClass, price, i);
-
-                            order.save(BookGasActivity.this, new SaveListener() {
-                                @Override
-                                public void onSuccess() {
-
-                                    Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
-
-                                    Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
-
-                                    Bundle mBundle = new Bundle();
-
-                                    mBundle.putString("Order_ID", order.getOrder_ID());
-                                    mBundle.putString("User_Tel", order.getUser_Tel());
-                                    mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
-                                    mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
-
-                                    mIntent.putExtras(mBundle);
-
-                                    startActivity(mIntent);
-
-                                    BookGasActivity.this.finish();
-                                }
-
-                                @Override
-                                public void onFailure(int i, String s) {
-
-                                    Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-                                    hideBar();
-                                }
-                            });
-
-                        } else {
-
-                            Toast.makeText(BookGasActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
-                            hideBar();
-                        }
-                    }
-                } catch (Exception e) {
-
-                    hideBar();
-                }
-            }
-        });
+        mSubmit.setOnClickListener(this);
 
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,6 +232,9 @@ public class BookGasActivity extends AppCompatActivity {
 
         String json = mIntent.getStringExtra(GasStationInfo.GAS_STATION_JSON_STRING);
 
+        carGas = mIntent.getDoubleExtra(OilMainFragment.MORE_CAS_SLECTED_GAS, 0.0);
+        carNum = mIntent.getStringExtra(OilMainFragment.MORE_GAS_SLECTED_CAR);
+
         if (json != null) {
 
             try {
@@ -347,4 +284,103 @@ public class BookGasActivity extends AppCompatActivity {
         linearLayout.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onClick(View view) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.notice);
+
+        builder.setIcon(R.mipmap.ic_launcher);
+
+        builder.setMessage("你的剩余油量为：" + carGas + "%" + "\n" + "请确保油没有加超？");
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                toSubmit();
+            }
+        });
+
+        builder.setNegativeButton("重新添单", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void toSubmit() {
+
+        showBar();
+
+        try {
+
+            Float i = confirmNum();
+
+            if (i > 0) {
+
+                //判断是否登陆
+                if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+                    Date date = new Date();
+
+                    final String id = new SimpleDateFormat("yyyyMMddHHmmss").format(date) + ((int) (Math.random() * 10000));
+
+                    String Order_Station = mGasStation.getGas_station_name();
+
+                    String Order_GasClass = mType.getSelectedItem().toString();
+
+                    String Order_GasPrice = mPrice.getText().toString().trim();
+
+                    Float price = Float.parseFloat(Order_GasPrice);
+
+                    final Order order = new Order(MyApplication.mUser.getUser_Tel(), id,
+                            Order_Station, 1, new BmobDate(date), Order_GasClass, price, i);
+
+                    order.save(BookGasActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
+
+                            Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
+
+                            Bundle mBundle = new Bundle();
+
+                            mBundle.putString("Order_ID", order.getOrder_ID());
+                            mBundle.putString("User_Tel", order.getUser_Tel());
+                            mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
+                            mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
+
+                            mIntent.putExtras(mBundle);
+
+                            startActivity(mIntent);
+
+                            BookGasActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                            Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                            hideBar();
+                        }
+                    });
+
+                } else {
+
+                    Toast.makeText(BookGasActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                    hideBar();
+                }
+            }
+        } catch (Exception e) {
+
+            hideBar();
+        }
+    }
 }

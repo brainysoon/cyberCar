@@ -36,10 +36,12 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.navigates.RoutePlanActivity;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.fragments.main.NagMainFragment;
+import cn.coolbhu.snailgo.fragments.main.OilMainFragment;
 import cn.coolbhu.snailgo.helpers.StationDialogHolder;
 import cn.coolbhu.snailgo.utils.ConnectivityUtils;
 import cn.coolbhu.snailgo.utils.IntentUtils;
@@ -91,6 +93,10 @@ public class MoreGasActivity extends AppCompatActivity implements
     //当前展示的 Station
     private GasStationInfo nowDialogStation = null;
 
+    //选择的宝贝
+    private String carNum = null;
+    private Double carGas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +108,8 @@ public class MoreGasActivity extends AppCompatActivity implements
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
 
+        initData();
+
         initToolbar();
 
         findView();
@@ -112,6 +120,14 @@ public class MoreGasActivity extends AppCompatActivity implements
 
         //检查联网
         ConnectivityUtils.shouldShowNotConnectdNotic(this);
+    }
+
+    public void initData() {
+
+        Intent intent = getIntent();
+
+        carNum = intent.getStringExtra(OilMainFragment.MORE_GAS_SLECTED_CAR);
+        carGas = intent.getDoubleExtra(OilMainFragment.MORE_CAS_SLECTED_GAS, 0.0);
     }
 
     //initToolbar
@@ -168,6 +184,12 @@ public class MoreGasActivity extends AppCompatActivity implements
                 if (nowDialogStation != null) {
 
                     mIntent.putExtra(GasStationInfo.GAS_STATION_JSON_STRING, nowDialogStation.getJsonString());
+                }
+
+                if (carNum != null) {
+
+                    mIntent.putExtra(OilMainFragment.MORE_GAS_SLECTED_CAR, carNum);
+                    mIntent.putExtra(OilMainFragment.MORE_CAS_SLECTED_GAS, carGas);
                 }
 
                 startActivity(mIntent);
@@ -351,6 +373,16 @@ public class MoreGasActivity extends AppCompatActivity implements
 
         //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
         mMapView.onResume();
+
+        if (MyApplication.isLoginSucceed) {
+
+            mBookGas.setVisibility(View.VISIBLE);
+            mBookGas.setEnabled(true);
+        } else {
+
+            mBookGas.setVisibility(View.INVISIBLE);
+            mBookGas.setEnabled(false);
+        }
     }
 
     @Override

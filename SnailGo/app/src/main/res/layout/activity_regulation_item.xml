@@ -51,10 +51,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="宝贝名称：" />
+                    android:text="剩余油量：" />
 
                 <TextView
-                    android:id="@+id/activity_my_cars_item_nick"
+                    android:id="@+id/text_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

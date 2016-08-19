@@ -240,7 +240,7 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
             CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
             TextView mNum = (TextView) view.findViewById(R.id.activity_my_cars_item_num);
-            TextView mNick = (TextView) view.findViewById(R.id.activity_my_cars_item_nick);
+            TextView mNick = (TextView) view.findViewById(R.id.text_notice);
 
             Car mCar = mCarData.get(i);
 

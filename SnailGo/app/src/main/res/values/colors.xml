@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textColorPrimary">#ffffff</color>
 
+    <color name="item_seleted_color">#87CEFA</color>
+
     <color name="window_background">#FFF5F5F5</color>
     <color name="progressBackgroundColorLight">#33000000</color>
 

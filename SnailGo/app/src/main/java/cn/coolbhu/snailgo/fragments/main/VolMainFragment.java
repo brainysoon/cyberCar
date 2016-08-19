@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -64,9 +63,6 @@ import permissions.dispatcher.RuntimePermissions;
 public class VolMainFragment extends Fragment implements AMapLocationListener,
         AdapterView.OnItemClickListener, View.OnClickListener {
 
-    //上下文
-    private Context mContext = null;
-
     //View
     private PtrClassicFrameLayout mPtrFrame;
     private ListView mListView;
@@ -104,12 +100,6 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     private ModelFindListener mModelListener = new ModelFindListener();
     private BrandFindListener mBrandListener = new BrandFindListener();
     private CarFindListener mCarFindListener = new CarFindListener();
-
-    //Handler
-    private Handler mHandler = new Handler();
-
-    //回调接口
-    private VolMainFragmentCallback mCallback = null;
 
     public static VolMainFragment newInstance() {
         VolMainFragment fragment = new VolMainFragment();
@@ -241,31 +231,6 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        this.mContext = context;
-
-        //判断是否可以转换成回调接口
-        if (context instanceof VolMainFragmentCallback) {
-
-            mCallback = (VolMainFragmentCallback) context;
-        } else {
-
-            throw new RuntimeException(context.toString()
-                    + " must implement VolMainFragmentCallback");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        mCallback = null;
-        this.mContext = null;
-    }
-
     //一系列回调
     public interface VolMainFragmentCallback {
 
@@ -322,27 +287,30 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
             CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
             TextView mNum = (TextView) view.findViewById(R.id.activity_my_cars_item_num);
-            TextView mNick = (TextView) view.findViewById(R.id.activity_my_cars_item_nick);
+            TextView mNick = (TextView) view.findViewById(R.id.text_notice);
 
             Car mCar = mCarData.get(i);
 
-            Model mModel = mModelData.get(mCar.getCar_ModelType());
+            if (mCar != null) {
 
-            if (mModel != null) {
+                Model mModel = mModelData.get(mCar.getCar_ModelType());
 
-                Brand mBrand = mBrandData.get(mModel.getBrand_Name());
+                if (mModel != null) {
 
-                if (mBrand != null) {
+                    Brand mBrand = mBrandData.get(mModel.getBrand_Name());
 
-                    Bitmap bt = mBrandSign.get(mBrand.getBrand_Name());
+                    if (mBrand != null) {
 
-                    mAvatorView.setImageBitmap(bt);
+                        Bitmap bt = mBrandSign.get(mBrand.getBrand_Name());
+
+                        mAvatorView.setImageBitmap(bt);
+                    }
                 }
+
+                mNum.setText(mCar.getCar_Num());
+
+                mNick.setText(mCar.getCar_Nick());
             }
-
-            mNum.setText(mCar.getCar_Num());
-
-            mNick.setText(mCar.getCar_Nick());
         }
     }
 
