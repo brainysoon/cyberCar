@@ -320,6 +320,11 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 query.findObjects(MyCarsActivity.this, mCarListener);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         mPtrFrame.postDelayed(new Runnable() {
             @Override
@@ -328,7 +333,6 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
                 mPtrFrame.autoRefresh();
             }
         }, 100);
-
     }
 
     private void initListView() {

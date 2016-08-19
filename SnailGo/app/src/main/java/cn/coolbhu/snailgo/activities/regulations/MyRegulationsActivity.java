@@ -117,6 +117,18 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
         mListView.setAdapter(mAdapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPtrFrame.autoRefresh();
+            }
+        }, 100);
+    }
+
     //initPtr
     private void initPtr() {
 
@@ -140,12 +152,6 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 100);
     }
 
     //setListener
