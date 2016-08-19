@@ -85,7 +85,17 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     //Handler
     private Handler mHandler = new Handler();
 
-    //Drawer跳转
+    //标记是否处该进入播放音乐
+    public boolean shoulPlayMusic = true;
+
+    //播放音乐
+    Runnable toPlayMusic = new Runnable() {
+        @Override
+        public void run() {
+
+            MusicPlayer.playOrPause();
+        }
+    };
 
     //我的信息
     Runnable nagToMyInfo = new Runnable() {
@@ -279,13 +289,18 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     //启动之前应该做的
     private void toDoBeforeIn() {
 
-        //判断是自动播放音乐
-        if (PreferencesUtils.getInstance(this).isSettingsMusicAuto()) {
+        if (shoulPlayMusic) {
 
-            if (!MusicPlayer.isPlaying()) {
+            //判断是自动播放音乐
+            if (PreferencesUtils.getInstance(this).isSettingsMusicAuto()) {
 
-                MusicPlayer.playOrPause();
+                if (!MusicPlayer.isPlaying()) {
+
+                    mHandler.postDelayed(toPlayMusic, 1000);
+                }
             }
+
+            shoulPlayMusic = false;
         }
     }
 
@@ -579,6 +594,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 MusicPlayer.playOrPause();
             }
         }
+
+        shoulPlayMusic = true;
     }
 
     //提示
