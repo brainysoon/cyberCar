@@ -247,6 +247,8 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
                 public void onError(int i, String s) {
 
                     Toast.makeText(MyOrdersActivity.this, "刷新失败,请稍后重试!", Toast.LENGTH_SHORT).show();
+
+                    mPtrFrame.refreshComplete();
                 }
             });
         }
