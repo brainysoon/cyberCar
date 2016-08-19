@@ -88,8 +88,6 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
         initPtr();
 
-        beginToRefresh();
-
         setListener();
     }
 
@@ -180,20 +178,23 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
                 //开始刷新
                 beginToRefresh();
-
-                mPtrFrame.refreshComplete();
             }
         });
 
-        //可以设置自动刷新
-//        mPtrFrame.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                //自动刷新
-//            }
-//        },1000);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //可以设置自动刷新
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                mPtrFrame.autoRefresh();
+            }
+        }, 100);
     }
 
     //findView
@@ -236,6 +237,8 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
                     mDataList = list;
 
                     mAdapter.notifyDataSetChanged();
+
+                    mPtrFrame.refreshComplete();
 
                     Toast.makeText(MyOrdersActivity.this, "刷新成功!", Toast.LENGTH_SHORT).show();
                 }

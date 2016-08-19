@@ -7,8 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -38,7 +38,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
@@ -97,10 +96,15 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     private List<Car> mCarData = new ArrayList<>();
     private HashMap<String, Model> mModelData = new LinkedHashMap<>();
     private HashMap<String, Brand> mBrandData = new LinkedHashMap<>();
+    private HashMap<String, Bitmap> mBrandSign = new LinkedHashMap<>();
 
     //Listener
     private ModelFindListener mModelListener = new ModelFindListener();
     private BrandFindListener mBrandListener = new BrandFindListener();
+    private CarFindListener mCarFindListener = new CarFindListener();
+
+    //Handler
+    private Handler mHandler = new Handler();
 
     //回调接口
     private VolMainFragmentCallback mCallback = null;
@@ -167,6 +171,19 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         mListView.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                mPtrFrame.autoRefresh();
+            }
+        }, 500);
+    }
+
     //initPtr
     private void initPtr() {
 
@@ -182,19 +199,21 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
 
-                //开始刷新
-                new CarsAsync().execute();
+                if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
 
+                    final BmobQuery<Car> query = new BmobQuery<>("Car");
+
+                    query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+
+                    query.findObjects(getContext(), mCarFindListener);
+                } else {
+
+                    mCarData.clear();
+                    mPtrFrame.refreshComplete();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        beginToRefreshX();
     }
 
     @Override
@@ -276,7 +295,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         //initView
         private void initView(View view, int i) {
 
-            final CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
+            CircleImageView mAvatorView = (CircleImageView) view.findViewById(R.id.activity_my_cars_item_image);
             TextView mNum = (TextView) view.findViewById(R.id.activity_my_cars_item_num);
             TextView mNick = (TextView) view.findViewById(R.id.activity_my_cars_item_nick);
 
@@ -290,153 +309,15 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
                 if (mBrand != null) {
 
-                    BmobFile brandSign = mBrand.getBrand_Sign();
+                    Bitmap bt = mBrandSign.get(mBrand.getBrand_Name());
 
-                    if (brandSign != null) {
-
-                        brandSign.download(getContext(), new DownloadFileListener() {
-                            @Override
-                            public void onSuccess(String s) {
-
-                                Bitmap bt = BitmapFactory.decodeFile(s);//图片地址
-
-                                mAvatorView.setImageBitmap(bt);
-                            }
-
-                            @Override
-                            public void onFailure(int i, String s) {
-
-                            }
-                        });
-                    }
+                    mAvatorView.setImageBitmap(bt);
                 }
             }
 
             mNum.setText(mCar.getCar_Num());
 
             mNick.setText(mCar.getCar_Nick());
-        }
-    }
-
-    private void beginToRefreshX() {
-
-        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
-
-            final BmobQuery<Car> query = new BmobQuery<>("Car");
-
-            query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
-
-            query.findObjects(getContext(), new FindListener<Car>() {
-                @Override
-                public void onSuccess(List<Car> list) {
-
-                    if (list.size() > 0) {
-
-                        mCarData = list;
-
-                        mModelData.clear();
-                        mBrandData.clear();
-
-                        for (Car i : list) {
-
-                            //没有这个型号
-                            if (mModelData.get(i.getCar_ModelType()) == null) {
-
-                                BmobQuery<Model> query1 = new BmobQuery<>("Model");
-
-                                query1.addWhereMatches("Model_Name", i.getCar_ModelType());
-
-                                query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
-                            }
-                        }
-                    }
-
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-
-            mCarData.clear();
-
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-
-    class CarsAsync extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            beginToRefresh();
-
-            return null;
-        }
-
-        private void beginToRefresh() {
-
-            if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
-
-                final BmobQuery<Car> query = new BmobQuery<>("Car");
-
-                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
-
-                query.findObjects(getContext(), new FindListener<Car>() {
-                    @Override
-                    public void onSuccess(List<Car> list) {
-
-                        if (list.size() > 0) {
-
-                            mCarData = list;
-
-                            mModelData.clear();
-                            mBrandData.clear();
-
-                            for (Car i : list) {
-
-                                //没有这个型号
-                                if (mModelData.get(i.getCar_ModelType()) == null) {
-
-                                    BmobQuery<Model> query1 = new BmobQuery<>("Model");
-
-                                    query1.addWhereMatches("Model_Name", i.getCar_ModelType());
-
-                                    query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
-                                }
-                            }
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                        try {
-
-                            Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
-                        } catch (Exception ex) {
-
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-            } else {
-
-                mCarData.clear();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            mAdapter.notifyDataSetChanged();
-
-            mPtrFrame.refreshComplete();
         }
     }
 
@@ -648,15 +529,75 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
             if (list.size() > 0) {
 
-                Brand brand = list.get(0);
+                final Brand brand = list.get(0);
 
                 mBrandData.put(brand.getBrand_Name(), brand);
+
+                brand.getBrand_Sign().download(getContext(), new DownloadFileListener() {
+                    @Override
+                    public void onSuccess(String s) {
+
+                        Bitmap bt = BitmapFactory.decodeFile(s);
+
+                        mBrandSign.put(brand.getBrand_Name(), bt);
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                    }
+                });
             }
         }
 
         @Override
         public void onError(int i, String s) {
 
+        }
+    }
+
+    class CarFindListener extends FindListener<Car> {
+
+        @Override
+        public void onSuccess(List<Car> list) {
+
+            if (list.size() > 0) {
+
+                mCarData = list;
+
+                for (Car i : list) {
+
+                    //没有这个型号
+                    if (mModelData.get(i.getCar_ModelType()) == null) {
+
+                        BmobQuery<Model> query1 = new BmobQuery<>("Model");
+
+                        query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                        query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
+                    }
+                }
+            }
+
+            mAdapter.notifyDataSetChanged();
+            mPtrFrame.refreshComplete();
+        }
+
+        @Override
+        public void onError(int i, String s) {
+
+            try {
+
+                Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
+
+                mAdapter.notifyDataSetChanged();
+                mPtrFrame.refreshComplete();
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
         }
     }
 }

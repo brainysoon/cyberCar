@@ -75,7 +75,7 @@ public class MyApplication extends Application {
         mInstance = this;
 
         //获得保存头像的位置
-        MyApplication.USER_AVATOR_DIRCTORY = this.getExternalCacheDir().getAbsolutePath();
+        MyApplication.USER_AVATOR_DIRCTORY = getExternalCacheDir().getAbsolutePath();
 
         //初始化请求队列
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
