@@ -402,7 +402,7 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
 
         if (getContext() != null) {
 
-            Toast.makeText(getContext(), "加载周边加油站失败，请稍后再试1",
+            Toast.makeText(getContext(), "加载周边加油站失败，请稍后再试!",
                     Toast.LENGTH_SHORT).show();
 
             mPtrFrame.refreshComplete();
