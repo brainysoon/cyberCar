@@ -171,16 +171,19 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
 
-                if (nowLoc == null) {
+                if (getContext() != null) {
 
-                    Toast.makeText(getContext(), "定位成功过后方可加载周边加油站！",
-                            Toast.LENGTH_SHORT).show();
+                    if (nowLoc == null) {
 
-                    mPtrFrame.refreshComplete();
-                } else {
+                        Toast.makeText(getContext(), "定位成功过后方可加载周边加油站！",
+                                Toast.LENGTH_SHORT).show();
 
-                    GasStationInfo.attmptGasStationPost(getContext(), GasStationInfo.setPostRequest(nowLoc.longitude,
-                            nowLoc.latitude, STATION_SEARCH_RANG, 1, 1), OilMainFragment.this);
+                        mPtrFrame.refreshComplete();
+                    } else {
+
+                        GasStationInfo.attmptGasStationPost(getContext(), GasStationInfo.setPostRequest(nowLoc.longitude,
+                                nowLoc.latitude, STATION_SEARCH_RANG, 1, 1), OilMainFragment.this);
+                    }
                 }
             }
         });
