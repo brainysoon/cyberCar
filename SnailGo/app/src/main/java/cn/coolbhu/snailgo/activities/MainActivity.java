@@ -231,7 +231,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
     };
 
     //未登录提示
-    Runnable showNoUserNotice = new Runnable() {
+    public Runnable showNoUserNotice = new Runnable() {
         @Override
         public void run() {
 
@@ -240,7 +240,16 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
             builder.setIcon(R.mipmap.ic_launcher)
                     .setTitle(R.string.notice)
                     .setMessage("亲，你还没有登录，请登录后再试！")
-                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("以后登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 

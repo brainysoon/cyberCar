@@ -365,8 +365,9 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
+
 
         if (locationClient != null) {
 

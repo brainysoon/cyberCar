@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                         android:id="@+id/activity_my_info_image_avator"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:src="@drawable/avator" />
+                        android:src="@drawable/profile" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"

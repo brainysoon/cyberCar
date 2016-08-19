@@ -322,7 +322,7 @@
     <!--预约加油-->
     <string name="oil_button_bookgas">预约加油</string>
     <string name="oil_button_see_station">查看周边加油站</string>
-
+    <string name="money">&#165;</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -43,7 +43,7 @@
                     android:id="@+id/activity_start_register_image_avator"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/avator" />
+                    android:src="@drawable/profile" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"

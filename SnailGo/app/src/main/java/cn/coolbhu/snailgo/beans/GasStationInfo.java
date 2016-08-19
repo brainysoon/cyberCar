@@ -10,7 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GasStationInfo {
@@ -283,6 +285,44 @@ public class GasStationInfo {
                             GasStationInfo temp = new GasStationInfo(data.getJSONObject(i));
 
                             mGasStations.put(temp.getGas_station_name(), temp);
+                        }
+                    }
+                }
+            }
+        } catch (JSONException jsonException) {
+
+            jsonException.printStackTrace();
+        }
+
+        return mGasStations;
+    }
+
+    //解析返回过来的json 数据
+    public static List<GasStationInfo> paserResultList(JSONObject jsonObject) {
+
+        List<GasStationInfo> mGasStations = new ArrayList<>();
+
+        //尝试解析
+        try {
+
+            int errorCode = jsonObject.getInt(GAS_STATION_INFO_POST_STATUS);
+
+            //成功的到数据
+            if (errorCode == GAS_STATION_INFO_POST_STATUS_SUCCEED) {
+
+                JSONObject result = jsonObject.getJSONObject(GAS_STATION_INFO_POST_RESULT);
+
+                if (result != null) {
+
+                    JSONArray data = result.getJSONArray(GAS_STATION_INFO_POST_DATA);
+
+                    if (data != null) {
+
+                        for (int i = 0; i < data.length(); i++) {
+
+                            GasStationInfo temp = new GasStationInfo(data.getJSONObject(i));
+
+                            mGasStations.add(temp);
                         }
                     }
                 }

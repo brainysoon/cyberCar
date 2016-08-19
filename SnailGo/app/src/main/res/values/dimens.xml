@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="item_margin">8dp</dimen>
+
     <dimen name="appBarTopMargin">0dp</dimen>
 
     <dimen name="fragment_login_imageview_size">100dp</dimen>
@@ -41,4 +43,6 @@
 
     <!--首页-->
     <dimen name="progress_bar_height">3dp</dimen>
+
+    <dimen name="text_description">10sp</dimen>
 </resources>

@@ -445,7 +445,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 
         mSendView = (Button) findViewById(R.id.activity_start_register_button_register);
 
-        avator = BitmapFactory.decodeResource(getResources(), R.drawable.avator);
+        avator = BitmapFactory.decodeResource(getResources(), R.drawable.profile);
 
         mCodeView = (TextInputEditText) findViewById(R.id.activity_start_register_text_code);
 

@@ -1,8 +1,6 @@
 package cn.coolbhu.snailgo.activities.moregas;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -37,14 +35,11 @@ import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.beans.Order;
-import cn.coolbhu.snailgo.fragments.main.OilMainFragment;
 
 public class BookGasActivity extends AppCompatActivity implements View.OnClickListener {
 
     //GasStation
     private GasStationInfo mGasStation;
-    private String carNum;
-    private Double carGas;
 
     //View
     private TextView mTitile;
@@ -232,9 +227,6 @@ public class BookGasActivity extends AppCompatActivity implements View.OnClickLi
 
         String json = mIntent.getStringExtra(GasStationInfo.GAS_STATION_JSON_STRING);
 
-        carGas = mIntent.getDoubleExtra(OilMainFragment.MORE_CAS_SLECTED_GAS, 0.0);
-        carNum = mIntent.getStringExtra(OilMainFragment.MORE_GAS_SLECTED_CAR);
-
         if (json != null) {
 
             try {
@@ -286,35 +278,6 @@ public class BookGasActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(R.string.notice);
-
-        builder.setIcon(R.mipmap.ic_launcher);
-
-        builder.setMessage("你的剩余油量为：" + carGas + "%" + "\n" + "请确保油没有加超？");
-
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                toSubmit();
-            }
-        });
-
-        builder.setNegativeButton("重新添单", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.create().show();
-    }
-
-    private void toSubmit() {
 
         showBar();
 

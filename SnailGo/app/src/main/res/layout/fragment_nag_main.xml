@@ -53,7 +53,7 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/icon_st" />
+                            android:src="@drawable/start" />
 
                         <TextView
                             android:id="@+id/start_view"
@@ -84,7 +84,7 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/icon_en" />
+                            android:src="@drawable/end" />
 
                         <TextView
                             android:id="@+id/end_view"
