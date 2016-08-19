@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
     //View
     private TextView mStartView;
     private TextView mEndView;
+    private TextView myPlaceView;
 
     private View rootView;
 
@@ -71,6 +73,8 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
     private double endY;
     private String startName;
     private String endName;
+
+    //交换起始位置
 
     //定位
     private AMapLocationClient locationClient;
@@ -115,6 +119,37 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
         boxAvoidCharge = (CheckBox) view.findViewById(R.id.box_avoid_charge);
         boxNotSpeedWay = (CheckBox) view.findViewById(R.id.box_not_speedway);
         boxSpeedWayFirst = (CheckBox) view.findViewById(R.id.box_speedway_first);
+        myPlaceView = (TextView) view.findViewById(R.id.hint_my_place);
+
+        ImageView buttonSwap = (ImageView) view.findViewById(R.id.fragment_init_navigate_img_swap);
+
+        buttonSwap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (startName != null && endName != null) {
+
+                    String str = startName;
+                    startName = endName;
+                    endName = str;
+
+                    double tmp = startX;
+                    startX = endX;
+                    endX = tmp;
+
+                    tmp = startY;
+                    startY = endY;
+                    endY = tmp;
+
+                    myPlaceView.setText("");
+                    mStartView.setText(startName);
+                    mEndView.setText(endName);
+                } else {
+
+                    Toast.makeText(getContext(), "起点和终点都选择才可以交换哦！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         mStartView.setOnClickListener(this);
         mEndView.setOnClickListener(this);

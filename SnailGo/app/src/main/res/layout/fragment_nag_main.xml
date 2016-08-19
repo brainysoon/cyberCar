@@ -62,6 +62,7 @@
                             android:text="@string/location_not_succeed" />
 
                         <TextView
+                            android:id="@+id/hint_my_place"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
