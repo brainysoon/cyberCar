@@ -1,13 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.main.OilMainFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/my_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="预约加油" />
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/colorPrimary"
+        android:text="@string/title_activity_more_gas"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/button_text_size" />
 
-</FrameLayout>
+</LinearLayout>

@@ -155,8 +155,6 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
         initList();
 
-        beginToRefreshX();
-
         //初始化定位
         VolMainFragmentPermissionsDispatcher.initLoacationWithCheck(this);
     }
@@ -190,15 +188,13 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
             }
         });
 
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+    }
 
-                //开始刷新
-                new CarsAsync().execute();
-            }
-        }, 1000);
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        beginToRefreshX();
     }
 
     @Override
@@ -363,6 +359,11 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
                     Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+
+            mCarData.clear();
+
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -424,6 +425,9 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
                         }
                     }
                 });
+            } else {
+
+                mCarData.clear();
             }
         }
 
