@@ -29,7 +29,7 @@
                 android:layout_width="@dimen/fragment_login_imageview_size"
                 android:layout_height="@dimen/fragment_login_imageview_size"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/profile" />
 
             <android.support.design.widget.TextInputLayout
                 style="@style/login_style"
