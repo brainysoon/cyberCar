@@ -185,8 +185,8 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         if (MyApplication.isLoginSucceed) {
 
