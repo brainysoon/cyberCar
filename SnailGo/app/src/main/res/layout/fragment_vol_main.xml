@@ -14,7 +14,44 @@
         <RelativeLayout
             android:id="@+id/layout_logout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/fragment_login_imageview_size"
+                    android:layout_height="@dimen/fragment_login_imageview_size"
+                    android:src="@drawable/profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/to_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/not_login"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/button_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/not_login_regulation" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -23,7 +60,7 @@
             android:id="@+id/layout_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <in.srain.cube.views.ptr.PtrClassicFrameLayout
                 android:id="@+id/ptr_layout"

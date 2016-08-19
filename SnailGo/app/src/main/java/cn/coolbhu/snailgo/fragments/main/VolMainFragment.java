@@ -42,6 +42,7 @@ import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.LoginActivity;
 import cn.coolbhu.snailgo.activities.regulations.CustomRegulationActivity;
 import cn.coolbhu.snailgo.activities.regulations.RegulationResultActivity;
 import cn.coolbhu.snailgo.beans.Brand;
@@ -75,6 +76,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     private View layoutOut;
     private View layoutIn;
     private View rootView;
+    private Button buttonLogin;
 
     //定位
     private AMapLocationClient locationClient;
@@ -149,6 +151,17 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         mPtrFrame = (PtrClassicFrameLayout) rootView.findViewById(R.id.ptr_layout);
         layoutIn = rootView.findViewById(R.id.layout_login);
         layoutOut = rootView.findViewById(R.id.layout_logout);
+        buttonLogin = (Button) rootView.findViewById(R.id.to_login);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
         buttonAddCar.setOnClickListener(this);
 
@@ -174,6 +187,16 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
     @Override
     public void onStart() {
         super.onStart();
+
+        if (MyApplication.isLoginSucceed) {
+
+            layoutOut.setVisibility(View.INVISIBLE);
+            layoutIn.setVisibility(View.VISIBLE);
+        } else {
+
+            layoutOut.setVisibility(View.VISIBLE);
+            layoutIn.setVisibility(View.INVISIBLE);
+        }
 
         mPtrFrame.postDelayed(new Runnable() {
             @Override
@@ -201,12 +224,14 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
                 if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
 
+
                     final BmobQuery<Car> query = new BmobQuery<>("Car");
 
                     query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
 
                     query.findObjects(getContext(), mCarFindListener);
                 } else {
+
 
                     mCarData.clear();
                     mPtrFrame.refreshComplete();
