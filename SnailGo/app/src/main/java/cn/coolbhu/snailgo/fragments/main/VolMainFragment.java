@@ -134,7 +134,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         rootView = view;
 
         initView(view);
-        
+
     }
 
     private void initView(View rootView) {
@@ -324,56 +324,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
     private void beginToRefreshX() {
 
-        final BmobQuery<Car> query = new BmobQuery<>("Car");
-
-        query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
-
-        query.findObjects(getContext(), new FindListener<Car>() {
-            @Override
-            public void onSuccess(List<Car> list) {
-
-                if (list.size() > 0) {
-
-                    mCarData = list;
-
-                    mModelData.clear();
-                    mBrandData.clear();
-
-                    for (Car i : list) {
-
-                        //没有这个型号
-                        if (mModelData.get(i.getCar_ModelType()) == null) {
-
-                            BmobQuery<Model> query1 = new BmobQuery<>("Model");
-
-                            query1.addWhereMatches("Model_Name", i.getCar_ModelType());
-
-                            query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
-                        }
-                    }
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    class CarsAsync extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            beginToRefresh();
-
-            return null;
-        }
-
-        private void beginToRefresh() {
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
 
             final BmobQuery<Car> query = new BmobQuery<>("Car");
 
@@ -404,21 +355,76 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
                         }
                     }
 
-
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onError(int i, String s) {
-
-                    try {
-
-                        Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
-                    } catch (Exception ex) {
-
-                        ex.printStackTrace();
-                    }
+                    Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    class CarsAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            beginToRefresh();
+
+            return null;
+        }
+
+        private void beginToRefresh() {
+
+            if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+                final BmobQuery<Car> query = new BmobQuery<>("Car");
+
+                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+
+                query.findObjects(getContext(), new FindListener<Car>() {
+                    @Override
+                    public void onSuccess(List<Car> list) {
+
+                        if (list.size() > 0) {
+
+                            mCarData = list;
+
+                            mModelData.clear();
+                            mBrandData.clear();
+
+                            for (Car i : list) {
+
+                                //没有这个型号
+                                if (mModelData.get(i.getCar_ModelType()) == null) {
+
+                                    BmobQuery<Model> query1 = new BmobQuery<>("Model");
+
+                                    query1.addWhereMatches("Model_Name", i.getCar_ModelType());
+
+                                    query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                        try {
+
+                            Toast.makeText(getContext(), "加载失败！", Toast.LENGTH_SHORT).show();
+                        } catch (Exception ex) {
+
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+            }
         }
 
         @Override
