@@ -365,7 +365,7 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
             AlertDialog.Builder builder = new AlertDialog.Builder(BookGasActivity.this);
 
             builder.setTitle(R.string.order_succeed)
-                    .setIcon(R.mipmap.ic_launcher)
+                    .setIcon(R.drawable.unionpay)
                     .setMessage(R.string.order_alert_message)
                     .setPositiveButton(R.string.order_now_pay, BookGasActivity.this)
                     .setNegativeButton(R.string.order_not_pay, new DialogInterface.OnClickListener() {

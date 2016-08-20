@@ -45,6 +45,27 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="加油站名称："
+                    android:textSize="@dimen/text_description" />
+
+                <TextView
+                    android:id="@+id/station_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_description" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal">
 
@@ -74,11 +95,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="状态：" />
+                        android:layout_height="40dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/unionpay" />
 
                     <TextView
                         android:id="@+id/activity_my_orders_textview_status"

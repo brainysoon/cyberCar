@@ -297,6 +297,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             TextView mOrder_ID = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_id);
             TextView mOrder_AllPrice = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_all);
             TextView mOrder_Status = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_status);
+            TextView mStation_Name = (TextView) convertView.findViewById(R.id.station_name);
             final BoomMenuButton menuButton = (BoomMenuButton) convertView.findViewById(R.id.activity_my_orders_item_boom_ham);
 
             menuButton.postDelayed(new Runnable() {
@@ -342,6 +343,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             Order order = mDataList.get(mDataList.size() - position - 1);
 
             mOrder_ID.setText(order.getOrder_ID());
+            mStation_Name.setText(order.getOrder_Station());
 
             Float price = order.getOrder_GasPrice();
             Float num = order.getOrder_GasNum();
