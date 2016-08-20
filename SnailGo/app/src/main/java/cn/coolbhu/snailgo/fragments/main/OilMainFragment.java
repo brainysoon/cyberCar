@@ -114,14 +114,14 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
         OilMainFragmentPermissionsDispatcher.initLoacationWithCheck(this);
 
 
-//        //接口请求次数有限，悠着点
-//        mPtrFrame.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                mPtrFrame.autoRefresh();
-//            }
-//        }, 1000);
+        //接口请求次数有限，悠着点
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                mPtrFrame.autoRefresh();
+            }
+        }, 1000);
     }
 
     private void initView(View rootView) {

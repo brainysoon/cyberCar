@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
     //上一次摁退出建的时间
     private long exitTime = 0;
+    private long backTime = 0;
 
     //Handler
     private Handler mHandler = new Handler();
@@ -565,7 +566,17 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
                 if (webView != null && webView.canGoBack()) {
 
+                    if (System.currentTimeMillis() - backTime > 500) {
+
+                        webView.reload();
+
+                        return;
+                    }
+
+                    backTime = System.currentTimeMillis();
+
                     webView.goBack();
+
                 } else {
 
                     if (!shouldShowToast()) {
