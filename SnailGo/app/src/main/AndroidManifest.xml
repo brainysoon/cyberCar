@@ -5,11 +5,6 @@
 
     <uses-sdk tools:overrideLibrary="de.Maxr1998.trackselectorlib" />
 
-    <!--银联相关插件-->
-    <uses-library
-        android:name="org.simalliance.openmobileapi"
-        android:required="false" />
-
     <!-- 车首页接口所需要的权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -77,6 +72,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--银联相关插件-->
+        <uses-library
+            android:name="org.simalliance.openmobileapi"
+            android:required="false" />
 
         <!-- 高德地图API key -->
         <meta-data
