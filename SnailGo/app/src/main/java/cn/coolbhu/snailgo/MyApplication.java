@@ -1,11 +1,12 @@
 package cn.coolbhu.snailgo;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
@@ -30,7 +31,7 @@ import cn.coolbhu.snailgo.utils.PreferencesUtils;
 /**
  * Created by ken on 16-7-25.
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
     public static final String APP_NAME = "snailgo";
 
@@ -177,5 +178,12 @@ public class MyApplication extends Application {
     public static RequestQueue getRequestQueue() {
 
         return MyApplication.mRequestQueue;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        MultiDex.install(this);
     }
 }

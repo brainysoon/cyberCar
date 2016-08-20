@@ -1,10 +1,13 @@
 package cn.coolbhu.snailgo.activities.moregas;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,13 +40,26 @@ import java.util.Map;
 
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
+import cn.coolbhu.snailgo.activities.unionpay.BaseActivity;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.beans.Order;
+import cn.coolbhu.snailgo.utils.SsX509TrustManager;
 
-public class BookGasActivity extends AppCompatActivity implements View.OnClickListener {
+public class BookGasActivity extends BaseActivity implements View.OnClickListener
+        , DialogInterface.OnClickListener, Response.Listener<String>, Response.ErrorListener {
+
+//    public static final String UNION_PAY_SHOP = "777290058136491";
+//    public static final String UNION_REQUEST_CHARSET = "UTF-8";
+//    public static final String BACK_END_URL = "http://www.coolbhu.cn";
+//    public static final String FONET_END_URL = "";
+//    public static final String ORDER_DESCRIPTION = "预约加油";
+
+    //商户参数请求地址
+    public static final String SHOP_PARAM_REQUEST_URL = "http://101.231.204.84:8091/sim/getacptn";
 
     //GasStation
     private GasStationInfo mGasStation;
@@ -58,8 +81,13 @@ public class BookGasActivity extends AppCompatActivity implements View.OnClickLi
     private Map<String, String> mPriceMap;
     private String[] items;
 
+    //生成的订单
+    private Order mOrder = null;
+
+    private ProgressDialog mLoadingDialog = null; // 进度是否是不确定的，这只和创建进度条有关
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_gas);
 
@@ -302,38 +330,10 @@ public class BookGasActivity extends AppCompatActivity implements View.OnClickLi
 
                     Float price = Float.parseFloat(Order_GasPrice);
 
-                    final Order order = new Order(MyApplication.mUser.getUser_Tel(), id,
-                            Order_Station, 1, new BmobDate(date), Order_GasClass, price, i);
+                    mOrder = new Order(MyApplication.mUser.getUser_Tel(), id,
+                            Order_Station, -1, new BmobDate(date), Order_GasClass, price, i);
 
-                    order.save(BookGasActivity.this, new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-
-                            Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
-
-                            Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
-
-                            Bundle mBundle = new Bundle();
-
-                            mBundle.putString("Order_ID", order.getOrder_ID());
-                            mBundle.putString("User_Tel", order.getUser_Tel());
-                            mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
-                            mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
-
-                            mIntent.putExtras(mBundle);
-
-                            startActivity(mIntent);
-
-                            BookGasActivity.this.finish();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                            Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
-                            hideBar();
-                        }
-                    });
+                    mOrder.save(BookGasActivity.this, saveListener);
 
                 } else {
 
@@ -345,5 +345,249 @@ public class BookGasActivity extends AppCompatActivity implements View.OnClickLi
 
             hideBar();
         }
+    }
+
+    //银联支付
+    @Override
+    public void doStartUnionPayPlugin(Activity activity, String tn, String mode) {
+
+        UPPayAssistEx.startPay(activity, null, null, tn, mode);
+    }
+
+    //订单生成成功
+    private SaveListener saveListener = new SaveListener() {
+
+        @Override
+        public void onSuccess() {
+
+            Toast.makeText(BookGasActivity.this, "成功生成订单！", Toast.LENGTH_SHORT).show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(BookGasActivity.this);
+
+            builder.setTitle(R.string.order_succeed)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setMessage(R.string.order_alert_message)
+                    .setPositiveButton(R.string.order_now_pay, BookGasActivity.this)
+                    .setNegativeButton(R.string.order_not_pay, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            skipToQRCode();
+                        }
+                    })
+                    .setCancelable(false);
+
+            builder.create().show();
+        }
+
+        //订单生成失败
+        @Override
+        public void onFailure(int i, String s) {
+
+            Toast.makeText(BookGasActivity.this, "添加失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+            hideBar();
+        }
+    };
+
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+
+        mLoadingDialog = ProgressDialog.show(BookGasActivity.this, // context
+                "", // title
+                "正在努力的获取tn中,请稍候...", // message
+                true);
+
+        hideBar();
+        sendOrderRequest();
+    }
+
+    //向银联发送订单请求
+    private void sendOrderRequest() {
+
+        SsX509TrustManager.allowAllSSL();
+
+        //请求
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SHOP_PARAM_REQUEST_URL,
+                this, this);
+
+
+        stringRequest.setTag(mOrder.getOrder_ID());
+
+        //添加到请求队列里面
+        MyApplication.getRequestQueue().add(stringRequest);
+    }
+
+//    //获得向银联发送请求的参数
+//    private Map<String, String> paperOrderParam() {
+//
+//        Map<String, String> map = new HashMap<>();
+//
+//        map.put("version", BuildConfig.VERSION_NAME);// 版本号
+//
+//        map.put("charset", UNION_REQUEST_CHARSET);// 字符编码
+//
+//        map.put("transType", mMode);// 交易类型
+//
+//        map.put("merId", UNION_PAY_SHOP);// 商户代码
+//
+//        map.put("backEndUrl", BACK_END_URL);// 通知URL
+//
+//        map.put("frontEndUrl", FONET_END_URL);// 前台通知URL(可选)
+//
+//        map.put("orderDescription", ORDER_DESCRIPTION + mOrder.getOrder_GasNum() + "升");// 订单描述(可选)
+//
+//        Calendar calendar = Calendar.getInstance();
+//
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+//
+//        map.put("orderTime", simpleDateFormat.format(calendar.getTime()));// 交易开始日期时间yyyyMMddHHmmss
+//
+//        calendar.add(Calendar.MINUTE, 30);
+//
+//        map.put("orderTimeout", simpleDateFormat.format(calendar.getTime()));// 订单超时时间yyyyMMddHHmmss(可选)
+//
+//        map.put("orderNumber", mOrder.getOrder_ID());// 订单号(商户根据自己需要生成订单号)
+//
+//        map.put("orderAmount", mOrder.getOrder_GasPrice() * mOrder.getOrder_GasNum() + "");// 订单金额
+//
+//        map.put("orderCurrency", "156");// 交易币种(可选)
+//
+//        map.put("reqReserved", "");// 请求方保留域(可选，用于透传商户信息)
+//
+//        map.put("merReserved", "");// 商户保留域(可选)
+//
+//        return map;
+//    }
+
+    //跳转到订单二维码
+    public void skipToQRCode() {
+
+        Intent mIntent = new Intent(BookGasActivity.this, QRCodeActivity.class);
+
+        Bundle mBundle = new Bundle();
+
+        mBundle.putString("Order_ID", mOrder.getOrder_ID());
+        mBundle.putString("User_Tel", mOrder.getUser_Tel());
+        mBundle.putDouble("Order_GasPrice", mOrder.getOrder_GasPrice());
+        mBundle.putDouble("Order_GasNum", mOrder.getOrder_GasNum());
+
+        mIntent.putExtras(mBundle);
+
+        startActivity(mIntent);
+
+        BookGasActivity.this.finish();
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError volleyError) {
+
+        volleyError.printStackTrace();
+
+        mLoadingDialog.dismiss();
+    }
+
+    @Override
+    public void onResponse(String str) {
+
+
+        mOrder.Pay_Serial_Number = str;
+
+        mOrder.update(this, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+
+                mLoadingDialog.dismiss();
+                UPPayAssistEx.startPayByJAR(BookGasActivity.this,
+                        PayActivity.class, null, null, mOrder.getPay_Serial_Number(), mMode);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+                mLoadingDialog.dismiss();
+                Toast.makeText(BookGasActivity.this, "网络错误，加载失败！", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*************************************************
+         * 步骤3：处理银联手机支付控件返回的支付结果
+         ************************************************/
+        if (data == null) {
+            return;
+        }
+
+        String msg = "";
+        /*
+         * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+         */
+        String str = data.getExtras().getString("pay_result");
+        if (str.equalsIgnoreCase("success")) {
+            // 支付成功后，extra中如果存在result_data，取出校验
+            // result_data结构见c）result_data参数说明
+            if (data.hasExtra("result_data")) {
+                String result = data.getExtras().getString("result_data");
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    String sign = resultJson.getString("sign");
+                    String dataOrg = resultJson.getString("data");
+                    // 验签证书同后台验签证书
+                    // 此处的verify，商户需送去商户后台做验签
+                    boolean ret = verify(dataOrg, sign, mMode);
+                    if (ret) {
+                        // 验证通过后，显示支付结果
+                        msg = "支付成功！";
+
+                        mOrder.Order_Status = 1;
+                    } else {
+                        // 验证不通过后的处理
+                        // 建议通过商户后台查询支付结果
+                        msg = "支付失败！";
+
+                        mOrder.Order_Status = -1;
+                    }
+                } catch (JSONException e) {
+                }
+            } else {
+                // 未收到签名信息
+                // 建议通过商户后台查询支付结果
+                msg = "支付成功！";
+
+                mOrder.Order_Status = 1;
+            }
+        } else if (str.equalsIgnoreCase("fail")) {
+            msg = "支付失败！";
+
+            mOrder.Order_Status = -1;
+        } else if (str.equalsIgnoreCase("cancel")) {
+            msg = "用户取消了支付";
+
+            mOrder.Order_Status = 0;
+        }
+
+        mOrder.update(BookGasActivity.this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("支付结果通知");
+        builder.setMessage(msg);
+        builder.setInverseBackgroundForced(true);
+        // builder.setCustomTitle();
+        builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    //验证
+
+    @Override
+    public boolean verify(String msg, String sign64, String mode) {
+        return true;
     }
 }

@@ -419,9 +419,17 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
             case 1:
 
-                return "配货中";
+                return "已支付";
+
+            case 0:
+
+                return "支付失败";
+
+            case -1:
+
+                return "未支付";
         }
 
-        return "null";
+        return "未支付";
     }
 }

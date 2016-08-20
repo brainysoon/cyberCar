@@ -413,25 +413,25 @@ public class MoreGasActivity extends AppCompatActivity implements
 
             jsonObject = new JSONObject(s);
 
+
+            mGasStations = GasStationInfo.paserGasStationPostResult(jsonObject);
+
+            if (mGasStations == null || mGasStations.size() == 0) {
+
+                return;
+            }
+
+
+            //依次设置 遍历map
+            for (Map.Entry<String, GasStationInfo> entry : mGasStations.entrySet()) {
+
+                setMark(entry.getValue());
+            }
+
         } catch (JSONException jsonException) {
 
             jsonException.printStackTrace();
         }
-
-        mGasStations = GasStationInfo.paserGasStationPostResult(jsonObject);
-
-        if (mGasStations == null || mGasStations.size() == 0) {
-
-            return;
-        }
-
-
-        //依次设置 遍历map
-        for (Map.Entry<String, GasStationInfo> entry : mGasStations.entrySet()) {
-
-            setMark(entry.getValue());
-        }
-
     }
 
     //处理加油站的标注点

@@ -113,13 +113,15 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
 
         OilMainFragmentPermissionsDispatcher.initLoacationWithCheck(this);
 
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                mPtrFrame.autoRefresh();
-            }
-        }, 1000);
+//        //接口请求次数有限，悠着点
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 1000);
     }
 
     private void initView(View rootView) {
@@ -216,6 +218,7 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
 
                 builder.setTitle(stationInfo.getGas_station_name())
                         .setMessage(stationInfo.getGas_station_address())
+                        .setIcon(R.mipmap.ic_launcher)
                         .setPositiveButton("预约加油", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -250,6 +253,8 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
                                 }
                             }
                         });
+
+                builder.create().show();
             }
         } else {
 

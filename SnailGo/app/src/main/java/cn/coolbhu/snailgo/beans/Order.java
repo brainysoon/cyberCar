@@ -11,11 +11,14 @@ public class Order extends BmobObject {
     private String User_Tel;
     private String Order_ID;
     private String Order_Station;
-    private Integer Order_Status;
+    public Integer Order_Status;
     private BmobDate Order_Time;
     private String Order_GasClass;
     private Float Order_GasPrice;
     private Float Order_GasNum;
+
+    //支付流水号
+    public String Pay_Serial_Number;
 
     public Order(String User_Tel, String Order_ID, String Order_Station,
                  Integer Order_Status, BmobDate Order_Time, String Order_GasClass,
@@ -62,5 +65,9 @@ public class Order extends BmobObject {
 
     public Float getOrder_GasNum() {
         return this.Order_GasNum;
+    }
+
+    public String getPay_Serial_Number() {
+        return this.Pay_Serial_Number;
     }
 }

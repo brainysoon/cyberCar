@@ -323,6 +323,11 @@
     <string name="oil_button_bookgas">预约加油</string>
     <string name="oil_button_see_station">查看周边加油站</string>
     <string name="money">&#165;</string>
+    <string name="order_succeed">下单成功</string>
+    <string name="order_alert_message">亲，请在30分钟内完成支付，30分钟后将自动撤销订单！</string>
+    <string name="order_now_pay">立即支付</string>
+    <string name="order_not_pay">暂不支付</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
