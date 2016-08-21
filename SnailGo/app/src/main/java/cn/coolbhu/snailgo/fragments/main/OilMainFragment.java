@@ -37,7 +37,7 @@ import java.util.List;
 
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.activities.MainActivity;
+import cn.coolbhu.snailgo.activities.LoginActivity;
 import cn.coolbhu.snailgo.activities.moregas.BookGasActivity;
 import cn.coolbhu.snailgo.activities.moregas.MoreGasActivity;
 import cn.coolbhu.snailgo.activities.navigates.RoutePlanActivity;
@@ -208,9 +208,9 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+        final GasStationInfo stationInfo = mGasStations.get(i);
 
-            final GasStationInfo stationInfo = mGasStations.get(i);
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
 
             if (stationInfo != null) {
 
@@ -258,10 +258,45 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
             }
         } else {
 
-            if (MainActivity.mInstance != null) {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
 
-                mPtrFrame.postDelayed(MainActivity.mInstance.showNoUserNotice, 200);
-            }
+            builder.setIcon(R.mipmap.ic_launcher)
+                    .setTitle(R.string.notice)
+                    .setMessage("亲，你还没有登录，登录过后可以预约加油哦！")
+                    .setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("直接到那儿去", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            LatLng mStationLatLng = new LatLng(stationInfo.getGas_station_lat()
+                                    , stationInfo.getGas_station_lon());
+
+                            if (mStationLatLng != null && nowLoc != null) {
+
+                                Intent intent = new Intent(getContext(), RoutePlanActivity.class);
+
+                                intent.putExtra(NagMainFragment.POSITION_X, mStationLatLng.latitude);
+                                intent.putExtra(NagMainFragment.POSITION_Y, mStationLatLng.longitude);
+                                intent.putExtra(NagMainFragment.POSITION_X_S, nowLoc.latitude);
+                                intent.putExtra(NagMainFragment.POSITION_Y_S, nowLoc.longitude);
+
+                                startActivity(intent);
+                            } else {
+
+                                Toast.makeText(getContext(), "起点和终点不能为空！", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+            builder.create().show();
         }
     }
 
