@@ -151,6 +151,8 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
                                     setResult(2, intent);
 
+                                    flag=true;
+
                                     DecodeActivity.this.finish();
                                 }
                             }
