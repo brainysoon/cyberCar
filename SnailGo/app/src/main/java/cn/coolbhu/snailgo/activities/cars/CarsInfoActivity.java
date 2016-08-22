@@ -43,6 +43,8 @@ public class CarsInfoActivity extends AppCompatActivity {
     private TextView mCarSpeedStatus;
     private TextView mCarLightStatus;
     private TextView mCarMaintain;
+    private TextView mBrandName;
+    private TextView mModelType;
     private LinearLayout linearLayout;
 
     private LinearLayout layout;
@@ -145,12 +147,13 @@ public class CarsInfoActivity extends AppCompatActivity {
             this.mCarNick.setText(mCar.getCar_Nick());
             this.mCarRackNum.setText(mCar.getCar_RackNum());
             this.mCarEngineNum.setText(mCar.getCar_EngineNum());
-            this.mCarMileage.setText(mCar.getCar_Mileage() + "");
+
+            this.mCarMileage.setText(mCar.getCar_Mileage().intValue() + "");
             this.mCarType.setText(mCar.getCar_ModelType());
             this.mCarGas.setText(mCar.getCar_Gas().shortValue() + "");
-            this.mCarEngineStatus.setText(mCar.getCar_EngineStatus().shortValue() + "");
-            this.mCarSpeedStatus.setText(mCar.getCar_SpeedStatus().shortValue() + "");
-            this.mCarLightStatus.setText(mCar.getCar_LightStatus().shortValue() + "");
+            this.mCarEngineStatus.setText((mCar.getCar_EngineStatus() > 0 ? "正常" : "异常"));
+            this.mCarSpeedStatus.setText((mCar.getCar_SpeedStatus() > 0 ? "正常" : "异常"));
+            this.mCarLightStatus.setText((mCar.getCar_LightStatus() > 0 ? "好" : "坏"));
 
             //加载图片
 
@@ -166,6 +169,9 @@ public class CarsInfoActivity extends AppCompatActivity {
 
 
                         Model model = list.get(0);
+
+                        mBrandName.setText(model.getBrand_Name());
+                        mModelType.setText(model.getModel_Type());
 
                         BmobQuery<Brand> query1 = new BmobQuery<Brand>("Brand");
 
@@ -239,6 +245,8 @@ public class CarsInfoActivity extends AppCompatActivity {
         mCarLightStatus = (TextView) findViewById(R.id.activity_cars_info_light);
         mCarMaintain = (TextView) findViewById(R.id.activity_cars_info_mantain);
         linearLayout = (LinearLayout) findViewById(R.id.activity_cars_info_layout_mantain);
+        mBrandName = (TextView) findViewById(R.id.brand_name);
+        mModelType = (TextView) findViewById(R.id.model_type);
 
         layout = (LinearLayout) findViewById(R.id.activity_cars_info_layout);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);

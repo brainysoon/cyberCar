@@ -41,25 +41,26 @@
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- 短信验证相关权限 START  -->
+    <!-- 短信验证相关权限 START -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
 
-    <!--银联相关权限-->
+
+    <!-- 银联相关权限 -->
     <uses-feature android:name="android.hardware.nfc.hce" />
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -73,7 +74,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--银联相关插件-->
+        <!-- 银联相关插件 -->
         <uses-library
             android:name="org.simalliance.openmobileapi"
             android:required="false" />
@@ -88,7 +89,7 @@
             android:name="com.thinkland.juheapi.openid"
             android:value="JH822ec387c13830fac27e9505ce23575b" />
 
-        <!--Logo界面-->
+        <!-- Logo界面 -->
         <activity
             android:name=".activities.LogoActivity"
             android:theme="@style/LogoTheme">
@@ -99,7 +100,7 @@
             </intent-filter>
         </activity>
 
-        <!--支付相关插件-->
+        <!-- 支付相关插件 -->
         <activity
             android:name="com.unionpay.uppay.PayActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -107,13 +108,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <!--支付相关插件-->
+        <!-- 支付相关插件 -->
         <activity
             android:name="com.unionpay.UPPayWapActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".activities.MainActivity"
             android:launchMode="singleTask">
@@ -158,7 +158,7 @@
         </activity>
         <activity android:name=".activities.musics.SearchActivity" />
 
-        <!--我的违章-->
+        <!-- 我的违章 -->
         <activity
             android:name=".activities.regulations.MyRegulationsActivity"
             android:label="@string/title_activity_my_regulation">
@@ -167,113 +167,102 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--添加汽车-->
+        <!-- 添加汽车 -->
         <activity
             android:name=".activities.cars.AddCarsActivity"
             android:label="@string/title_activity_add_car"
             android:windowSoftInputMode="stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.cars.MyCarsActivity" />
         </activity>
 
-        <!--二维码-->
+        <!-- 二维码 -->
         <activity
             android:name=".activities.qrcode.QRCodeActivity"
             android:label="@string/title_activity_qrcode">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.moregas.MyOrdersActivity" />
         </activity>
 
-        <!--扫描二维码-->
+        <!-- 扫描二维码 -->
         <activity
             android:name=".activities.qrcode.DecodeActivity"
             android:label="@string/title_activity_decode">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.cars.MyCarsActivity" />
         </activity>
 
-        <!--我的订单-->
+        <!-- 我的订单 -->
         <activity
             android:name=".activities.moregas.MyOrdersActivity"
             android:label="@string/title_activity_my_order">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.moregas.MyOrdersActivity" />
         </activity>
 
-        <!--订单详细信息-->
+        <!-- 订单详细信息 -->
         <activity
             android:name=".activities.moregas.OrderDetailActivity"
             android:label="@string/title_activity_order_detail">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.moregas.MyOrdersActivity" />
         </activity>
 
-        <!--我的汽车-->
+        <!-- 我的汽车 -->
         <activity
             android:name=".activities.cars.MyCarsActivity"
             android:label="@string/title_activity_my_car">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--汽车详细信息-->
+        <!-- 汽车详细信息 -->
         <activity
             android:name=".activities.cars.CarsInfoActivity"
             android:label="@string/title_activity_car_info">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.cars.MyCarsActivity" />
         </activity>
 
-        <!--我的信息-->
+        <!-- 我的信息 -->
         <activity
             android:name=".activities.MyInfoActivity"
             android:label="@string/title_activity_my_info"
             android:windowSoftInputMode="stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--剪切图片-->
+        <!-- 剪切图片 -->
         <activity
             android:name=".activities.CropImageActivity"
             android:label="@string/title_activity_crop_image">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MyInfoActivity" />
         </activity>
 
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity
             android:name=".activities.forgot.TelActivity"
             android:label="@string/title_activity_forgot_password">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
         </activity>
 
-        <!--修改密码-->
+        <!-- 修改密码 -->
         <activity
             android:name=".activities.forgot.EditPasswordActivity"
             android:label="@string/title_activity_edit_password">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.forgot.TelActivity" />
@@ -284,42 +273,47 @@
             android:name=".activities.register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--注册-->
+        <!-- 注册 -->
         <activity
             android:name=".activities.register.StartRegisterActivity"
             android:windowSoftInputMode="stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.register.RegisterActivity" />
         </activity>
 
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_setting">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!--维护车辆-->
+        <activity
+            android:name=".activities.cars.SettingActivity"
+            android:label="@string/title_activity_setting_car">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--关于-->
+        <!-- 关于 -->
         <activity
             android:name=".activities.AboutActivity"
             android:label="@string/title_activity_about">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-
 
         <!-- 正在播放音乐 -->
         <activity
@@ -330,7 +324,7 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--登录-->
+        <!-- 登录 -->
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
@@ -376,10 +370,10 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--poi检索周边-->
+        <!-- poi检索周边 -->
         <activity android:name=".activities.navigates.PoiSearchActivity" />
 
-        <!--路经规划-->
+        <!-- 路经规划 -->
         <activity
             android:name=".activities.navigates.RoutePlanActivity"
             android:label="@string/title_activity_route_plan">
@@ -388,7 +382,7 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--导航-->
+        <!-- 导航 -->
         <activity
             android:name=".activities.navigates.RouteNaviActivity"
             android:label="@string/title_activity_nav" />
@@ -455,6 +449,7 @@
 
         <receiver android:name="cn.bmob.push.PushReceiver">
             <intent-filter>
+
                 <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- 解锁完成后会调用 -->
@@ -476,13 +471,13 @@
             android:name="cn.bmob.push.PushNotifyReceiver"
             android:process=":bmobpush">
             <intent-filter>
+
                 <!-- 接收心跳广播的action -->
                 <action android:name="cn.bmob.push.action.HEARTBEAT" />
                 <!-- 接收唤醒广播的action -->
                 <action android:name="cn.bmob.push.action.NOTIFY" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

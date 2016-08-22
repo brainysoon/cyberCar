@@ -34,6 +34,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.User;
+import cn.coolbhu.snailgo.utils.SucceedLoginUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -129,6 +130,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 //更新信息
                 MyApplication.isLoginSucceed = false;
                 MyApplication.mUser = null;
+
+                //退出
+                SucceedLoginUtil.checkOutUid(MyInfoActivity.this);
 
                 if (MainActivity.mInstance != null) {
 

@@ -44,8 +44,8 @@ public class NotificationUtil {
         mBundle.putInt(CarsInfoActivity.Action, 1);
         mIntent.putExtras(mBundle);
 
-        PendingIntent intent = PendingIntent.getActivity(context, 0,
-                mIntent, 0);
+        PendingIntent intent = PendingIntent.getActivity(context, NOTIFICATION_FLAG++,
+                mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notify2 = new Notification.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -53,10 +53,10 @@ public class NotificationUtil {
                 // icon)
                 .setTicker("通知:" + str)// 设置在status
                 // bar上显示的提示文字
-                .setContentTitle("新的汽车维护信息")
+                .setContentTitle(str)
+                .setContentText("你的车牌号为：" + num + "的汽车有维护信息")
                 // 设置在下拉status
                 // bar后Activity，本例子中的NotififyMessage的TextView中显示的标题
-                .setContentText(str)
                 // TextView中显示的详细内容
                 .setContentIntent(intent)
                 // 关联PendingIntent
@@ -75,6 +75,6 @@ public class NotificationUtil {
 //                .setSmallIcon(R.mipmap.ic_launcher);
 //        Notification notification = builder.build();
 
-        mNotificationManager.notify(NOTIFICATION_FLAG++, notify2);
+        mNotificationManager.notify(NOTIFICATION_FLAG, notify2);
     }
 }
