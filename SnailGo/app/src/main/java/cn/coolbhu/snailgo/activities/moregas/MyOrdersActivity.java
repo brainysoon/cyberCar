@@ -60,7 +60,15 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             "二维码",
             "取消订单"
     };
+
+    private String[] titleGood = new String[]{
+            "详细信息",
+            "二维码",
+    };
+
     private int[][] colors;
+
+    private int[][] colorsGood;
 
     //Resource
     private static int[] drawablesResource = new int[]{
@@ -68,6 +76,9 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             R.drawable.ic_qrcode,
             R.drawable.ic_delete
     };
+
+    private Drawable[] drawablesGood;
+
     private Drawable[] drawables;
 
     public static Integer posi;
@@ -94,6 +105,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
     private void initBoom() {
 
         colors = new int[3][2];
+        colorsGood=new int[2][2];
 
         //随机数
         Random mRandom = new Random();
@@ -105,14 +117,27 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             colors[i][1] = Color.parseColor(HelpInitBoomButton.Colors[r]);
 
             colors[i][0] = Util.getInstance().getPressedColor(colors[i][1]);
+
+            if (i<2){
+
+                colorsGood[i][1] = Color.parseColor(HelpInitBoomButton.Colors[r]);
+
+                colorsGood[i][0] = Util.getInstance().getPressedColor(colors[i][1]);
+            }
         }
 
         //加载图片资源
         drawables = new Drawable[3];
+        drawablesGood=new Drawable[2];
 
         for (int i = 0; i < 3; i++) {
 
             drawables[i] = ContextCompat.getDrawable(this, drawablesResource[i]);
+
+            if (i<2){
+
+                drawablesGood[i]=ContextCompat.getDrawable(this, drawablesResource[i]);
+            }
         }
     }
 
@@ -302,16 +327,20 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             TextView mCarNum=(TextView)convertView.findViewById(R.id.car_num);
             final BoomMenuButton menuButton = (BoomMenuButton) convertView.findViewById(R.id.activity_my_orders_item_boom_ham);
 
+            Order order = mDataList.get(mDataList.size() - position - 1);
+
+            final boolean isPay=order.getOrder_Status()>0;
+
             menuButton.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     menuButton.init(
-                            drawables, // The drawables of images of sub buttons. Can not be null.
-                            title,     // The texts of sub buttons, ok to be null.
-                            colors,          // The colors of sub buttons, including pressed-state and normal-state.
+                            isPay?drawablesGood:drawables, // The drawables of images of sub buttons. Can not be null.
+                            isPay?titleGood:title,     // The texts of sub buttons, ok to be null.
+                            isPay?colorsGood:colors,          // The colors of sub buttons, including pressed-state and normal-state.
                             ButtonType.HAM,        // The button type.
                             BoomType.PARABOLA,        // The boom type.
-                            PlaceType.HAM_3_1,     // The place type.
+                            isPay?PlaceType.HAM_2_1:PlaceType.HAM_3_1,     // The place type.
                             null,                     // Ease type to move the sub buttons when showing.
                             null,                     // Ease type to scale the sub buttons when showing.
                             null,                     // Ease type to rotate the sub buttons when showing.
@@ -341,8 +370,6 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
                     Log.e("i++", menuButton.getTag().toString());
                 }
             });
-
-            Order order = mDataList.get(mDataList.size() - position - 1);
 
             mCarNum.setText(order.getCar_Num());
 

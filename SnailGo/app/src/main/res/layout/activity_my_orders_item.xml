@@ -80,8 +80,7 @@
                         android:id="@+id/station_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_description" />
+                        android:singleLine="true" />
                 </LinearLayout>
             </LinearLayout>
 
