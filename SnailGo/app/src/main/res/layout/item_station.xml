@@ -52,7 +52,7 @@
                     android:id="@+id/station_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="未知"
+                    android:text="见详情"
                     android:textColor="@color/colorAccent" />
 
                 <TextView

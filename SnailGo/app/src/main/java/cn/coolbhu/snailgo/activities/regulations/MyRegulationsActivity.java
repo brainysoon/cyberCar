@@ -348,6 +348,30 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
                         query1.findObjects(MyRegulationsActivity.this, MyRegulationsActivity.this.mModelListener);
                     }
                 }
+            } else {
+
+                try {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MyRegulationsActivity.this);
+
+                    builder.setTitle(R.string.notice)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setMessage(R.string.car_refresh_notice)
+                            .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                    builder.create().show();
+
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
+                }
+
             }
             mAdapter.notifyDataSetChanged();
             mPtrFrame.refreshComplete();

@@ -141,7 +141,10 @@ public class CropImageFragment extends Fragment {
 
 //                        MyApplication.mAvatorUri=outputUri;
 
-                        getActivity().finish();
+                        if (getActivity()!=null){
+
+                            getActivity().finish();
+                        }
                     }
 
                     @Override

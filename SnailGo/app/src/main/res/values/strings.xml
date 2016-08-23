@@ -334,6 +334,8 @@
     <!--更新-->
     <string name="update_version">蜗行版本更新</string>
 
+    <string name="car_refresh_notice">亲，你还没有添加汽车，添加汽车过后将会得到更优质的服务！</string>
+
     <!--预约加油-->
     <string name="oil_button_bookgas">预约加油</string>
     <string name="oil_button_see_station">查看周边加油站</string>

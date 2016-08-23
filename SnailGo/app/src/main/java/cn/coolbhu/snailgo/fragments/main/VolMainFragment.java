@@ -572,6 +572,25 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
                         query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
                     }
                 }
+            }else {
+
+                if (getContext()!=null){
+
+                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+
+                            builder.setTitle(R.string.notice)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .setMessage(R.string.car_refresh_notice)
+                                    .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+
+                    builder.create().show();
+                }
             }
 
             mAdapter.notifyDataSetChanged();
