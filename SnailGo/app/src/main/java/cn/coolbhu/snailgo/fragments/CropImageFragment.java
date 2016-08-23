@@ -3,6 +3,7 @@ package cn.coolbhu.snailgo.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.isseiaoki.simplecropview.CropImageView;
 import com.isseiaoki.simplecropview.callback.CropCallback;
@@ -52,6 +54,8 @@ public class CropImageFragment extends Fragment {
     private FloatingActionButton mActionPick;
 
     private View rootView;
+
+    private ProgressDialog progDialog;
 
     public CropImageFragment() {
         // Required empty public constructor
@@ -121,11 +125,13 @@ public class CropImageFragment extends Fragment {
                 @Override
                 public void onSuccess(Bitmap cropped) {
 
+                    progDialog.dismiss();
                 }
 
                 @Override
                 public void onError() {
 
+                    progDialog.dismiss();
                 }
             };
         }
@@ -135,9 +141,13 @@ public class CropImageFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                showProgressDialog();
+
                 mCropImageView.startCrop(createSaveUri(), CropImageActivity.mCropCallback, new SaveCallback() {
                     @Override
                     public void onSuccess(Uri outputUri) {
+
+                        progDialog.dismiss();
 
 //                        MyApplication.mAvatorUri=outputUri;
 
@@ -150,6 +160,10 @@ public class CropImageFragment extends Fragment {
                     @Override
                     public void onError() {
 
+                        if (getContext()!=null){
+
+                            progDialog.dismiss();
+                        }
                     }
                 });
             }
@@ -304,4 +318,15 @@ public class CropImageFragment extends Fragment {
 
         }
     };
+
+    //显示进度条
+    private void showProgressDialog() {
+        if (progDialog == null&&getContext()!=null){
+            progDialog = new ProgressDialog(getContext());
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setMessage("正在保存图片:\n" + "请稍后。。。。");
+            progDialog.show();
+        }
+    }
 }

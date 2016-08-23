@@ -21,6 +21,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView mOrder_Time;
     private TextView mOrder_Num;
     private TextView mOrder_Station;
+    private TextView mCar_Num;
 
 
     @Override
@@ -50,6 +51,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             mOrder_Time.setText(order.getOrder_Time().getDate());
             mOrder_Num.setText(order.getOrder_GasNum() + "");
             mOrder_Station.setText(order.getOrder_Station());
+            mCar_Num.setText(order.getCar_Num());
         } else {
 
             Toast.makeText(OrderDetailActivity.this, "加载失败！", Toast.LENGTH_SHORT).show();
@@ -67,7 +69,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         mOrder_Time = (TextView) findViewById(R.id.activity_orders_detail_time);
         mOrder_Num = (TextView) findViewById(R.id.activity_orders_detail_num);
         mOrder_Station = (TextView) findViewById(R.id.activity_orders_detail_station);
-
+        mCar_Num=(TextView)findViewById(R.id.car_num);
     }
 
     //initToolbar

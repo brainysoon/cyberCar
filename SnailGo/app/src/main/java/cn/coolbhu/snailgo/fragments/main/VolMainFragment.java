@@ -217,12 +217,10 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
                     final BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                    query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+                    query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                     query.findObjects(getContext(), mCarFindListener);
                 } else {
-
-
                     mCarData.clear();
                     mPtrFrame.refreshComplete();
                     mAdapter.notifyDataSetChanged();
@@ -326,16 +324,28 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
 
         if (checkOk()) {
 
-            car.setCity_id(quertCityIdStr);
+            try {
 
-            Intent intent = new Intent(getContext(), RegulationResultActivity.class);
+                car.setCity_id(quertCityIdStr);
 
-            Bundle bundle = new Bundle();
+                Intent intent = new Intent(getContext(), RegulationResultActivity.class);
 
-            bundle.putString("carInfo", car.toJSONObject().toString());
-            intent.putExtras(bundle);
+                Bundle bundle = new Bundle();
 
-            startActivity(intent);
+                bundle.putString("carInfo", car.toJSONObject().toString());
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+
+                if (getContext() != null) {
+
+                    Toast.makeText(getContext(), "车首页服务没有初始化成功，请稍后再试！", Toast.LENGTH_SHORT).show();
+                }
+            }
+
 
         }
     }
@@ -398,7 +408,7 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
         locationClientOption = new AMapLocationClientOption();
 
 
-        // 设置定位模式为低功耗模式
+        // 设置定位模式为耗模式
         locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
 
         //设置只定位一次
@@ -572,24 +582,11 @@ public class VolMainFragment extends Fragment implements AMapLocationListener,
                         query1.findObjects(getContext(), VolMainFragment.this.mModelListener);
                     }
                 }
-            }else {
+            } else {
 
-                if (getContext()!=null){
+                if (getContext() != null) {
 
-                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-
-                            builder.setTitle(R.string.notice)
-                                    .setIcon(R.mipmap.ic_launcher)
-                                    .setMessage(R.string.car_refresh_notice)
-                                    .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-
-                    builder.create().show();
+                    Toast.makeText(getContext(), R.string.car_refresh_notice, Toast.LENGTH_SHORT).show();
                 }
             }
 

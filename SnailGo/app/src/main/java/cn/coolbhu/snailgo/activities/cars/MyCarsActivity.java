@@ -315,7 +315,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             public void onRefreshBegin(PtrFrameLayout frame) {
                 final BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+                query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                 query.findObjects(MyCarsActivity.this, mCarListener);
             }
@@ -593,20 +593,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
                 try {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MyCarsActivity.this);
-
-                    builder.setTitle(R.string.notice)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .setMessage(R.string.car_refresh_notice)
-                            .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    dialogInterface.dismiss();
-                                }
-                            });
-
-                    builder.create().show();
+                    Toast.makeText(MyCarsActivity.this,R.string.car_refresh_notice,Toast.LENGTH_SHORT).show();
 
                 } catch (Exception ex) {
 

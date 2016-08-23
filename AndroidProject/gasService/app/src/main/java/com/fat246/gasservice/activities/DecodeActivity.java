@@ -146,6 +146,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                                     bundle.putString(MainActivity.ORDER_TIME, or.getOrder_Time().getDate());
                                     bundle.putString(MainActivity.ORDER_STATUS, getStatus(or.getOrder_Status()));
                                     bundle.putString(MainActivity.ORDER_WATER, or.getPay_Serial_Number());
+                                    bundle.putString(MainActivity.CAR_NUM,or.getCar_Num());
 
                                     intent.putExtras(bundle);
 

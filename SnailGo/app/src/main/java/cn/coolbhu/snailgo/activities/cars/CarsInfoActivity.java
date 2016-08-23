@@ -114,7 +114,7 @@ public class CarsInfoActivity extends AppCompatActivity {
 
         BmobQuery<Car> query = new BmobQuery<>("Car");
 
-        query.addWhereMatches("Car_Num", num);
+        query.addWhereEqualTo("Car_Num", num);
 
         if (MyApplication.isLoginSucceed) {
 

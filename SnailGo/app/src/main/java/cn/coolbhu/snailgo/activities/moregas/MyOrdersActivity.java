@@ -147,6 +147,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
         mBundle.putString("User_Tel", order.getUser_Tel());
         mBundle.putDouble("Order_GasPrice", order.getOrder_GasPrice());
         mBundle.putDouble("Order_GasNum", order.getOrder_GasNum());
+        mBundle.putString("Car_Num",order.getCar_Num());
 
         mIntent.putExtras(mBundle);
 
@@ -228,7 +229,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
 
             String tel = MyApplication.mUser.getUser_Tel();
 
-            query.addWhereMatches("User_Tel", tel);
+            query.addWhereEqualTo("User_Tel", tel);
 
             query.findObjects(MyOrdersActivity.this, new FindListener<Order>() {
                 @Override
@@ -298,6 +299,7 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             TextView mOrder_AllPrice = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_all);
             TextView mOrder_Status = (TextView) convertView.findViewById(R.id.activity_my_orders_textview_status);
             TextView mStation_Name = (TextView) convertView.findViewById(R.id.station_name);
+            TextView mCarNum=(TextView)convertView.findViewById(R.id.car_num);
             final BoomMenuButton menuButton = (BoomMenuButton) convertView.findViewById(R.id.activity_my_orders_item_boom_ham);
 
             menuButton.postDelayed(new Runnable() {
@@ -341,6 +343,8 @@ public class MyOrdersActivity extends AppCompatActivity implements BoomMenuButto
             });
 
             Order order = mDataList.get(mDataList.size() - position - 1);
+
+            mCarNum.setText(order.getCar_Num());
 
             mOrder_ID.setText(order.getOrder_ID());
             mStation_Name.setText(order.getOrder_Station());

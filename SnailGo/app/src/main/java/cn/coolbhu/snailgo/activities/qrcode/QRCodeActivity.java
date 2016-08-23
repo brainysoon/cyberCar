@@ -133,6 +133,7 @@ public class QRCodeActivity extends AppCompatActivity {
             String tel = mBundel.getString("User_Tel", "null");
             Double price = mBundel.getDouble("Order_GasPrice", 0);
             Double num = mBundel.getDouble("Order_GasNum", 0);
+            String car=mBundel.getString("Car_Num");
 
             if (id.equals("null") || tel.equals("null")) {
 
@@ -149,6 +150,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 jsonObject.put("User_Tel", tel);
                 jsonObject.put("Order_GasPrice", price);
                 jsonObject.put("Order_GasNum", num);
+                jsonObject.put("Car_Num",car);
 
                 content = jsonObject.toString();
 

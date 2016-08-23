@@ -146,7 +146,7 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
                 final BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+                query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                 query.findObjects(MyRegulationsActivity.this, mCarFindListener);
             }
@@ -352,20 +352,7 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
                 try {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MyRegulationsActivity.this);
-
-                    builder.setTitle(R.string.notice)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .setMessage(R.string.car_refresh_notice)
-                            .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    dialogInterface.dismiss();
-                                }
-                            });
-
-                    builder.create().show();
+                    Toast.makeText(MyRegulationsActivity.this,R.string.car_refresh_notice,Toast.LENGTH_SHORT).show();
 
                 } catch (Exception ex) {
 

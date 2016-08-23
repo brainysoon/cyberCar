@@ -16,13 +16,14 @@ public class Order extends BmobObject {
     private String Order_GasClass;
     private Float Order_GasPrice;
     private Float Order_GasNum;
+    private String Car_Num;
 
     //支付流水号
     public String Pay_Serial_Number;
 
     public Order(String User_Tel, String Order_ID, String Order_Station,
                  Integer Order_Status, BmobDate Order_Time, String Order_GasClass,
-                 Float Order_GasPrice, Float Order_GasNum) {
+                 Float Order_GasPrice, Float Order_GasNum, String Car_Num) {
 
         this.User_Tel = User_Tel;
         this.Order_ID = Order_ID;
@@ -32,6 +33,7 @@ public class Order extends BmobObject {
         this.Order_GasClass = Order_GasClass;
         this.Order_GasPrice = Order_GasPrice;
         this.Order_GasNum = Order_GasNum;
+        this.Car_Num=Car_Num;
     }
 
     //get
@@ -70,4 +72,6 @@ public class Order extends BmobObject {
     public String getPay_Serial_Number() {
         return this.Pay_Serial_Number;
     }
+
+    public String getCar_Num(){return this.Car_Num;}
 }
