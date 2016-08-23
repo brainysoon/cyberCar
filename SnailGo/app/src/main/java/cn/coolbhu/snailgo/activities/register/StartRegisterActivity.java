@@ -287,7 +287,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
 
                 Calendar calendar = Calendar.getInstance();
                 int mYear = calendar.get(Calendar.YEAR);
-                int mMonth = calendar.get(Calendar.MONTH);
+                int mMonth = calendar.get(Calendar.MONTH)+1;
                 int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
                 new DatePickerDialog(StartRegisterActivity.this, new DatePickerDialog.OnDateSetListener() {

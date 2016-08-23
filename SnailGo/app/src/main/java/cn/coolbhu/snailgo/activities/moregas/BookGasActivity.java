@@ -172,7 +172,7 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        mTime.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        mTime.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
                     }
                 }, mYear, mMonth, mDay).show();
             }
