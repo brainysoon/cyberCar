@@ -2,6 +2,7 @@ package cn.coolbhu.snailgo.fragments.main;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -79,6 +80,9 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
     //定位
     private AMapLocationClient locationClient;
     private AMapLocationClientOption locationClientOption;
+
+    //进度条
+    private ProgressDialog progDialog;
 
     public NagMainFragment() {
         // Required empty public constructor
@@ -306,6 +310,8 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
 
         //开始定位
         locationClient.startLocation();
+
+        showProgressDialog();
     }
 
     @OnShowRationale({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -361,6 +367,8 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
 
             mStartView.setText(startName);
             locationClient.stopLocation();
+
+            progDialog.dismiss();
         }
     }
 
@@ -382,5 +390,15 @@ public class NagMainFragment extends Fragment implements View.OnClickListener,
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         NagMainFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    //显示进度条
+    private void showProgressDialog() {
+        if (progDialog == null)
+            progDialog = new ProgressDialog(getContext());
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setMessage("正在定位:\n" + "请稍后。。。。");
+        progDialog.show();
     }
 }

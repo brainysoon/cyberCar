@@ -24,9 +24,16 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.cars.SettingActivity;
 import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.utils.IntentUtils;
 import permissions.dispatcher.NeedsPermission;
@@ -46,12 +53,17 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
     public static boolean flag = true;
 
+    //是否是更新汽车信息
+    private boolean isUpdateCarInfo = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decode);
 
         initToolbar();
+
+        isUpdateCarInfo = getIntent().getBooleanExtra(SettingActivity.IS_UPDATE_CAR_INFO, false);
 
         DecodeActivityPermissionsDispatcher.initWithCheck(this);
     }
@@ -168,45 +180,134 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
                 JSONObject jsonObject = new JSONObject(text);
 
-                String a = jsonObject.getString("a");
-                String c = jsonObject.getString("c");
-                String d = jsonObject.getString("d");
-                String e = jsonObject.getString("e");
-                String f = jsonObject.getString("f");
-                String g = jsonObject.getString("g");
-                String h = jsonObject.getString("h");
-                String i = jsonObject.getString("i");
-                String j = jsonObject.getString("j");
-                String k = jsonObject.getString("k");
+                final String a = jsonObject.getString("a");
+                final String c = jsonObject.getString("c");
+                final String d = jsonObject.getString("d");
+                final String e = jsonObject.getString("e");
+                final String f = jsonObject.getString("f");
+                final String g = jsonObject.getString("g");
+                final String h = jsonObject.getString("h");
+                final String i = jsonObject.getString("i");
+                final String j = jsonObject.getString("j");
+                final String k = jsonObject.getString("k");
 
-                Double mileage = Double.parseDouble(e);
-                Double gas = Double.parseDouble(h);
-                Double engine = Double.parseDouble(i);
-                Double speed = Double.parseDouble(j);
-                Double light = Double.parseDouble(k);
+                final Double mileage = Double.parseDouble(e);
+                final Double gas = Double.parseDouble(h);
+                final Double engine = Double.parseDouble(i);
+                final Double speed = Double.parseDouble(j);
+                final Double light = Double.parseDouble(k);
 
-                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+                if (isUpdateCarInfo) {
 
-                mCar.save(DecodeActivity.this, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
+                    BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                        Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                    query.addWhereMatches("Car_Num", a);
+                    query.addWhereMatches("User_Tel",MyApplication.mUser.getUser_Tel());
 
-                        hideBar();
+                    query.findObjects(DecodeActivity.this, new FindListener<Car>() {
+                        @Override
+                        public void onSuccess(List<Car> list) {
 
-                        DecodeActivity.this.finish();
-                    }
+                            if (list.size() > 0) {
 
-                    @Override
-                    public void onFailure(int i, String s) {
 
-                        Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                                Car mCar = list.get(0);
 
-                        hideBar();
-                        flag = true;
-                    }
-                });
+                                mCar.setCar_Mileage(mileage);
+                                mCar.setCar_Gas(gas);
+                                mCar.setCar_EngineStatus(engine);
+                                mCar.setCar_SpeedStatus(speed);
+                                mCar.setCar_LightStatus(light);
+
+                                //更新次数
+                                mCar.updateTimes();
+
+                                mCar.setTableName("Car");
+
+                                mCar.update(DecodeActivity.this,mCar.getObjectId(), new UpdateListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        Toast.makeText(DecodeActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+
+                                        DecodeActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i, String s) {
+
+                                        Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+                                        flag = true;
+                                    }
+                                });
+                            } else {
+
+                                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+
+                                mCar.setMileage_Times(0.0);
+                                mCar.save(DecodeActivity.this, new SaveListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        Toast.makeText(DecodeActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+
+                                        DecodeActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i, String s) {
+
+                                        Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+                                        flag = true;
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                            Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+                            flag = true;
+                        }
+                    });
+                }else{
+
+                    Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+
+                    mCar.setMileage_Times(0.0);
+
+                    mCar.save(DecodeActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+
+                            DecodeActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                            Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+                            flag = true;
+                        }
+                    });
+                }
 
             } catch (Exception e) {
 

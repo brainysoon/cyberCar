@@ -18,6 +18,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.Brand;
 import cn.coolbhu.snailgo.beans.Car;
@@ -114,6 +115,11 @@ public class CarsInfoActivity extends AppCompatActivity {
         BmobQuery<Car> query = new BmobQuery<>("Car");
 
         query.addWhereMatches("Car_Num", num);
+
+        if (MyApplication.isLoginSucceed) {
+
+            query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+        }
 
         query.findObjects(CarsInfoActivity.this, new FindListener<Car>() {
             @Override

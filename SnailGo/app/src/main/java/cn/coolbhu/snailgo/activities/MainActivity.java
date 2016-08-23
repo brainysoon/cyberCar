@@ -13,6 +13,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -386,12 +387,12 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         PrimaryDrawerItem itemMyRegulation = new PrimaryDrawerItem();
         itemMyRegulation.withIdentifier(DRAWER_ITEM_MY_REGULATION)
                 .withName(R.string.drawer_item_my_regulation)
-                .withIcon(GoogleMaterial.Icon.gmd_star);
+                .withIcon(FontAwesome.Icon.faw_exclamation_triangle);
 
         PrimaryDrawerItem itemMatenceCar = new PrimaryDrawerItem();
         itemMatenceCar.withIdentifier(DRAWER_ITEM_MATENCE_CAR)
                 .withName(R.string.drawer_item_matence_car)
-                .withIcon(GoogleMaterial.Icon.gmd_network_setting);
+                .withIcon(FontAwesome.Icon.faw_wrench);
 
         PrimaryDrawerItem itemNowPlaying = new PrimaryDrawerItem();
         itemNowPlaying.withIdentifier(DRAWER_ITEM_NOW_PLAYING)
@@ -462,8 +463,8 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                         itemMyCar,
                         itemMyOrder,
                         itemMyRegulation,
-                        new DividerDrawerItem(),
                         itemMatenceCar,
+                        new DividerDrawerItem(),
                         itemNowPlaying,
                         new DividerDrawerItem(),
                         itemAbout,
@@ -499,9 +500,6 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         } else if (drawerItem.getIdentifier() == DRAWER_ITEM_FEEDBACK) {
 
             runnable = nagToFeedBack;
-        } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MATENCE_CAR) {
-
-            runnable = nagToMatence;
         } else {
 
             if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
@@ -519,6 +517,9 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
 
                     runnable = nagToMyRegulation;
+                } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MATENCE_CAR) {
+
+                    runnable = nagToMatence;
                 }
             } else {
 

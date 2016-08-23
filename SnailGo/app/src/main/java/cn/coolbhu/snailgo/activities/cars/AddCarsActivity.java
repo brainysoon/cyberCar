@@ -209,6 +209,8 @@ public class AddCarsActivity extends AppCompatActivity {
                     Car mCar = new Car(num, rack, engine, mMlieage, nick
                             , model, MyApplication.mUser.getUser_Tel(), gas, engine_status, speed, light);
 
+                    mCar.setMileage_Times(0.0);
+
                     mCar.save(AddCarsActivity.this, new SaveListener() {
                         @Override
                         public void onSuccess() {

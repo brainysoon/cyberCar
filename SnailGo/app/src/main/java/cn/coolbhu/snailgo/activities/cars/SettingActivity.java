@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -25,6 +26,8 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class SettingActivity extends AppCompatActivity {
 
+    public static final String  IS_UPDATE_CAR_INFO="is_update_info";
+
     private FloatingActionButton mUpdateCarInfo;
 
     @Override
@@ -43,7 +46,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                SettingActivityPermissionsDispatcher.initWithCheck(SettingActivity.this);
             }
         });
     }
@@ -68,6 +71,8 @@ public class SettingActivity extends AppCompatActivity {
     public void init() {
 
         Intent mIntnet = new Intent(SettingActivity.this, DecodeActivity.class);
+
+        mIntnet.putExtra(IS_UPDATE_CAR_INFO,true);
 
         startActivity(mIntnet);
     }
@@ -110,5 +115,12 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        SettingActivityPermissionsDispatcher.onRequestPermissionsResult(this,requestCode,grantResults);
     }
 }

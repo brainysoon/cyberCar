@@ -1,5 +1,6 @@
 package com.fat246.servicecar;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ServiceMileageActivity extends AppCompatActivity {
 
@@ -36,6 +38,8 @@ public class ServiceMileageActivity extends AppCompatActivity {
     private List<Msg> mDataList = new ArrayList<>();
 
     private MileageAdapter mAdapter;
+
+    private ProgressDialog progDialog;
 
     boolean flag = true;
 
@@ -54,21 +58,33 @@ public class ServiceMileageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (flag) {
-
                     initData();
 
-                    mStart.setText("停止");
-                    flag = false;
-                } else {
-
-                    mStart.setText("启动");
-                    flag = true;
-                }
+                showProgressDialog();
             }
         });
 
     }
+
+    //显示进度条
+    private void showProgressDialog() {
+
+        try {
+
+            if (progDialog == null)
+                progDialog = new ProgressDialog(this);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setCancelable(false);
+            progDialog.setMessage("正在推送维护信息:\n" + "....");
+            progDialog.show();
+        }catch (Exception ex){
+
+            ex.printStackTrace();
+
+        }
+    }
+
 
     //initData
     private void initData() {
@@ -149,11 +165,9 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
                 int maxMil = mlieage.intValue();
 
-                double minMil = mlieage.floatValue();
 
-                int x = (int) (minMil * 10);
 
-                int nowMil = maxMil - x * 15000;
+                Double nowMil = maxMil - mCar.getMileage_Times()* 15000;
                 if (nowMil > 15000) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Mileage, mCar.getCar_Num());
@@ -220,6 +234,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
             }
 
             mAdapter.notifyDataSetChanged();
+            progDialog.dismiss();
         }
     }
 
