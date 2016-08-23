@@ -51,7 +51,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     private RelativeLayout layout;
     private ProgressBar progressBar;
 
-    public static boolean flag = true;
+    public boolean flag = true;
 
     //是否是更新汽车信息
     private boolean isUpdateCarInfo = false;
@@ -201,8 +201,8 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
                     BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                    query.addWhereMatches("Car_Num", a);
-                    query.addWhereMatches("User_Tel",MyApplication.mUser.getUser_Tel());
+                    query.addWhereEqualTo("Car_Num", a);
+                    query.addWhereEqualTo("User_Tel",MyApplication.mUser.getUser_Tel());
 
                     query.findObjects(DecodeActivity.this, new FindListener<Car>() {
                         @Override

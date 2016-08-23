@@ -35,7 +35,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     private RelativeLayout layout;
     private ProgressBar progressBar;
 
-    public static boolean flag = true;
+    public boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +151,6 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                                     intent.putExtras(bundle);
 
                                     setResult(2, intent);
-
-                                    flag=true;
 
                                     DecodeActivity.this.finish();
                                 }
