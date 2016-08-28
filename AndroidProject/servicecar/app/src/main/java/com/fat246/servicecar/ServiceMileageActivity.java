@@ -216,22 +216,22 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
             Log.e("here", "here");
 
-            BmobPushManager bmobPush = new BmobPushManager(ServiceMileageActivity.this);
+                BmobPushManager bmobPush = new BmobPushManager(ServiceMileageActivity.this);
 
-                for (int i = 0; i < msgs.size(); i++) {
+                    for (int i = 0; i < msgs.size(); i++) {
 
-                Msg msg = msgs.get(i);
+                    Msg msg = msgs.get(i);
 
-                BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
+                    BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
 
-                query.addWhereEqualTo("uid", msg.getUser_Tel());
-                bmobPush.setQuery(query);
-                bmobPush.pushMessage(msg.getMsg_Content() + ":" + msg.getCar_Num());
+                    query.addWhereEqualTo("uid", msg.getUser_Tel());
+                    bmobPush.setQuery(query);
+                    bmobPush.pushMessage(msg.getMsg_Content() + ":" + msg.getCar_Num());
 
-                Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
+                    Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
 
-                mDataList.add(msg);
-            }
+                    mDataList.add(msg);
+                }
 
             mAdapter.notifyDataSetChanged();
             progDialog.dismiss();

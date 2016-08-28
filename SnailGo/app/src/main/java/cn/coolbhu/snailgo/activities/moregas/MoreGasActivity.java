@@ -1,9 +1,11 @@
 package cn.coolbhu.snailgo.activities.moregas;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -12,9 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -61,6 +66,10 @@ public class MoreGasActivity extends AppCompatActivity implements
     private Button mBookGas;
     private Button mGoHere;
 
+    private Spinner spinner;
+
+    //查询半径
+    private int searchCircle = 5000;
 
     //定位Client
     private AMapLocationClient locationClient = null;
@@ -88,6 +97,9 @@ public class MoreGasActivity extends AppCompatActivity implements
 
     //当前展示的 Station
     private GasStationInfo nowDialogStation = null;
+
+    //进度条
+    private ProgressDialog progDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +209,49 @@ public class MoreGasActivity extends AppCompatActivity implements
                 }
             }
         });
+
+        String str[] = new String[]{
+                "5000",
+                "4000",
+                "3000",
+                "2000",
+                "1000",
+        };
+
+        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,str));
+
+        //给选择搜索半径
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                try {
+
+                    String str = spinner.getSelectedItem().toString();
+
+                    searchCircle = Integer.parseInt(str);
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
+                }
+
+                if (nowLoc!=null){
+
+                    mAMap.clear();
+
+                    showProgressDialog();
+
+                    //当第一次定位成功后我会去访问周边的加油站
+                    GasStationInfo.attmptGasStationPost(MoreGasActivity.this, GasStationInfo.setPostRequest(nowLoc.longitude,
+                            nowLoc.latitude, searchCircle, 1, 1), MoreGasActivity.this);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     //开始定位
@@ -220,6 +275,8 @@ public class MoreGasActivity extends AppCompatActivity implements
 
         // 设置定位监听
         locationClient.setLocationListener(this);
+
+        showProgressDialog();
 
         //开始定位
         locationClient.startLocation();
@@ -298,7 +355,7 @@ public class MoreGasActivity extends AppCompatActivity implements
         mCancel = (ImageView) findViewById(R.id.activity_more_gas_imageview_cancel);
         mBookGas = (Button) findViewById(R.id.activity_more_gas_button_bookgas);
         mGoHere = (Button) findViewById(R.id.activity_more_gas_button_gohere);
-
+        spinner = (Spinner) findViewById(R.id.search_circle);
     }
 
     @Override
@@ -312,7 +369,7 @@ public class MoreGasActivity extends AppCompatActivity implements
 
                 //当第一次定位成功后我会去访问周边的加油站
                 GasStationInfo.attmptGasStationPost(MoreGasActivity.this, GasStationInfo.setPostRequest(aMapLocation.getLongitude(),
-                        aMapLocation.getLatitude(), 5000, 1, 1), MoreGasActivity.this);
+                        aMapLocation.getLatitude(), searchCircle, 1, 1), MoreGasActivity.this);
 
                 locationClient.stopLocation();
 
@@ -394,7 +451,7 @@ public class MoreGasActivity extends AppCompatActivity implements
     @Override
     public void handGasStationPostError(int i, String s, Throwable throwable) {
 
-
+        progDialog.dismiss();
     }
 
     @Override
@@ -428,9 +485,13 @@ public class MoreGasActivity extends AppCompatActivity implements
                 setMark(entry.getValue());
             }
 
+            progDialog.dismiss();
+
         } catch (JSONException jsonException) {
 
             jsonException.printStackTrace();
+
+            progDialog.dismiss();
         }
     }
 
@@ -453,5 +514,22 @@ public class MoreGasActivity extends AppCompatActivity implements
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         MoreGasActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    //显示进度条
+    private void showProgressDialog() {
+
+        try {
+
+            if (progDialog == null)
+                progDialog = new ProgressDialog(MoreGasActivity.this);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setMessage("正在加载请稍后。。。。");
+            progDialog.show();
+        }catch (Exception ex){
+
+            ex.printStackTrace();
+        }
     }
 }

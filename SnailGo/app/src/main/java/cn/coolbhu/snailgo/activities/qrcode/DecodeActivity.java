@@ -2,6 +2,7 @@ package cn.coolbhu.snailgo.activities.qrcode;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import cn.bmob.push.PushConstants;
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
@@ -36,6 +40,7 @@ import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.cars.SettingActivity;
 import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.utils.IntentUtils;
+import cn.coolbhu.snailgo.utils.NotificationUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
@@ -202,7 +207,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                     BmobQuery<Car> query = new BmobQuery<>("Car");
 
                     query.addWhereEqualTo("Car_Num", a);
-                    query.addWhereEqualTo("User_Tel",MyApplication.mUser.getUser_Tel());
+                    query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                     query.findObjects(DecodeActivity.this, new FindListener<Car>() {
                         @Override
@@ -211,7 +216,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                             if (list.size() > 0) {
 
 
-                                Car mCar = list.get(0);
+                                final Car mCar = list.get(0);
 
                                 mCar.setCar_Mileage(mileage);
                                 mCar.setCar_Gas(gas);
@@ -219,16 +224,23 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                                 mCar.setCar_SpeedStatus(speed);
                                 mCar.setCar_LightStatus(light);
 
-                                //更新次数
-                                mCar.updateTimes();
+//                                int x=(int) (mCar.getCar_Mileage()-15000*mCar.getMileage_Times());
+//
+//                                if(x>15000){
+//
+//                                    //更新次数
+//                                    mCar.updateTimes();
+//                                }
 
                                 mCar.setTableName("Car");
 
-                                mCar.update(DecodeActivity.this,mCar.getObjectId(), new UpdateListener() {
+                                mCar.update(DecodeActivity.this, mCar.getObjectId(), new UpdateListener() {
                                     @Override
                                     public void onSuccess() {
 
                                         Toast.makeText(DecodeActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                        sendPush(mCar);
 
                                         hideBar();
 
@@ -281,7 +293,7 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
                             flag = true;
                         }
                     });
-                }else{
+                } else {
 
                     Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
 
@@ -357,16 +369,61 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     //showbar
     private void showBar() {
 
-        layout.setVisibility(View.INVISIBLE);
-
-        progressBar.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.INVISIBLE);
+//
+//        progressBar.setVisibility(View.VISIBLE);
     }
 
     //hideBar
     private void hideBar() {
 
-        layout.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.VISIBLE);
+//
+//        progressBar.setVisibility(View.INVISIBLE);
+    }
 
-        progressBar.setVisibility(View.INVISIBLE);
+    private void sendPush(Car mCar) {
+
+        //给予维护汽车
+        NotificationUtil notificationUtil = new NotificationUtil(DecodeActivity.this);
+
+        Double mlieage = mCar.getCar_Mileage();
+
+        int maxMil = mlieage.intValue();
+
+        Double nowMil = maxMil - mCar.getMileage_Times() * 15000;
+        if (nowMil > 15000) {
+
+            notificationUtil.sendNotification(1, mCar.getCar_Num());
+
+        }
+
+        //油量
+        if (mCar.getCar_Gas() < 20) {
+
+            notificationUtil.sendNotification(2, mCar.getCar_Num());
+
+        }
+
+        //发动机
+        if (mCar.getCar_EngineStatus() < 0) {
+
+            notificationUtil.sendNotification(3, mCar.getCar_Num());
+
+        }
+
+        //变速器
+        if (mCar.getCar_SpeedStatus() < 0) {
+
+            notificationUtil.sendNotification(4, mCar.getCar_Num());
+
+        }
+
+        //车灯
+        if (mCar.getCar_LightStatus() < 0) {
+
+            notificationUtil.sendNotification(5, mCar.getCar_Num());
+
+        }
     }
 }

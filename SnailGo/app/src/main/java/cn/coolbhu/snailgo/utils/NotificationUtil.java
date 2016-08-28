@@ -32,15 +32,19 @@ public class NotificationUtil {
     }
 
     //发送通知
-    public void sendNotification(String str, String num) {
+    public void sendNotification(int x, String num) {
 
+        if (!shouldSendMsg(x,context)){
+
+            return;
+        }
 
         Intent mIntent = new Intent(context, CarsInfoActivity.class);
 
         Bundle mBundle = new Bundle();
 
         mBundle.putString(NOTIFICATION_NUM, num);
-        mBundle.putString(NOTIFICATION_STR, str);
+        mBundle.putString(NOTIFICATION_STR, convertContent(x));
         mBundle.putInt(CarsInfoActivity.Action, 1);
         mIntent.putExtras(mBundle);
 
@@ -51,9 +55,9 @@ public class NotificationUtil {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 // 设置状态栏中的小图片，尺寸一般建议在24×24，这个图片同样也是在下拉状态栏中所显示，如果在那里需要更换更大的图片，可以使用setLargeIcon(Bitmap
                 // icon)
-                .setTicker("通知:" + str)// 设置在status
+                .setTicker("通知:" + convertContent(x))// 设置在status
                 // bar上显示的提示文字
-                .setContentTitle(str)
+                .setContentTitle(convertContent(x))
                 .setContentText("你的车牌号为：" + num + "的汽车有维护信息")
                 // 设置在下拉status
                 // bar后Activity，本例子中的NotififyMessage的TextView中显示的标题
@@ -76,5 +80,62 @@ public class NotificationUtil {
 //        Notification notification = builder.build();
 
         mNotificationManager.notify(NOTIFICATION_FLAG, notify2);
+    }
+
+    private String convertContent(int x) {
+
+        switch (x) {
+
+            case 1:
+                return Status_Mileage;
+
+            case 2:
+                return Status_Gas;
+
+            case 3:
+                return Status_Engine;
+            case 4:
+                return Status_Speed;
+            case 5:
+                return Status_Light;
+        }
+
+        return "";
+    }
+
+    public static String Status_Mileage = "里程数又超过15000了，该去车检了";
+    public static String Status_Gas = "快没有油了，该加油了";
+    public static String Status_Engine = "发动机该检查维修了";
+    public static String Status_Speed = "变速器该检查维修了";
+    public static String Status_Light = "车灯该检查维修了";
+
+    //判断是否该推送
+    private boolean shouldSendMsg(int x, Context context) {
+
+        PreferencesUtils mPreference = PreferencesUtils.getInstance(context);
+
+        switch (x) {
+
+            case 1:
+                return mPreference.shouldPushMsgMileage();
+
+            case 2:
+
+                return mPreference.shouldPushMsgGas();
+
+            case 3:
+
+                return mPreference.shouldPushMsgEngin();
+
+            case 4:
+
+                return mPreference.shouldPushMsgSpeed();
+
+            case 5:
+
+                return mPreference.shouldPushMsgLight();
+        }
+
+        return false;
     }
 }

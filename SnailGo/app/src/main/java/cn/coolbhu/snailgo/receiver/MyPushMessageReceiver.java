@@ -46,73 +46,15 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
 
                 int x = Integer.parseInt(content);
 
-                if (!shouldSendMsg(x, context)) {
-
-                    return;
-                }
-
-                content = convertContent(x);
-
                 String num = strs[1];
 
                 new NotificationUtil(context)
-                        .sendNotification(content, num);
+                        .sendNotification(x, num);
             } catch (Exception e) {
 
                 e.printStackTrace();
             }
 
         }
-    }
-
-    private String convertContent(int x) {
-
-        switch (x) {
-
-            case 1:
-                return Status_Mileage;
-
-            case 2:
-                return Status_Gas;
-
-            case 3:
-                return Status_Engine;
-            case 4:
-                return Status_Speed;
-            case 5:
-                return Status_Light;
-        }
-
-        return "";
-    }
-
-    //判断是否该推送
-    private boolean shouldSendMsg(int x, Context context) {
-
-        PreferencesUtils mPreference = PreferencesUtils.getInstance(context);
-
-        switch (x) {
-
-            case 1:
-                return mPreference.shouldPushMsgMileage();
-
-            case 2:
-
-                return mPreference.shouldPushMsgGas();
-
-            case 3:
-
-                return mPreference.shouldPushMsgEngin();
-
-            case 4:
-
-                return mPreference.shouldPushMsgSpeed();
-
-            case 5:
-
-                return mPreference.shouldPushMsgLight();
-        }
-
-        return false;
     }
 }

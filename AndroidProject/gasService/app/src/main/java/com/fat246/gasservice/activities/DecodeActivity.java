@@ -234,16 +234,16 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     //showbar
     private void showBar() {
 
-        layout.setVisibility(View.INVISIBLE);
-
-        progressBar.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.INVISIBLE);
+//
+//        progressBar.setVisibility(View.VISIBLE);
     }
 
     //hideBar
     private void hideBar() {
 
-        layout.setVisibility(View.VISIBLE);
-
-        progressBar.setVisibility(View.INVISIBLE);
+//        layout.setVisibility(View.VISIBLE);
+//
+//        progressBar.setVisibility(View.INVISIBLE);
     }
 }
