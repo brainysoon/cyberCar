@@ -146,7 +146,7 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
 
                 final BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+                query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                 query.findObjects(MyRegulationsActivity.this, mCarFindListener);
             }
@@ -348,6 +348,17 @@ public class MyRegulationsActivity extends AppCompatActivity implements View.OnC
                         query1.findObjects(MyRegulationsActivity.this, MyRegulationsActivity.this.mModelListener);
                     }
                 }
+            } else {
+
+                try {
+
+                    Toast.makeText(MyRegulationsActivity.this,R.string.car_refresh_notice,Toast.LENGTH_SHORT).show();
+
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
+                }
+
             }
             mAdapter.notifyDataSetChanged();
             mPtrFrame.refreshComplete();

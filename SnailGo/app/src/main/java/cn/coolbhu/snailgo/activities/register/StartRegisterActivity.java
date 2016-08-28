@@ -294,7 +294,7 @@ public class StartRegisterActivity extends AppCompatActivity implements CropCall
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        mBirthdayView.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        mBirthdayView.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
                     }
                 }, mYear, mMonth, mDay).show();
             }

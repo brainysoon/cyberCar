@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,19 +33,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.LoginActivity;
 import cn.coolbhu.snailgo.activities.qrcode.QRCodeActivity;
 import cn.coolbhu.snailgo.activities.unionpay.BaseActivity;
+import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.beans.GasStationInfo;
 import cn.coolbhu.snailgo.beans.Order;
 import cn.coolbhu.snailgo.utils.SsX509TrustManager;
@@ -74,6 +81,9 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
 
+    //车牌号
+    private Spinner mCarNum;
+
     //ArrayAdapter
     private ArrayAdapter<String> mAdapter;
 
@@ -85,6 +95,12 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
     private Order mOrder = null;
 
     private ProgressDialog mLoadingDialog = null; // 进度是否是不确定的，这只和创建进度条有关
+
+    //加载车牌号进度条
+    private ProgressDialog progDialog;
+
+    //车牌号Adapter
+    private ArrayAdapter<String> mCarsAdapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +124,8 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
         findView();
 
         setView();
+
+        initMyCars();
 
         setListener();
     }
@@ -154,7 +172,7 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        mTime.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        mTime.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
                     }
                 }, mYear, mMonth, mDay).show();
             }
@@ -193,6 +211,71 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         mTime.setText(mYear + "-" + mMonth + "-" + mDay);
+    }
+
+    //初始化我的车辆的
+    private void initMyCars() {
+
+        showProgressDialog();
+
+        BmobQuery<Car> query = new BmobQuery<>("Car");
+
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+
+            query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
+        }
+
+        query.findObjects(BookGasActivity.this, new FindListener<Car>() {
+            @Override
+            public void onSuccess(List<Car> list) {
+
+                if (list.size() > 0) {
+
+                    List<String> numList = new ArrayList<String>();
+
+                    for (int i = 0; i < list.size(); i++) {
+
+                        numList.add(list.get(i).getCar_Num());
+                    }
+
+                    mCarsAdapter = new ArrayAdapter<>(BookGasActivity.this, android.R.layout.simple_list_item_1, numList);
+
+                    mCarNum.setAdapter(mCarsAdapter);
+
+                    progDialog.dismiss();
+                } else {
+
+                    progDialog.dismiss();
+
+                    android.support.v7.app.AlertDialog.Builder builder=new android.support.v7.app.AlertDialog.Builder(BookGasActivity.this);
+
+                    builder.setTitle(R.string.notice)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setMessage("你还没有车，请添加汽车过后再试！")
+                            .setPositiveButton("去登陆", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Intent intent=new Intent(BookGasActivity.this, LoginActivity.class);
+
+                                    BookGasActivity.this.startActivity(intent);
+
+                                    BookGasActivity.this.finish();
+                                }
+                            });
+
+                    builder.create().show();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+                Toast.makeText(BookGasActivity.this, "加载汽车失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+
+                progDialog.dismiss();
+            }
+        });
     }
 
     //初始化 Spinner 的Adapter
@@ -246,6 +329,7 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
         mSubmit = (Button) findViewById(R.id.activity_book_gas_button_submit);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         linearLayout = (LinearLayout) findViewById(R.id.activity_book_gas_linear);
+        mCarNum = (Spinner) findViewById(R.id.car_spinner);
     }
 
     //初始化GasStation
@@ -330,8 +414,11 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
 
                     Float price = Float.parseFloat(Order_GasPrice);
 
+                    String car_num=mCarNum.getSelectedItem().toString();
+
+
                     mOrder = new Order(MyApplication.mUser.getUser_Tel(), id,
-                            Order_Station, -1, new BmobDate(date), Order_GasClass, price, i);
+                            Order_Station, -1, new BmobDate(date), Order_GasClass, price, i,car_num);
 
                     mOrder.save(BookGasActivity.this, saveListener);
 
@@ -344,6 +431,8 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
         } catch (Exception e) {
 
             hideBar();
+
+            Toast.makeText(BookGasActivity.this,"添加失败，请稍后再试！",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -471,6 +560,7 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
         mBundle.putString("User_Tel", mOrder.getUser_Tel());
         mBundle.putDouble("Order_GasPrice", mOrder.getOrder_GasPrice());
         mBundle.putDouble("Order_GasNum", mOrder.getOrder_GasNum());
+        mBundle.putString("Car_Num",mOrder.getCar_Num());
 
         mIntent.putExtras(mBundle);
 
@@ -589,5 +679,16 @@ public class BookGasActivity extends BaseActivity implements View.OnClickListene
     @Override
     public boolean verify(String msg, String sign64, String mode) {
         return true;
+    }
+
+    //显示进度条
+    private void showProgressDialog() {
+        if (progDialog == null)
+            progDialog = new ProgressDialog(BookGasActivity.this);
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setCancelable(false);
+        progDialog.setMessage("加载车辆:\n" + "请稍后。。。。");
+        progDialog.show();
     }
 }

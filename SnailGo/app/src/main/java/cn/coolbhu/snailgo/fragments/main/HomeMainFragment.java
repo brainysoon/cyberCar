@@ -22,7 +22,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 public class HomeMainFragment extends Fragment {
 
-    private static final String SERVER_URL = "http://www.coolbhu.cn";
+    public static final String SERVER_URL = "http://www.coolbhu.cn";
 
     //view
     public WebView mWebView = null;
@@ -69,7 +69,7 @@ public class HomeMainFragment extends Fragment {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 view.loadUrl(url);
-                return true;
+                return false;
             }
 
 

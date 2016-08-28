@@ -11,7 +11,6 @@ public class Car extends BmobObject {
     private String User_Tel;
     private String Car_RackNum;
     private String Car_EngineNum;
-    private Double Car_Mileage;
     private String Car_Nick;
     private String Car_ModelType;
 
@@ -20,6 +19,29 @@ public class Car extends BmobObject {
     private Double Car_EngineStatus;
     private Double Car_SpeedStatus;
     private Double Car_LightStatus;
+    private Double Car_Mileage;
+
+    private Double Mileage_Times;
+
+    public void setCar_Gas(Double gas) {
+        this.Car_Gas = gas;
+    }
+
+    public void setCar_EngineStatus(Double engin) {
+        this.Car_EngineStatus = engin;
+    }
+
+    public void setCar_SpeedStatus(Double speed) {
+        this.Car_SpeedStatus = speed;
+    }
+
+    public void setCar_LightStatus(Double light) {
+        this.Car_LightStatus = light;
+    }
+
+    public void setCar_Mileage(Double mileage) {
+        this.Car_Mileage = mileage;
+    }
 
     public Car(String Car_Num, String Car_RackNum, String Car_EngineNum, Double Car_Mileage,
                String Car_Nick, String Car_ModelType, String User_Tel, Double Car_Gas,
@@ -38,6 +60,8 @@ public class Car extends BmobObject {
         this.Car_EngineStatus = Car_EngineStatus;
         this.Car_SpeedStatus = Car_SpeedStatus;
         this.Car_LightStatus = Car_LightStatus;
+
+        this.Mileage_Times = 0.0;
     }
 
     //get
@@ -84,4 +108,14 @@ public class Car extends BmobObject {
     public Double getCar_LightStatus() {
         return this.Car_LightStatus;
     }
+
+    public Double getMileage_Times() {
+        return this.Mileage_Times;
+    }
+
+    public void setMileage_Times(Double mileage) {
+        this.Mileage_Times = mileage;
+    }
+
+    public void updateTimes(){this.Mileage_Times++;}
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -32,6 +33,7 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.activities.cars.MyCarsActivity;
+import cn.coolbhu.snailgo.activities.cars.SettingActivity;
 import cn.coolbhu.snailgo.activities.moregas.MyOrdersActivity;
 import cn.coolbhu.snailgo.activities.musics.BaseActivity;
 import cn.coolbhu.snailgo.activities.musics.NowPlayingActivity;
@@ -43,12 +45,14 @@ import cn.coolbhu.snailgo.helpers.MusicPlayer;
 import cn.coolbhu.snailgo.utils.AutoUpdateManager;
 import cn.coolbhu.snailgo.utils.BottomBarFrgmentUtils;
 import cn.coolbhu.snailgo.utils.PreferencesUtils;
+import cn.coolbhu.snailgo.utils.SucceedLoginUtil;
 
 public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         , VolMainFragment.VolMainFragmentCallback, Drawer.OnDrawerItemClickListener
         , AutoUpdateManager.AfterUpdate, AccountHeader.OnAccountHeaderListener {
 
     //DrawerItem
+    public static final int DRAWER_ITEM_MATENCE_CAR = 2;
     public static final int DRAWER_ITEM_MY_CAR = 3;
     public static final int DRAWER_ITEM_MY_ORDER = 4;
     public static final int DRAWER_ITEM_MY_INFO = 5;
@@ -136,6 +140,17 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         public void run() {
 
             Intent intent = new Intent(MainActivity.this, MyRegulationsActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    //维护维护车辆
+    Runnable nagToMatence = new Runnable() {
+        @Override
+        public void run() {
+
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+
             startActivity(intent);
         }
     };
@@ -276,6 +291,11 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         initMaterialDrawer(savedInstanceState);
 
         toDoBeforeCreated();
+
+        if (!MyApplication.isLoginSucceed) {
+
+            SucceedLoginUtil.checkOutUid(this);
+        }
     }
 
     private void toDoBeforeCreated() {
@@ -367,7 +387,12 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
         PrimaryDrawerItem itemMyRegulation = new PrimaryDrawerItem();
         itemMyRegulation.withIdentifier(DRAWER_ITEM_MY_REGULATION)
                 .withName(R.string.drawer_item_my_regulation)
-                .withIcon(GoogleMaterial.Icon.gmd_star);
+                .withIcon(FontAwesome.Icon.faw_exclamation_triangle);
+
+        PrimaryDrawerItem itemMatenceCar = new PrimaryDrawerItem();
+        itemMatenceCar.withIdentifier(DRAWER_ITEM_MATENCE_CAR)
+                .withName(R.string.drawer_item_matence_car)
+                .withIcon(FontAwesome.Icon.faw_wrench);
 
         PrimaryDrawerItem itemNowPlaying = new PrimaryDrawerItem();
         itemNowPlaying.withIdentifier(DRAWER_ITEM_NOW_PLAYING)
@@ -438,6 +463,7 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                         itemMyCar,
                         itemMyOrder,
                         itemMyRegulation,
+                        itemMatenceCar,
                         new DividerDrawerItem(),
                         itemNowPlaying,
                         new DividerDrawerItem(),
@@ -491,6 +517,9 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
                 } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MY_REGULATION) {
 
                     runnable = nagToMyRegulation;
+                } else if (drawerItem.getIdentifier() == DRAWER_ITEM_MATENCE_CAR) {
+
+                    runnable = nagToMatence;
                 }
             } else {
 
@@ -566,16 +595,20 @@ public class MainActivity extends BaseActivity implements OnMenuTabClickListener
 
                 if (webView != null && webView.canGoBack()) {
 
-                    if (System.currentTimeMillis() - backTime > 500) {
-
-                        webView.reload();
-
-                        return;
-                    }
-
-                    backTime = System.currentTimeMillis();
-
                     webView.goBack();
+
+//                    if (System.currentTimeMillis() - backTime > 3000) {
+//                        Toast.makeText(this, "再按一次,返回首页！", Toast.LENGTH_SHORT).show();
+//
+//                        backTime = System.currentTimeMillis();
+//
+//                        webView.goBack();
+//
+//                        return;
+//                    }
+//
+//
+//                    webView.loadUrl(HomeMainFragment.SERVER_URL);
 
                 } else {
 

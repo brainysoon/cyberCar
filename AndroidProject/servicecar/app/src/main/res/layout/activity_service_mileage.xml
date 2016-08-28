@@ -16,5 +16,5 @@
         android:id="@+id/start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="遍历开始" />
+        android:text="开始" />
 </LinearLayout>

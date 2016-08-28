@@ -315,7 +315,7 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
             public void onRefreshBegin(PtrFrameLayout frame) {
                 final BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                query.addWhereMatches("User_Tel", MyApplication.mUser.getUser_Tel());
+                query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
                 query.findObjects(MyCarsActivity.this, mCarListener);
             }
@@ -588,6 +588,16 @@ public class MyCarsActivity extends AppCompatActivity implements AddCarsActivity
 
                         query1.findObjects(MyCarsActivity.this, MyCarsActivity.this.mModelListener);
                     }
+                }
+            }else {
+
+                try {
+
+                    Toast.makeText(MyCarsActivity.this,R.string.car_refresh_notice,Toast.LENGTH_SHORT).show();
+
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
                 }
             }
             mAdapter.notifyDataSetChanged();

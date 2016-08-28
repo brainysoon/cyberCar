@@ -24,6 +24,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_height="120dp"
                 android:orientation="horizontal">
 
@@ -57,15 +58,16 @@
 
                         <TextView
                             android:id="@+id/start_view"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
                             android:text="@string/location_not_succeed" />
 
                         <TextView
                             android:id="@+id/hint_my_place"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="@string/mine_position" />
 
                     </LinearLayout>
@@ -112,7 +114,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/box_avoid_jam"

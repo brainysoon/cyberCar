@@ -2,6 +2,7 @@ package cn.coolbhu.snailgo.activities.qrcode;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,11 +25,22 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
+import cn.bmob.push.PushConstants;
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobPushManager;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
+import cn.coolbhu.snailgo.activities.cars.SettingActivity;
 import cn.coolbhu.snailgo.beans.Car;
 import cn.coolbhu.snailgo.utils.IntentUtils;
+import cn.coolbhu.snailgo.utils.NotificationUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
@@ -44,7 +56,10 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     private RelativeLayout layout;
     private ProgressBar progressBar;
 
-    public static boolean flag = true;
+    public boolean flag = true;
+
+    //是否是更新汽车信息
+    private boolean isUpdateCarInfo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +67,8 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
         setContentView(R.layout.activity_decode);
 
         initToolbar();
+
+        isUpdateCarInfo = getIntent().getBooleanExtra(SettingActivity.IS_UPDATE_CAR_INFO, false);
 
         DecodeActivityPermissionsDispatcher.initWithCheck(this);
     }
@@ -168,45 +185,141 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
                 JSONObject jsonObject = new JSONObject(text);
 
-                String a = jsonObject.getString("a");
-                String c = jsonObject.getString("c");
-                String d = jsonObject.getString("d");
-                String e = jsonObject.getString("e");
-                String f = jsonObject.getString("f");
-                String g = jsonObject.getString("g");
-                String h = jsonObject.getString("h");
-                String i = jsonObject.getString("i");
-                String j = jsonObject.getString("j");
-                String k = jsonObject.getString("k");
+                final String a = jsonObject.getString("a");
+                final String c = jsonObject.getString("c");
+                final String d = jsonObject.getString("d");
+                final String e = jsonObject.getString("e");
+                final String f = jsonObject.getString("f");
+                final String g = jsonObject.getString("g");
+                final String h = jsonObject.getString("h");
+                final String i = jsonObject.getString("i");
+                final String j = jsonObject.getString("j");
+                final String k = jsonObject.getString("k");
 
-                Double mileage = Double.parseDouble(e);
-                Double gas = Double.parseDouble(h);
-                Double engine = Double.parseDouble(i);
-                Double speed = Double.parseDouble(j);
-                Double light = Double.parseDouble(k);
+                final Double mileage = Double.parseDouble(e);
+                final Double gas = Double.parseDouble(h);
+                final Double engine = Double.parseDouble(i);
+                final Double speed = Double.parseDouble(j);
+                final Double light = Double.parseDouble(k);
 
-                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+                if (isUpdateCarInfo) {
 
-                mCar.save(DecodeActivity.this, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
+                    BmobQuery<Car> query = new BmobQuery<>("Car");
 
-                        Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                    query.addWhereEqualTo("Car_Num", a);
+                    query.addWhereEqualTo("User_Tel", MyApplication.mUser.getUser_Tel());
 
-                        hideBar();
+                    query.findObjects(DecodeActivity.this, new FindListener<Car>() {
+                        @Override
+                        public void onSuccess(List<Car> list) {
 
-                        DecodeActivity.this.finish();
-                    }
+                            if (list.size() > 0) {
 
-                    @Override
-                    public void onFailure(int i, String s) {
 
-                        Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                                final Car mCar = list.get(0);
 
-                        hideBar();
-                        flag = true;
-                    }
-                });
+                                mCar.setCar_Mileage(mileage);
+                                mCar.setCar_Gas(gas);
+                                mCar.setCar_EngineStatus(engine);
+                                mCar.setCar_SpeedStatus(speed);
+                                mCar.setCar_LightStatus(light);
+
+//                                int x=(int) (mCar.getCar_Mileage()-15000*mCar.getMileage_Times());
+//
+//                                if(x>15000){
+//
+//                                    //更新次数
+//                                    mCar.updateTimes();
+//                                }
+
+                                mCar.setTableName("Car");
+
+                                mCar.update(DecodeActivity.this, mCar.getObjectId(), new UpdateListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        Toast.makeText(DecodeActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                        sendPush(mCar);
+
+                                        hideBar();
+
+                                        DecodeActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i, String s) {
+
+                                        Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+                                        flag = true;
+                                    }
+                                });
+                            } else {
+
+                                Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+
+                                mCar.setMileage_Times(0.0);
+                                mCar.save(DecodeActivity.this, new SaveListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        Toast.makeText(DecodeActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+
+                                        DecodeActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i, String s) {
+
+                                        Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                                        hideBar();
+                                        flag = true;
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                            Toast.makeText(DecodeActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+                            flag = true;
+                        }
+                    });
+                } else {
+
+                    Car mCar = new Car(a, c, d, mileage, f, g, MyApplication.mUser.getUser_Tel(), gas, engine, speed, light);
+
+                    mCar.setMileage_Times(0.0);
+
+                    mCar.save(DecodeActivity.this, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(DecodeActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+
+                            DecodeActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+
+                            Toast.makeText(DecodeActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+
+                            hideBar();
+                            flag = true;
+                        }
+                    });
+                }
 
             } catch (Exception e) {
 
@@ -256,16 +369,61 @@ public class DecodeActivity extends AppCompatActivity implements QRCodeReaderVie
     //showbar
     private void showBar() {
 
-        layout.setVisibility(View.INVISIBLE);
-
-        progressBar.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.INVISIBLE);
+//
+//        progressBar.setVisibility(View.VISIBLE);
     }
 
     //hideBar
     private void hideBar() {
 
-        layout.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.VISIBLE);
+//
+//        progressBar.setVisibility(View.INVISIBLE);
+    }
 
-        progressBar.setVisibility(View.INVISIBLE);
+    private void sendPush(Car mCar) {
+
+        //给予维护汽车
+        NotificationUtil notificationUtil = new NotificationUtil(DecodeActivity.this);
+
+        Double mlieage = mCar.getCar_Mileage();
+
+        int maxMil = mlieage.intValue();
+
+        Double nowMil = maxMil - mCar.getMileage_Times() * 15000;
+        if (nowMil > 15000) {
+
+            notificationUtil.sendNotification(1, mCar.getCar_Num());
+
+        }
+
+        //油量
+        if (mCar.getCar_Gas() < 20) {
+
+            notificationUtil.sendNotification(2, mCar.getCar_Num());
+
+        }
+
+        //发动机
+        if (mCar.getCar_EngineStatus() < 0) {
+
+            notificationUtil.sendNotification(3, mCar.getCar_Num());
+
+        }
+
+        //变速器
+        if (mCar.getCar_SpeedStatus() < 0) {
+
+            notificationUtil.sendNotification(4, mCar.getCar_Num());
+
+        }
+
+        //车灯
+        if (mCar.getCar_LightStatus() < 0) {
+
+            notificationUtil.sendNotification(5, mCar.getCar_Num());
+
+        }
     }
 }

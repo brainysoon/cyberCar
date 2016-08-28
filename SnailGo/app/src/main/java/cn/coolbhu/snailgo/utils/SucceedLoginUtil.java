@@ -54,4 +54,42 @@ public class SucceedLoginUtil {
             }
         });
     }
+
+    public static void checkOutUid(final Context context){
+
+        BmobQuery<MyBmobInstallation> query = new BmobQuery<MyBmobInstallation>();
+        query.addWhereEqualTo("installationId", BmobInstallation.getInstallationId(context));
+        query.findObjects(context, new FindListener<MyBmobInstallation>() {
+
+            @Override
+            public void onSuccess(List<MyBmobInstallation> object) {
+                // TODO Auto-generated method stub
+                if (object.size() > 0) {
+                    MyBmobInstallation mbi = object.get(0);
+
+
+                    mbi.setUid("");
+                    mbi.update(context, new UpdateListener() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            Log.i("bmob", "设备信息更新成功");
+                        }
+
+                        @Override
+                        public void onFailure(int code, String msg) {
+                            // TODO Auto-generated method stub
+                            Log.i("bmob", "设备信息更新失败:" + msg);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+                // TODO Auto-generated method stub
+            }
+        });
+    }
 }

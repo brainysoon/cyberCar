@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="preference_alert"
+        android:title="@string/preference_alert">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="setting_key_matence_gas"
+            android:summary="@string/preference_matence_gas_msg"
+            android:title="@string/preference_matence_gas" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="setting_key_matence_mileage"
+            android:summary="@string/preference_matence_mileage_msg"
+            android:title="@string/preference_matence_mileage" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="setting_key_matence_engin"
+            android:summary="@string/preference_matence_engin_msg"
+            android:title="@string/preference_matence_engin" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="setting_key_matence_speed"
+            android:summary="@string/preference_matence_speed_msg"
+            android:title="@string/preference_matence_speed" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="setting_key_matence_light"
+            android:summary="@string/preference_matence_light_msg"
+            android:title="@string/preference_matence_light" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

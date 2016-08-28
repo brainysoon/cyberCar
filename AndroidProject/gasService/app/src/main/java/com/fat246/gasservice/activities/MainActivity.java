@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ORDER_TIME = "order_time";
     public static final String ORDER_STATUS = "order_status";
     public static final String ORDER_WATER = "order_water";
+    public static final String CAR_NUM="car_num";
 
 
     //View
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView order_time;
     private TextView order_status;
     private TextView order_water;
+    private TextView car_num;
 
     private Button startCarmer;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     order_time.setText((String) bundle.getString(ORDER_TIME));
                     order_status.setText((String) bundle.getString(ORDER_STATUS));
                     order_water.setText((String) bundle.getString(ORDER_WATER));
+                    car_num.setText((String)bundle.getString(CAR_NUM));
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("提示")
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         order_time = (TextView) findViewById(R.id.order_time);
         order_status = (TextView) findViewById(R.id.order_status);
         order_water = (TextView) findViewById(R.id.order_water);
+        car_num=(TextView)findViewById(R.id.car_num);
 
 
         startCarmer.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
                 order_time.setText("");
                 order_status.setText("");
                 order_status.setText("");
+                order_water.setText("");
+                car_num.setText("");
 
 
                 MainActivityPermissionsDispatcher.startCarmerWithCheck(MainActivity.this);

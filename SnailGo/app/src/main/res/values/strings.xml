@@ -8,6 +8,19 @@
     <string name="oil">加油</string>
     <string name="vol">违章</string>
 
+    <!--维护车辆信息-->
+    <string name="preference_alert">车辆信息预警</string>
+    <string name="preference_matence_gas">油量预警</string>
+    <string name="preference_matence_gas_msg">当油量低于20%时，推送维护信息</string>
+    <string name="preference_matence_mileage">里程数预警</string>
+    <string name="preference_matence_mileage_msg">里程数没超过1500公里时，推送维护信息</string>
+    <string name="preference_matence_engin">发动机预警</string>
+    <string name="preference_matence_engin_msg">当发动机出现异常时，推送维护信息</string>
+    <string name="preference_matence_speed">变速器预警</string>
+    <string name="preference_matence_speed_msg">当变速器出现异常时，推送维护信息</string>
+    <string name="preference_matence_light">车灯预警</string>
+    <string name="preference_matence_light_msg">当车灯出现异常时，推送维护信息</string>
+
     <!--Activity Title-->
     <string name="title_activity_my_info">我的信息</string>
     <string name="title_activity_my_car">我的汽车</string>
@@ -16,6 +29,7 @@
     <string name="title_activity_now_playing">正在播放</string>
     <string name="title_activity_about">关于</string>
     <string name="title_activity_setting">设置</string>
+    <string name="title_activity_setting_car">维护车辆</string>
     <string name="title_activity_city_list">城市</string>
     <string name="title_activity_short_province">省份简称</string>
     <string name="title_activity_regulation_result">违章</string>
@@ -46,6 +60,7 @@
     <string name="drawer_item_my_order">我的订单</string>
     <string name="drawer_item_my_car">我的汽车</string>
     <string name="drawer_item_now_playing">正在播放</string>
+    <string name="drawer_item_matence_car">维护车辆</string>
 
     <!--Titile-->
     <string name="settings_head_user">用户</string>
@@ -318,6 +333,8 @@
 
     <!--更新-->
     <string name="update_version">蜗行版本更新</string>
+
+    <string name="car_refresh_notice">亲，你还没有添加汽车，添加汽车过后将会得到更优质的服务！</string>
 
     <!--预约加油-->
     <string name="oil_button_bookgas">预约加油</string>

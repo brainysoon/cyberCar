@@ -1,5 +1,6 @@
 package com.fat246.servicecar;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +22,15 @@ import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ServiceMileageActivity extends AppCompatActivity {
 
-    public static String Status_Mileage = "该检验一下车子了！";
-    public static String Status_Gas = "没有油了，该加油了！";
-    public static String Status_Engine = "发动机该检查维修了！";
-    public static String Status_Speed = "变速器该检查维修了！";
-    public static String Status_Light = "车灯该检查维修了！";
+    public static String Status_Mileage = "1";
+    public static String Status_Gas = "2";
+    public static String Status_Engine = "3";
+    public static String Status_Speed = "4";
+    public static String Status_Light = "5";
 
     private ListView mListView;
     private Button mStart;
@@ -36,6 +38,12 @@ public class ServiceMileageActivity extends AppCompatActivity {
     private List<Msg> mDataList = new ArrayList<>();
 
     private MileageAdapter mAdapter;
+
+    private ProgressDialog progDialog;
+
+    boolean flag = true;
+
+    android.os.Handler mHandler = new android.os.Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +57,34 @@ public class ServiceMileageActivity extends AppCompatActivity {
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initData();
+
+                    initData();
+
+                showProgressDialog();
             }
         });
 
     }
+
+    //显示进度条
+    private void showProgressDialog() {
+
+        try {
+
+            if (progDialog == null)
+                progDialog = new ProgressDialog(this);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setCancelable(false);
+            progDialog.setMessage("正在推送维护信息:\n" + "....");
+            progDialog.show();
+        }catch (Exception ex){
+
+            ex.printStackTrace();
+
+        }
+    }
+
 
     //initData
     private void initData() {
@@ -129,7 +160,15 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 Car mCar = mCars.get(i);
 
                 //给予维护汽车
-                if (mCar.getCar_Mileage() > 15000) {
+
+                Double mlieage = mCar.getCar_Mileage();
+
+                int maxMil = mlieage.intValue();
+
+
+
+                Double nowMil = maxMil - mCar.getMileage_Times()* 15000;
+                if (nowMil > 15000) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Mileage, mCar.getCar_Num());
 
@@ -137,7 +176,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 }
 
                 //油量
-                if (mCar.getCar_Gas() < 10) {
+                if (mCar.getCar_Gas() < 20) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Gas, mCar.getCar_Num());
 
@@ -145,7 +184,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 }
 
                 //发动机
-                if (mCar.getCar_EngineStatus() > 10) {
+                if (mCar.getCar_EngineStatus() <0) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Engine, mCar.getCar_Num());
 
@@ -153,7 +192,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 }
 
                 //变速器
-                if (mCar.getCar_SpeedStatus() > 10) {
+                if (mCar.getCar_SpeedStatus() <0) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Speed, mCar.getCar_Num());
 
@@ -161,7 +200,7 @@ public class ServiceMileageActivity extends AppCompatActivity {
                 }
 
                 //车灯
-                if (mCar.getCar_LightStatus() > 10) {
+                if (mCar.getCar_LightStatus() < 0) {
 
                     Msg msg = new Msg(mCar.getUser_Tel(), Status_Light, mCar.getCar_Num());
 
@@ -177,24 +216,25 @@ public class ServiceMileageActivity extends AppCompatActivity {
 
             Log.e("here", "here");
 
-            BmobPushManager bmobPush = new BmobPushManager(ServiceMileageActivity.this);
+                BmobPushManager bmobPush = new BmobPushManager(ServiceMileageActivity.this);
 
-            for (int i = 0; i < msgs.size(); i++) {
+                    for (int i = 0; i < msgs.size(); i++) {
 
-                Msg msg = msgs.get(i);
+                    Msg msg = msgs.get(i);
 
-                BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
+                    BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
 
-                query.addWhereEqualTo("uid", msg.getUser_Tel());
-                bmobPush.setQuery(query);
-                bmobPush.pushMessage(msg.getMsg_Content() + ":" + msg.getCar_Num());
+                    query.addWhereEqualTo("uid", msg.getUser_Tel());
+                    bmobPush.setQuery(query);
+                    bmobPush.pushMessage(msg.getMsg_Content() + ":" + msg.getCar_Num());
 
-                Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
+                    Log.e("msg>>" + i, msg.getUser_Tel() + ":" + msg.getMsg_Content());
 
-                mDataList.add(msg);
-            }
+                    mDataList.add(msg);
+                }
 
             mAdapter.notifyDataSetChanged();
+            progDialog.dismiss();
         }
     }
 

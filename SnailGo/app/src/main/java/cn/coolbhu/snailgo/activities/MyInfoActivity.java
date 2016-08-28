@@ -1,6 +1,7 @@
 package cn.coolbhu.snailgo.activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +35,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
 import cn.coolbhu.snailgo.beans.User;
+import cn.coolbhu.snailgo.utils.SucceedLoginUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -50,6 +52,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
     private Button mSubmitView;
     private PtrClassicFrameLayout mPtrFrame;
     private Button mCancleLogin;
+
+    private ProgressDialog progDialog;
 
     public static Bitmap mAvator;
 
@@ -111,6 +115,7 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 //是够修改
                 if (isEdit) {
 
+                    showProgressDialog();
                     updateUser();
                 } else {
 
@@ -129,6 +134,9 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 //更新信息
                 MyApplication.isLoginSucceed = false;
                 MyApplication.mUser = null;
+
+                //退出
+                SucceedLoginUtil.checkOutUid(MyInfoActivity.this);
 
                 if (MainActivity.mInstance != null) {
 
@@ -180,7 +188,7 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        mDateView.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+                        mDateView.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
                     }
                 }, mYear, mMonth, mDay).show();
             }
@@ -348,6 +356,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
                                     Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
 
+                                    progDialog.dismiss();
+
                                     isEdit = false;
                                     setUnedit();
                                     mSubmitView.setText("修改信息");
@@ -368,6 +378,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                                     Log.e("here", i + ">>>>" + s);
 
                                     Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                                    progDialog.dismiss();
                                 }
                             });
                         }
@@ -375,7 +387,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                         @Override
                         public void onFailure(int i, String s) {
 
-                            Toast.makeText(MyInfoActivity.this, "长传图片失败！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyInfoActivity.this, "上传图片失败！", Toast.LENGTH_SHORT).show();
+                            progDialog.dismiss();
                         }
                     });
                 }
@@ -386,6 +399,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                 public void onSuccess() {
 
                     Toast.makeText(MyInfoActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+
+                    progDialog.dismiss();
 
                     isEdit = false;
                     setUnedit();
@@ -407,6 +422,8 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
                     Log.e("here", i + ">>>>" + s);
 
                     Toast.makeText(MyInfoActivity.this, "更新失败！", Toast.LENGTH_SHORT).show();
+
+                    progDialog.dismiss();
                 }
             });
         }
@@ -464,6 +481,23 @@ public class MyInfoActivity extends AppCompatActivity implements CropCallback {
 
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    //显示进度条
+    private void showProgressDialog() {
+
+        try {
+
+            if (progDialog == null)
+                progDialog = new ProgressDialog(MyInfoActivity.this);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setIndeterminate(false);
+            progDialog.setMessage("正在更新:\n" + "请稍后。。。。");
+            progDialog.show();
+        }catch (Exception ex){
+
+            ex.printStackTrace();
         }
     }
 }

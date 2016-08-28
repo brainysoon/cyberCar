@@ -2,6 +2,7 @@ package cn.coolbhu.snailgo.fragments.main;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,10 +35,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cn.coolbhu.snailgo.MyApplication;
 import cn.coolbhu.snailgo.R;
-import cn.coolbhu.snailgo.activities.MainActivity;
+import cn.coolbhu.snailgo.activities.LoginActivity;
 import cn.coolbhu.snailgo.activities.moregas.BookGasActivity;
 import cn.coolbhu.snailgo.activities.moregas.MoreGasActivity;
 import cn.coolbhu.snailgo.activities.navigates.RoutePlanActivity;
@@ -56,7 +58,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class OilMainFragment extends Fragment implements AdapterView.OnItemClickListener,
         AMapLocationListener, GasStationInfo.canHandGasStationPostResult {
-    public static final String DEFAULT_GAS_PRICE = "E93#";
+    public static final String DEFAULT_GAS_PRICE = "92#";
 
     public static int STATION_SEARCH_RANG = 2000;
 
@@ -80,6 +82,9 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
     //定位
     private AMapLocationClient locationClient;
     private AMapLocationClientOption locationClientOption;
+
+    //进度条
+    private ProgressDialog progDialog;
 
     public static OilMainFragment newInstance() {
         OilMainFragment fragment = new OilMainFragment();
@@ -114,14 +119,14 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
         OilMainFragmentPermissionsDispatcher.initLoacationWithCheck(this);
 
 
-        //接口请求次数有限，悠着点
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                mPtrFrame.autoRefresh();
-            }
-        }, 1000);
+//        //接口请求次数有限，悠着点
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 1000);
     }
 
     private void initView(View rootView) {
@@ -208,9 +213,9 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
+        final GasStationInfo stationInfo = mGasStations.get(i);
 
-            final GasStationInfo stationInfo = mGasStations.get(i);
+        if (MyApplication.isLoginSucceed && MyApplication.mUser != null) {
 
             if (stationInfo != null) {
 
@@ -258,10 +263,45 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
             }
         } else {
 
-            if (MainActivity.mInstance != null) {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
 
-                mPtrFrame.postDelayed(MainActivity.mInstance.showNoUserNotice, 200);
-            }
+            builder.setIcon(R.mipmap.ic_launcher)
+                    .setTitle(R.string.notice)
+                    .setMessage("亲，你还没有登录，登录过后可以预约加油哦！")
+                    .setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("直接到那儿去", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            LatLng mStationLatLng = new LatLng(stationInfo.getGas_station_lat()
+                                    , stationInfo.getGas_station_lon());
+
+                            if (mStationLatLng != null && nowLoc != null) {
+
+                                Intent intent = new Intent(getContext(), RoutePlanActivity.class);
+
+                                intent.putExtra(NagMainFragment.POSITION_X, mStationLatLng.latitude);
+                                intent.putExtra(NagMainFragment.POSITION_Y, mStationLatLng.longitude);
+                                intent.putExtra(NagMainFragment.POSITION_X_S, nowLoc.latitude);
+                                intent.putExtra(NagMainFragment.POSITION_Y_S, nowLoc.longitude);
+
+                                startActivity(intent);
+                            } else {
+
+                                Toast.makeText(getContext(), "起点和终点不能为空！", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+            builder.create().show();
         }
     }
 
@@ -301,6 +341,8 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
 
         //开始定位
         locationClient.startLocation();
+
+        showProgressDialog();
 
         //初始化聚合数据
         JuheSDKInitializer.initialize(getContext().getApplicationContext());
@@ -359,6 +401,24 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
                 locationClient.stopLocation();
 
                 nowLoc = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+
+                progDialog.dismiss();
+
+                try {
+
+                    //刷新
+                    //接口请求次数有限，悠着点
+                    mPtrFrame.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            mPtrFrame.autoRefresh();
+                        }
+                    }, 1000);
+                }catch (Exception ex){
+
+                    ex.printStackTrace();
+                }
             }
         }
     }
@@ -494,5 +554,15 @@ public class OilMainFragment extends Fragment implements AdapterView.OnItemClick
                 stationDistance.setText(stationInfo.getGas_station_distance());
             }
         }
+    }
+
+    //显示进度条
+    private void showProgressDialog() {
+        if (progDialog == null)
+            progDialog = new ProgressDialog(getContext());
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setMessage("正在定位:\n" + "请稍后。。。。");
+        progDialog.show();
     }
 }

@@ -35,6 +35,14 @@ public class PreferencesUtils {
     public static final String SETTINGS_KEY_CAR_PUSH = "settings_key_car_push";
     public static final String SETTINGS_KEY_USER_BIRTHDAY = "settings_key_user_birthday";
 
+    //维护车辆信息
+    public static final String SETTING_KEY_MATENCE_MILEAGE = "setting_key_matence_mileage";
+    public static final String SETTING_KEY_MATENCE_GAS = "setting_key_matence_gas";
+    public static final String SETTING_KEY_MATENCE_ENGIN = "setting_key_matence_engin";
+    public static final String SETTING_KEY_MATENCE_SPEED = "setting_key_matence_speed";
+    public static final String SETTING_KEY_MATENCE_LIGHT = "setting_key_matence_light";
+
+
     /**
      * 有关用户信息的缓存
      */
@@ -307,5 +315,35 @@ public class PreferencesUtils {
     public boolean isSettingsCarPush() {
 
         return mPreferences.getBoolean(SETTINGS_KEY_CAR_PUSH, true);
+    }
+
+    //里程数
+    public boolean shouldPushMsgMileage() {
+
+        return mPreferences.getBoolean(SETTING_KEY_MATENCE_MILEAGE, true);
+    }
+
+    //油量
+    public boolean shouldPushMsgGas() {
+
+        return mPreferences.getBoolean(SETTING_KEY_MATENCE_GAS, true);
+    }
+
+    //引擎
+    public boolean shouldPushMsgEngin() {
+
+        return mPreferences.getBoolean(SETTING_KEY_MATENCE_ENGIN, false);
+    }
+
+    //变数箱
+    public boolean shouldPushMsgSpeed() {
+
+        return mPreferences.getBoolean(SETTING_KEY_MATENCE_SPEED, false);
+    }
+
+    //车灯
+    public boolean shouldPushMsgLight() {
+
+        return mPreferences.getBoolean(SETTING_KEY_MATENCE_LIGHT, false);
     }
 }

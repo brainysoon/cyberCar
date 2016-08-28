@@ -126,7 +126,7 @@ public class AddCarsActivity extends AppCompatActivity {
 
                     Brand brand = mBrandData.get(0);
 
-                    query1.addWhereMatches("Brand_Name", brand.getBrand_Name());
+                    query1.addWhereEqualTo("Brand_Name", brand.getBrand_Name());
 
                     query1.findObjects(AddCarsActivity.this, new FindListener<Model>() {
                         @Override
@@ -209,6 +209,8 @@ public class AddCarsActivity extends AppCompatActivity {
                     Car mCar = new Car(num, rack, engine, mMlieage, nick
                             , model, MyApplication.mUser.getUser_Tel(), gas, engine_status, speed, light);
 
+                    mCar.setMileage_Times(0.0);
+
                     mCar.save(AddCarsActivity.this, new SaveListener() {
                         @Override
                         public void onSuccess() {
@@ -260,7 +262,7 @@ public class AddCarsActivity extends AppCompatActivity {
 
                         BmobQuery<Model> query = new BmobQuery<>();
 
-                        query.addWhereMatches("Brand_Name", brand.getBrand_Name());
+                        query.addWhereEqualTo("Brand_Name", brand.getBrand_Name());
 
                         query.findObjects(AddCarsActivity.this, new FindListener<Model>() {
                             @Override
