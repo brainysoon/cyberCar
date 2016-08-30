@@ -1,6 +1,16 @@
 ﻿# cyberCar
-we fight togther
+第五届 中国软件杯 大学生程序设计大赛 “车联网移动APP”赛题作品
 
+<img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-index.gif" width="16%" />
+<img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-music.gif" width="16%" />
+<img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-nag.gif" width="16%" />
+<img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-reg.gif" width="16%" />
+<img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-gas.gif" width="16%" />
+
+#作品相关下载
+[SnailGo2.1.4](https://github.com/kensoon/cyberCar/blob/master/Apps/snailgo2.1.4-release.apk)    
+[gasService1.0.1](https://github.com/kensoon/cyberCar/blob/master/Apps/gasservice1.0.1-release.apk)    
+[serviceCar1.0.1](https://github.com/kensoon/cyberCar/blob/master/Apps/servicecar1.0.1-release.apk)    
 
 # "cyberCar" 题目要求
 
