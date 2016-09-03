@@ -1,6 +1,8 @@
 ﻿# cyberCar
 第五届 中国软件杯 大学生程序设计大赛 “车联网移动APP”赛题作品
 
+##作品安卓项目在源代码`SnailGo`对应的文件夹下面
+
 <img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-index.gif" width="16%" />
 <img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-music.gif" width="16%" />
 <img src="https://github.com/kensoon/cyberCar/blob/master/Gif/snailgo-nag.gif" width="16%" />
